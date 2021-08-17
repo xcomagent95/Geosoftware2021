@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt#readme",
   "dependencies": {
+    "ajax": "^0.0.4",
     "bootstrap": "^5.1.0"
   }
 }
