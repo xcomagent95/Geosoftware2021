@@ -1,0 +1,22 @@
+{
+  "name": "geosoftware_2021_abschlussprojekt",
+  "version": "1.0.0",
+  "description": "Abschlussprojekt für den Kurs Geosoftware I 2021",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/issues"
+  },
+  "homepage": "https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.0"
+  }
+}
