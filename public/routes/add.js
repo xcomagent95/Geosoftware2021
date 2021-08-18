@@ -19,7 +19,7 @@ const client = new MongoClient(url) // mongodb client
 
 
 //Post Router
-router.post('/newLocation', function(req, res, next) 
+router.post('/add/newLocation', function(req, res, next) 
 {
   //Store and Check Payload 
   if(req.body.geojson == '' || req.body.nummer1 == ''){

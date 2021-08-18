@@ -1,7 +1,35 @@
 <!DOCTYPE html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <!--CSS-->
+        <link rel="stylesheet" type="text/css" href="./css/editor.css"/>
+        <!--Leaflet-->
+        <link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
+        <script type="text/javascript" src="/leaflet/dist/leaflet.js"></script>
+        <!--Leaflet Draw-->
+        <link rel="stylesheet" href='/leaflet-draw/dist/leaflet.draw.css'/>
+        <script src='/leaflet-draw/dist/leaflet.draw.js'></script>
     <body>
         <p>This is the editor</p>
+        <form action="/newLocation" method="post">
+            <label for="fname">Name</label><br>
+            <input type="text" id="name" name="name"><br>
+
+            <label for="fname">URL</label><br>
+            <input type="text" id="url" name="url"><br>
+
+            <label for="fname">Description</label><br>
+            <input type="text" id="description" name="description"><br>
+
+            <label for="lname">Geometry</label><br>
+            <input type="text" id="geometry" name="geometry"><br><br>
+
+            <input type="submit" value="Add Location">
+        </form> 
+        <!--map container-->  
+        <div id="mapdiv">
+        </div>
     </body>
+    <!--Scripts-->
+    <script src="./js/editor.js"></script>
 </html> 
