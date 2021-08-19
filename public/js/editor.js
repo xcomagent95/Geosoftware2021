@@ -116,6 +116,7 @@ getAllDatafromDB();
 function selectLocationForUpdate() {
     for(var i = 0; i < response.length; i++) {
         if(response[i].nameID == document.getElementById("selectLocationToUpdate").value) {
+            document.getElementById('oldNameID').value = response[i].nameID;
             document.getElementById('newName').value = response[i].nameID;
             document.getElementById('newURL').value = response[i].GeoJson.features[0].properties.URL;
             document.getElementById('newDescription').value = response[i].GeoJson.features[0].properties.Description;

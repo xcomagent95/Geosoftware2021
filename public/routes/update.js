@@ -19,44 +19,37 @@ const client = new MongoClient(url) // mongodb client
 //Post Router
 router.post('/updateLocation', function(req, res, next) 
 {
-  //Store Payload
-  console.log(req.body);
-  var nummer2 = req.body.nummer2; //Number of the Route to update
-  var neuenummer = req.body.neuenummer; //new Number for a Dataset
+  var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
+        '"properties":' +  '{' + '"Name":' + '"' + req.body.newName + '"' + ',' 
+                               + '"URL":' + '"' + req.body.newURL + '"' + ',' 
+                               + '"Description":' + '"' + req.body.newDescription + '"' + '}' + ',' 
+                               + '"geometry":' + req.body.newGeometry + '}' + ']' + '}';
+  //console.log(req);
+  var newNameID = req.body.newName;
+  var oldNameID = req.body.oldNameID;
+  var newGeoJson = JSON.parse(GeoJsonString);
 
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 
   {
-    assert.strictEqual(null, err)
     const db = client.db(dbName) //database
     const collection = db.collection(collectionName) //collection
-	  //check if neuenummer already exists
-	  collection.find({nummer: req.body.neuenummer}).toArray(function(err, docs) 
-    {
-      assert.strictEqual(err, null);
-      if(docs.length >= 1) {
-		  //send error
-          res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
-      }
-    })
+
     //check if exists
-    collection.find({nummer: req.body.nummer2}).toArray(function(err, docs) 
+    collection.find({nameID: oldNameID}).toArray(function(err, docs) 
     {
-      assert.strictEqual(err, null);
       if(docs.length >= 1) {
-          //console.log("true");
           //Update the document in the database
-          collection.updateOne({nummer: nummer2}, {$set:{nummer: neuenummer}}, function(err, result) 
+          collection.updateOne({nameID: oldNameID}, {$set:{nameID: newNameID, GeoJson: newGeoJson}}, function(err, result) 
           {
-            assert.strictEqual(err, null)
-            assert.strictEqual(1, result.result.ok)
-            //console.log(result);
           })
           res.sendFile(__dirname + "/done.html") //redirect after Post
+          return;
       }
       else {
         //console.log("false");
         res.sendFile(__dirname + "/error_nonexistent_number.html") //redirect after Post
+        return;
       }
     })
 
