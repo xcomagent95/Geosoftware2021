@@ -26,32 +26,35 @@ router.post('/newLocation', function(req, res, next)
   }
 
   //Crete Payload to Store
-  var GeoJson = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
+  var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
         '"properties":' +  '{' + '"Name":' + '"' + req.body.name + '"' + ',' 
-                               + '"URL":' + '"' + req.body.url + '"' + ',' +
+                               + '"URL":' + '"' + req.body.url + '"' + ',' 
                                + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
                                + '"geometry":' + req.body.geometry + '}' + ']' + '}';
-  console.log(GeoJson);
+  var nameID = req.body.name;
+  var GeoJson = JSON.parse(GeoJsonString);
 
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 
   {
     const db = client.db(dbName) //database
     const collection = db.collection(collectionName) //collection
-    collection.find({name: req.body.name}).toArray(function(err, docs)
+    collection.find({nameID: req.body.name}).toArray(function(err, docs)
     {
         //assert.strictEqual(err, null)
         //check if name already exists
         if(docs.length >= 1){
-          res.sendFile(__dirname + "/error_redundant_number.html")
+          res.sendFile(__dirname + "/error_redundant_number.html");
+          return;
         } 
         else {
           //Insert the document in the database
-          collection.insertOne(JSON.parse(GeoJson), function(err, result) 
+          collection.insertOne({GeoJson, nameID}, function(err, result) 
           {
             //assert.strictEqual(err, null)
             //assert.strictEqual(1, result.result.ok)
-            res.sendFile(__dirname + "/done.html")
+            res.sendFile(__dirname + "/done.html");
+            return;
            })
         }
     })
