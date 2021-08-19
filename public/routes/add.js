@@ -12,11 +12,9 @@ app.use(express.urlencoded());
 const url = 'mongodb://localhost:27017' // connection URL
 const dbName = 'tourguidedb' // database name
 const collectionName = 'locations' // collection name
-
 //----------------------------------------------------------------------------------------------------------------------
 const MongoClient = require('mongodb').MongoClient
 const client = new MongoClient(url) // mongodb client
-
 
 //Post Router
 router.post('/add/newLocation', function(req, res, next) 
