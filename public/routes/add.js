@@ -17,41 +17,43 @@ const MongoClient = require('mongodb').MongoClient
 const client = new MongoClient(url) // mongodb client
 
 //Post Router
-router.post('/add/newLocation', function(req, res, next) 
+router.post('/newLocation', function(req, res, next) 
 {
-  //Store and Check Payload 
-  if(req.body.geojson == '' || req.body.nummer1 == ''){
+  //Check Request
+  if(req.body.name == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') {
     res.sendFile(__dirname + "/error_empty_input.html")
     return;
   }
-  var nummer = req.body.nummer1; //Number of the new Route
-  var geojson = JSON.parse(req.body.geojson); //geoJSON Object of the Route
+
+  //Crete Payload to Store
+  var GeoJson = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
+        '"properties":' +  '{' + '"Name":' + '"' + req.body.name + '"' + ',' 
+                               + '"URL":' + '"' + req.body.url + '"' + ',' +
+                               + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
+                               + '"geometry":' + req.body.geometry + '}' + ']' + '}';
+  console.log(GeoJson);
 
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 
   {
-    assert.strictEqual(null, err)
-  
     const db = client.db(dbName) //database
     const collection = db.collection(collectionName) //collection
-    collection.find({nummer: req.body.nummer1}).toArray(function(err, docs)
+    collection.find({name: req.body.name}).toArray(function(err, docs)
     {
-        assert.strictEqual(err, null)
-        //check if number already exists
+        //assert.strictEqual(err, null)
+        //check if name already exists
         if(docs.length >= 1){
           res.sendFile(__dirname + "/error_redundant_number.html")
         } 
         else {
           //Insert the document in the database
-          collection.insertOne({nummer, geojson}, function(err, result) 
+          collection.insertOne(JSON.parse(GeoJson), function(err, result) 
           {
-            assert.strictEqual(err, null)
-            assert.strictEqual(1, result.result.ok)
-            //console.log(result);
+            //assert.strictEqual(err, null)
+            //assert.strictEqual(1, result.result.ok)
             res.sendFile(__dirname + "/done.html")
            })
         }
-        
     })
   })
 });
