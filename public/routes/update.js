@@ -64,3 +64,4 @@ router.post('/updateLocation', function(req, res, next)
   })
 });
 module.exports = router; //export as router
+

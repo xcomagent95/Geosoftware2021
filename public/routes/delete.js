@@ -24,20 +24,13 @@ router.post('/removeLocation', function(req, res, next)
     {
         const db = client.db(dbName)
         const collection = db.collection(collectionName)
+        var oldName = req.body.oldName;
         //check if number exists
-        collection.find({nummer: req.body.gNummer}).toArray(function(err, docs)
-        {
-            assert.strictEqual(err, null)
-        
+        collection.find({nameID: oldName}).toArray(function(err, docs)
+        {      
             if(docs.length >= 1){
-                console.log(req.body);
-
-                assert.strictEqual(null, err);
-                
-                console.log(req.body);
                 //delete Document
-                collection.deleteOne({nummer: req.body.gNummer}, function(err, results){
-                    assert.strictEqual(err, null)
+                collection.deleteOne({nameID: oldName}, function(err, results){
                 })
                 res.sendFile(__dirname + "/done.html")
             }
