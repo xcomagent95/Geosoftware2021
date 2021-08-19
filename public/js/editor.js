@@ -90,7 +90,16 @@ function getAllDatafromDB() {
                 elem.setAttribute("value", response[i].nameID) 
                 elem.appendChild(elemText);
                 togglerUpdate.appendChild(elem);
+                var value = document.getElementById("selectLocationToUpdate").value;
+                if(response[i].nameID == value) {
+                    document.getElementById('oldNameID').value = response[i].nameID;
+                    document.getElementById('newName').value = response[i].nameID;
+                    document.getElementById('newURL').value = response[i].GeoJson.features[0].properties.URL;
+                    document.getElementById('newDescription').value = response[i].GeoJson.features[0].properties.Description;
+                    document.getElementById('newGeometry').value = JSON.stringify(response[i].GeoJson.features[0].geometry);
+                }
             } 
+
             const togglerDelete = document.getElementById("selectLocationToDelete");
             for(i = 0; i < response.length; i++) {
                 const elem = document.createElement("option");
@@ -99,6 +108,7 @@ function getAllDatafromDB() {
                 elem.setAttribute("value", response[i].nameID) 
                 elem.appendChild(elemText);
                 togglerDelete.appendChild(elem);
+                document.getElementById('oldName').value = response[i].nameID;
             }   
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
@@ -114,8 +124,9 @@ function getAllDatafromDB() {
 getAllDatafromDB();
 
 function selectLocationForUpdate() {
+    var value = document.getElementById("selectLocationToUpdate").value;
     for(var i = 0; i < response.length; i++) {
-        if(response[i].nameID == document.getElementById("selectLocationToUpdate").value) {
+        if(response[i].nameID == value) {
             document.getElementById('oldNameID').value = response[i].nameID;
             document.getElementById('newName').value = response[i].nameID;
             document.getElementById('newURL').value = response[i].GeoJson.features[0].properties.URL;
@@ -124,11 +135,14 @@ function selectLocationForUpdate() {
         }
     }
 }
+selectLocationForUpdate();
 
 function selectLocationForDelete() {
+    var value = document.getElementById("selectLocationToDelete").value;
     for(var i = 0; i < response.length; i++) {
-        if(response[i].nameID == document.getElementById("selectLocationToDelete").value) {
+        if(response[i].nameID == value) {
             document.getElementById('oldName').value = response[i].nameID;
         }
     }
 }
+selectLocationForDelete();

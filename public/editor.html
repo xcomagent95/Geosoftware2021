@@ -31,7 +31,8 @@
         </form> 
 
         <p>Update Locations</p>
-        <select id="selectLocationToUpdate" onchange="selectLocationForUpdate()"></select>
+        <select id="selectLocationToUpdate" onchange="selectLocationForUpdate()">
+        </select>
 
         <form action="/update/updateLocation" method="post">
             <input type="hidden" id="oldNameID" name="oldNameID"><br>
@@ -52,7 +53,8 @@
         </form> 
 
         <p>Delete Locations</p>
-        <select id="selectLocationToDelete" onchange="selectLocationForDelete()"></select><br>
+        <select id="selectLocationToDelete" onchange="selectLocationForDelete()">
+        </select><br>
         <form action="/delete/removeLocation" method="post">
             <input type="hidden" id="oldName" name="oldName"><br>
             <input id="deleteButton" type="submit" value="Delete Location">
