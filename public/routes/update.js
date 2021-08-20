@@ -19,6 +19,11 @@ const client = new MongoClient(url) // mongodb client
 //Post Router
 router.post('/updateLocation', function(req, res, next) 
 {
+  //Check Request
+  if(req.body.newName == '' || req.body.newURL == '' || req.body.newDescription == '' || req.body.newGeometry == '') {
+    res.sendFile(__dirname + "/error_empty_input.html")
+    return;
+  }
   var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
         '"properties":' +  '{' + '"Name":' + '"' + req.body.newName + '"' + ',' 
                                + '"URL":' + '"' + req.body.newURL + '"' + ',' 
@@ -40,11 +45,21 @@ router.post('/updateLocation', function(req, res, next)
     {
       if(docs.length >= 1) {
           //Update the document in the database
-          collection.updateOne({nameID: oldNameID}, {$set:{nameID: newNameID, GeoJson: newGeoJson}}, function(err, result) 
+          collection.find({nameID: newNameID}).toArray(function(err, docs) 
           {
+            if(docs.length >= 1) {
+                //Update the document in the database
+                res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
+                return;
+            }
+            else {
+              collection.updateOne({nameID: oldNameID}, {$set:{nameID: newNameID, GeoJson: newGeoJson}}, function(err, result) 
+              {
+              })
+              res.sendFile(__dirname + "/done.html") //redirect after Post
+              return;
+            }
           })
-          res.sendFile(__dirname + "/done.html") //redirect after Post
-          return;
       }
       else {
         //console.log("false");
