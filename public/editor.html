@@ -13,54 +13,61 @@
         <script src="/jquery/dist/jquery.js"></script>
     <body>
         <p>This is the editor</p>
-        <p>Add Locations</p>
-        <form action="/add/newLocation" method="post">
-            <label for="name">Name</label><br>
-            <input type="text" id="name" name="name"><br>
-
-            <label for="url">URL</label><br>
-            <input type="text" id="url" name="url"><br>
-
-            <label for="description">Description</label><br>
-            <input type="text" id="description" name="description"><br>
-
-            <label for="geometry">Geometry</label><br>
-            <input type="text" id="geometry" name="geometry"><br><br>
-
-            <input type="submit" value="Add Location">
-        </form> 
-
-        <p>Update Locations</p>
-        <select id="selectLocationToUpdate" onchange="selectLocationForUpdate()">
-        </select>
-
-        <form action="/update/updateLocation" method="post">
-            <input type="hidden" id="oldNameID" name="oldNameID"><br>
-
-            <label for="newName">Name</label><br>
-            <input type="text" id="newName" name="newName"><br>
-
-            <label for="newURL">URL</label><br>
-            <input type="text" id="newURL" name="newURL"><br>
-
-            <label for="newDescription">Description</label><br>
-            <input type="text" id="newDescription" name="newDescription"><br>
-
-            <label for="newGeometry">Geometry</label><br>
-            <input type="text" id="newGeometry" name="newGeometry"><br>
-
-            <input type="submit" value="Update Location"><br><br>
-        </form> 
-
-        <p>Delete Locations</p>
-        <select id="selectLocationToDelete" onchange="selectLocationForDelete()">
-        </select><br>
-        <form action="/delete/removeLocation" method="post">
-            <input type="hidden" id="oldName" name="oldName"><br>
-            <input id="deleteButton" type="submit" value="Delete Location">
-        </form><br><br>
+        <div>
+            <p>Add Locations</p>
+            <form action="/add/newLocation" method="post">
+                <label for="name">Name</label><br>
+                <input type="text" id="name" name="name"><br>
+                <label for="url">URL</label><br>
+                <input type="text" id="url" name="url"><br>
+                <label for="description">Description</label><br>
+                <input type="text" id="description" name="description"><br>
+                <label for="geometry">Geometry</label><br>
+                <input type="text" id="geometry" name="geometry"><br><br>
+                <input type="submit" value="Add Location">
+            </form> 
+        </div>
+        <div>
+            <p>Update Locations</p>
+            <select id="selectLocationToUpdate" onchange="selectLocationForUpdate()">
+            </select>
+            <form action="/update/updateLocation" method="post">
+                <input type="hidden" id="oldNameID" name="oldNameID"><br>
+                <label for="newName">Name</label><br>
+                <input type="text" id="newName" name="newName"><br>
+                <label for="newURL">URL</label><br>
+                <input type="text" id="newURL" name="newURL"><br>
+                <label for="newDescription">Description</label><br>
+                <input type="text" id="newDescription" name="newDescription"><br>
+                <label for="newGeometry">Geometry</label><br>
+                <input type="text" id="newGeometry" name="newGeometry"><br>
+                <input type="submit" value="Update Location"><br><br>
+            </form> 
+        </div>
+        <div>
+            <p>Delete Locations</p>
+            <select id="selectLocationToDelete" onchange="selectLocationForDelete()">
+            </select><br>
+            <form action="/delete/removeLocation" method="post">
+                <input type="hidden" id="oldName" name="oldName"><br>
+                <input id="deleteButton" type="submit" value="Delete Location">
+            </form><br><br>
+        </div>
         <!--map container-->  
         <div id="mapdiv">
+        </div>
+        <!--Tours-->
+        <div>
+            <p>Add Tour</p>
+            <select id="selectLocationToAddToTour" onchange="selectLocationToAddToTour()"></select>
+            <button onclick="addLocationToTour()">Add Tour</button> 
+            <form action="/add/newTour" method="post">
+                <label for="name">Tour</label><br>
+                <input type="text" id="tour" name="tour"><br>
+                <input type="text" id="locations" name="locations"><br>
+                <input type="submit" value="Add Tour">
+            </form>
+            <button onclick="clearLocations()">Clear Tour</button> 
         </div>
     </body>
     <!--Scripts-->

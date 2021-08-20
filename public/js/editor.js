@@ -109,6 +109,16 @@ function getAllDatafromDB() {
                 elem.appendChild(elemText);
                 togglerDelete.appendChild(elem);
                 document.getElementById('oldName').value = response[i].nameID;
+            }  
+            
+            const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
+            for(i = 0; i < response.length; i++) {
+                const elem = document.createElement("option");
+                elem.href = "#";
+                const elemText = document.createTextNode(response[i].nameID);
+                elem.setAttribute("value", response[i].nameID) 
+                elem.appendChild(elemText);
+                togglerAddToTour.appendChild(elem);
             }   
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
@@ -146,3 +156,24 @@ function selectLocationForDelete() {
     }
 }
 selectLocationForDelete();
+
+function addLocationToTour() {
+    if(document.getElementById("selectLocationToAddToTour").value == "") {
+        return;
+    }
+    document.getElementById('locations').value = document.getElementById('locations').value + document.getElementById("selectLocationToAddToTour").value + ',';
+    document.getElementById("selectLocationToAddToTour").remove(document.getElementById("selectLocationToAddToTour").selectedIndex);     
+}
+
+function clearLocations() {
+    document.getElementById("selectLocationToAddToTour").options.length = 0;
+    const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
+            for(i = 0; i < response.length; i++) {
+                const elem = document.createElement("option");
+                elem.href = "#";
+                const elemText = document.createTextNode(response[i].nameID);
+                elem.setAttribute("value", response[i].nameID) 
+                elem.appendChild(elemText);
+                togglerAddToTour.appendChild(elem);
+    }   
+}
