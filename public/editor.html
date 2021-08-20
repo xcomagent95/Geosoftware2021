@@ -50,7 +50,7 @@
             </select><br>
             <form action="/delete/removeLocation" method="post">
                 <input type="hidden" id="oldName" name="oldName"><br>
-                <input id="deleteButton" type="submit" value="Delete Location">
+                <input type="submit" value="Delete Location">
             </form><br><br>
         </div>
         <!--map container-->  
@@ -68,6 +68,18 @@
                 <input type="submit" value="Add Tour">
             </form>
             <button onclick="clearLocations()">Clear Tour</button> 
+        </div>
+        <div>
+            <p>Update Tour</p>
+        </div>
+        <div>
+            <p>Delete Tour</p>
+            <select id="selectTourToDelete" onchange="selectTourForDelete()">
+            </select><br>
+            <form action="/delete/removeTour" method="post">
+                <input type="hidden" id="oldTour" name="oldTour"><br>
+                <input type="submit" value="Delete Tour">
+            </form><br><br>
         </div>
     </body>
     <!--Scripts-->
