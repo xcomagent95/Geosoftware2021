@@ -49,4 +49,28 @@ router.get('/getTours', function(req, res, next)
     })
   })
 });
+
+//get Documents
+router.get('/getUsedLocations', function(req, res, next) 
+{
+  //Connect to the mongodb database and retrieve all docs
+  client.connect(function(err) 
+  {
+  
+    const db = client.db(dbName); //Database
+    const collection = db.collection(toursCollection); //Collection
+
+    // Find all documents
+    var result = [];
+    collection.find({}).toArray(function(err, docs) 
+    {
+      for(var i = 0; i < docs.length; i++) {
+        for(var j = 0; j < docs[i].locations.length; j++) {
+          result.push(docs[i].locations[j]);
+        }
+      }
+      res.json(result); //return documents from Database
+    })
+  })
+});
 module.exports = router; //export as router

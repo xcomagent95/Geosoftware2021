@@ -144,7 +144,8 @@ function getAllToursfromDB() {
             //is enriched with information extracted from the api locations
             tours = res;
             const togglerDelete = document.getElementById("selectTourToDelete");
-            for(i = 0; i < tours.length; i++) {
+
+            for(var i = 0; i < tours.length; i++) {
                 const elem = document.createElement("option");
                 elem.href = "#";
                 const elemText = document.createTextNode(tours[i].tourName);

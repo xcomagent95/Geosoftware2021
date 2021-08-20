@@ -26,21 +26,38 @@ router.post('/removeLocation', function(req, res, next)
         const db = client.db(dbName)
         const collection = db.collection(locationsCollection)
         var oldName = req.body.oldName;
+        var inUse = false;
+        //check if Location is used
+        db.collection(toursCollection).find({}).toArray(function(err, docs) 
+        {
+          for(var i = 0; i < docs.length; i++) {
+            for(var j = 0; j < docs[i].locations.length; j++) {
+              if(oldName == docs[i].locations[j]) {
+                inUse = true;
+              }
+            }
+          }
+        })
+
         //check if number exists
         collection.find({nameID: oldName}).toArray(function(err, docs)
         {      
-            if(docs.length >= 1){
+            if(docs.length >= 1 && inUse == false){
                 //delete Document
                 collection.deleteOne({nameID: oldName}, function(err, results){
                 })
                 res.sendFile(__dirname + "/done.html")
+                return;
+            }
+            if(inUse == true) {
+                res.sendFile(__dirname + "/error_location_in_use.html")
+                return; 
             }
             else {
                 res.sendFile(__dirname + "/error_nonexistent_number.html")
+                return;
             }
-            
         })
-
     })
 })
 
