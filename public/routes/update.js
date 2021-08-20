@@ -47,7 +47,7 @@ router.post('/updateLocation', function(req, res, next)
           //Update the document in the database
           collection.find({nameID: newNameID}).toArray(function(err, docs) 
           {
-            if(docs.length >= 1) {
+            if(docs.length >= 1 && oldNameID != newNameID) {
                 //Update the document in the database
                 res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
                 return;

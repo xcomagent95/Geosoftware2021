@@ -61,8 +61,9 @@ map.on('draw:created', function(e) {
     }
 });
 
-var locations;
-var tours;
+let locations;
+let tours;
+
 function getAllLocationsfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getLocations", //request url is the prebuild request
@@ -72,12 +73,10 @@ function getAllLocationsfromDB() {
             //bind a popup to the given marker / the popupt is formatted in HTML and 
             //is enriched with information extracted from the api locations
             locations = res;
-            console.log(locations[0]);
             for(i = 0; i < res.length; i++) {
                 var layer = L.geoJSON(locations[i].GeoJson);
                 locationLayer.addLayer(layer);
                 layer.bindPopup("Name: " + locations[i].nameID);
-                route = locations[i].GeoJson;
             }
             //Fit Bounds to the Route
             map.fitBounds(locationLayer.getBounds());  
@@ -120,7 +119,9 @@ function getAllLocationsfromDB() {
                 elem.setAttribute("value", locations[i].nameID) 
                 elem.appendChild(elemText);
                 togglerAddToTour.appendChild(elem);
-            }   
+            }
+            selectLocationForUpdate();
+            selectLocationForDelete();      
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
             console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
@@ -131,8 +132,7 @@ function getAllLocationsfromDB() {
             return; 
         })
     }
-}   
-getAllLocationsfromDB();
+}  
 
 function getAllToursfromDB() { 
     {$.ajax({ //handle request via ajax
@@ -143,8 +143,6 @@ function getAllToursfromDB() {
             //bind a popup to the given marker / the popupt is formatted in HTML and 
             //is enriched with information extracted from the api locations
             tours = res;
-            console.log(tours[0]); 
-
             const togglerDelete = document.getElementById("selectTourToDelete");
             for(i = 0; i < tours.length; i++) {
                 const elem = document.createElement("option");
@@ -155,6 +153,7 @@ function getAllToursfromDB() {
                 togglerDelete.appendChild(elem);
                 document.getElementById('oldTour').value = tours[i].tourName;
             } 
+            selectTourForDelete();
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
             console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
@@ -165,8 +164,7 @@ function getAllToursfromDB() {
             return; 
         })
     }
-}   
-getAllToursfromDB();
+}
 
 function selectLocationForUpdate() {
     var value = document.getElementById("selectLocationToUpdate").value;
@@ -180,7 +178,6 @@ function selectLocationForUpdate() {
         }
     }
 }
-selectLocationForUpdate();
 
 function selectLocationForDelete() {
     var value = document.getElementById("selectLocationToDelete").value;
@@ -190,7 +187,6 @@ function selectLocationForDelete() {
         }
     }
 }
-selectLocationForDelete();
 
 function addLocationToTour() {
     if(document.getElementById("selectLocationToAddToTour").value == "") {
@@ -221,4 +217,6 @@ function selectTourForDelete() {
         }
     }
 }
-selectTourForDelete();
+
+getAllLocationsfromDB(); 
+getAllToursfromDB(); 
