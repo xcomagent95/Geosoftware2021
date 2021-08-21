@@ -12,8 +12,10 @@
         <!--jQuery-->
         <script src="/jquery/dist/jquery.js"></script>
     <body>
+        <!--Webpage for editing the Locations and Tours-->
         <p>This is the editor</p>
         <div>
+            <!--Adding Locations-->
             <p>Add Locations</p>
             <form action="/add/newLocation" method="post">
                 <label for="name">Name</label><br>
@@ -28,6 +30,7 @@
             </form> 
         </div>
         <div>
+            <!--Updating Locations-->
             <p>Update Locations</p>
             <select id="selectLocationToUpdate" onchange="selectLocationForUpdate()">
             </select>
@@ -45,6 +48,7 @@
             </form> 
         </div>
         <div>
+            <!--Deleting Locations-->
             <p>Delete Locations</p>
             <select id="selectLocationToDelete" onchange="selectLocationForDelete()">
             </select><br>
@@ -56,8 +60,8 @@
         <!--map container-->  
         <div id="mapdiv">
         </div>
-        <!--Tours-->
         <div>
+            <!--Adding Tours-->
             <p>Add Tour</p>
             <select id="selectLocationToAddToTour"></select>
             <button onclick="addLocationToTour()">Add Location to Tour</button> 
@@ -70,9 +74,11 @@
             <button onclick="clearLocations()">Clear Tour</button> 
         </div>
         <div>
+            <!--Updating Tours-->
             <p>Update Tour</p>
         </div>
         <div>
+            <!--Deleting Tours-->
             <p>Delete Tour</p>
             <select id="selectTourToDelete" onchange="selectTourForDelete()">
             </select><br>

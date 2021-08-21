@@ -12,7 +12,7 @@ var locationLayer = L.featureGroup().addTo(map);
 //draw Features
 var drawControl = new L.Control.Draw({
     draw: {
-        //disable all draw functions but the polyline
+        //disable all draw functions but Points and Polygons
         polyline: false, 
         polygon: true,
         circle: false,
@@ -21,7 +21,7 @@ var drawControl = new L.Control.Draw({
         rectangle: false
     },
     edit: {
-        //drawn features will be stored in the polylineLayer
+        //drawn features will be stored in the locationLayer
         featureGroup: locationLayer,
         remove: false,
         edit: false
@@ -29,40 +29,39 @@ var drawControl = new L.Control.Draw({
 }); 
 map.addControl(drawControl); //add the control to the map
 
-var newGeoJSON;
+var newGeoJSON; //initialize new GeoJson for new Locations
 
 map.on('draw:created', function(e) {
     //add object to map
-    locationLayer.addLayer(e.layer); 
-    console.log(e.layer);
+    locationLayer.addLayer(e.layer); //add new Object to the locationLayer
 
     //check if input is Array or Object
-    if (e.layer._latlngs instanceof Array) {
-        var geometry = [];
-        console.log(e.layer._latlngs[0].length);
+    if (e.layer._latlngs instanceof Array) { //Object is a Polygon
+        var geometry = []; //initinalize Array for the Verticies of the Polygon
+        //get the Verticies
         for(var i = 0; i < e.layer._latlngs[0].length; i++) {
             geometry.push([e.layer._latlngs[0][i].lng, e.layer._latlngs[0][i].lat]);
         }
+        //push the first Vertex again since first and last Vertex must be the same to conform to the choosen Format
         geometry.push([e.layer._latlngs[0][0].lng, e.layer._latlngs[0][0].lat]); 
-        //console.log(geometry); 
+        //parse the GeoJson as String
         newGeoJSON = '{' + '"type": "Polygon"' + ',' + '"coordinates":'  + '[' + JSON.stringify(geometry) + ']' + '}';
-        //console.log(newGeoJSON);
-        document.getElementById("geometry").value = newGeoJSON;
-        document.getElementById("newGeometry").value = newGeoJSON;
+        document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
+        document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
     } 
-    else {
-        var geometry;
+    else { //Object is a Point
+        var geometry; //initinalize Point
+        //get the Point
         geometry = [e.layer._latlng.lat, e.layer._latlng.lng];
-        //console.log(geometry);
+        //parse the GeoJson as String
         newGeoJSON = '{' + '"type": "Point"' + ',' + '"coordinates":' +  '[' + geometry[1] + ',' + geometry[0] + ']' + '}';
-        //console.log(newGeoJSON);
-        document.getElementById("geometry").value = newGeoJSON;
-        document.getElementById("newGeometry").value = newGeoJSON;
+        document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
+        document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
     }
 });
 
-let locations;
-let tours;
+let locations; //Array to store Locations
+let tours; //Array to store Tours
 
 function getAllLocationsfromDB() { 
     {$.ajax({ //handle request via ajax
@@ -70,27 +69,27 @@ function getAllLocationsfromDB() {
         method: "GET", //method is GET since we want to get data not post or update it
         })
         .done(function(res) { //if the request is done -> successful
-            //bind a popup to the given marker / the popupt is formatted in HTML and 
-            //is enriched with information extracted from the api locations
+            //bind a popup to the given Object / the popupt is formatted in HTML and 
             locations = res;
             for(i = 0; i < res.length; i++) {
                 var layer = L.geoJSON(locations[i].GeoJson);
                 locationLayer.addLayer(layer);
                 layer.bindPopup("Name: " + locations[i].nameID);
             }
-            //Fit Bounds to the Route
+            //Fit Bounds to the Objects
             map.fitBounds(locationLayer.getBounds());  
 
-            // The following lines of code build up the dropdown menu from the actual state of the database
+            //add Information to the Update-Location-Selector
             const togglerUpdate = document.getElementById("selectLocationToUpdate");
-            for(i = 0; i < locations.length; i++) {
+            for(i = 0; i < locations.length; i++) { //iterate over the Locations
                 const elem = document.createElement("option");
                 elem.href = "#";
-                const elemText = document.createTextNode(locations[i].nameID);
+                const elemText = document.createTextNode(locations[i].nameID); 
                 elem.setAttribute("value", locations[i].nameID) 
                 elem.appendChild(elemText);
                 togglerUpdate.appendChild(elem);
                 var value = document.getElementById("selectLocationToUpdate").value;
+                //add Information to the Update-Location-Form
                 if(locations[i].nameID == value) {
                     document.getElementById('oldNameID').value = locations[i].nameID;
                     document.getElementById('newName').value = locations[i].nameID;
@@ -100,17 +99,19 @@ function getAllLocationsfromDB() {
                 }
             } 
 
+            //add Information to the Delete-Location-Selector
             const togglerDelete = document.getElementById("selectLocationToDelete");
-            for(i = 0; i < locations.length; i++) {
+            for(i = 0; i < locations.length; i++) { //iterate over the Locations
                 const elem = document.createElement("option");
                 elem.href = "#";
                 const elemText = document.createTextNode(locations[i].nameID);
                 elem.setAttribute("value", locations[i].nameID) 
                 elem.appendChild(elemText);
                 togglerDelete.appendChild(elem);
-                document.getElementById('oldName').value = locations[i].nameID;
+                document.getElementById('oldName').value = locations[i].nameID; //add Information to the Delete-Location-Form
             }  
             
+             //add Information to the Add-Location-To-Tour-Selector
             const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
             for(i = 0; i < locations.length; i++) {
                 const elem = document.createElement("option");
@@ -120,6 +121,7 @@ function getAllLocationsfromDB() {
                 elem.appendChild(elemText);
                 togglerAddToTour.appendChild(elem);
             }
+            //Fill Forms
             selectLocationForUpdate();
             selectLocationForDelete();      
         })
@@ -167,6 +169,7 @@ function getAllToursfromDB() {
     }
 }
 
+//Function for populating the Form which is used to select the Location to be Updated
 function selectLocationForUpdate() {
     var value = document.getElementById("selectLocationToUpdate").value;
     for(var i = 0; i < locations.length; i++) {
@@ -180,6 +183,7 @@ function selectLocationForUpdate() {
     }
 }
 
+//Function for populating the Form which is used to select the Location to be Deleted
 function selectLocationForDelete() {
     var value = document.getElementById("selectLocationToDelete").value;
     for(var i = 0; i < locations.length; i++) {
@@ -219,5 +223,5 @@ function selectTourForDelete() {
     }
 }
 
-getAllLocationsfromDB(); 
-getAllToursfromDB(); 
+getAllLocationsfromDB(); //Get Locations from DB
+getAllToursfromDB();  //Get Tours from DB
