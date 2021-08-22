@@ -14,79 +14,113 @@
     <body>
         <!--Webpage for editing the Locations and Tours-->
         <p>This is the editor</p>
-        <div>
-            <!--Adding Locations-->
-            <p>Add Locations</p>
-            <form action="/add/newLocation" method="post">
-                <label for="name">Name</label><br>
-                <input type="text" id="name" name="name"><br>
-                <label for="url">URL</label><br>
-                <input type="text" id="url" name="url"><br>
-                <label for="description">Description</label><br>
-                <input type="text" id="description" name="description"><br>
-                <label for="geometry">Geometry</label><br>
-                <input type="text" id="geometry" name="geometry"><br><br>
-                <input type="submit" value="Add Location">
-            </form> 
-        </div>
-        <div>
-            <!--Updating Locations-->
-            <p>Update Locations</p>
-            <select id="selectLocationToUpdate" onchange="selectLocationForUpdate()">
-            </select>
-            <form action="/update/updateLocation" method="post">
-                <input type="hidden" id="oldNameID" name="oldNameID"><br>
-                <label for="newName">Name</label><br>
-                <input type="text" id="newName" name="newName"><br>
-                <label for="newURL">URL</label><br>
-                <input type="text" id="newURL" name="newURL"><br>
-                <label for="newDescription">Description</label><br>
-                <input type="text" id="newDescription" name="newDescription"><br>
-                <label for="newGeometry">Geometry</label><br>
-                <input type="text" id="newGeometry" name="newGeometry"><br>
-                <input type="submit" value="Update Location"><br><br>
-            </form> 
-        </div>
-        <div>
-            <!--Deleting Locations-->
-            <p>Delete Locations</p>
-            <select id="selectLocationToDelete" onchange="selectLocationForDelete()">
-            </select><br>
-            <form action="/delete/removeLocation" method="post">
-                <input type="hidden" id="oldName" name="oldName"><br>
-                <input type="submit" value="Delete Location">
-            </form><br><br>
-        </div>
+        <table style="width:100%">
+            <tr>
+              <th>Add Locations</th>
+              <th>Update Locations</th>
+              <th>Delete Locations</th>
+            </tr>
+            <tr>
+              <td>
+                <div>
+                    <!--Adding Locations-->
+                    <form action="/add/newLocation" method="post">
+                        <label for="name">Name</label><br>
+                        <input type="text" id="name" name="name"><br>
+                        <label for="url">URL</label><br>
+                        <input type="text" id="url" name="url"><br>
+                        <label for="description">Description</label><br>
+                        <input type="text" id="description" name="description"><br>
+                        <label for="geometry">Geometry</label><br>
+                        <input type="text" id="geometry" name="geometry"><br><br>
+                        <input type="submit" value="Add Location">
+                    </form> 
+                </div>
+              </td>
+              <td>
+                <div>
+                    <!--Updating Locations-->
+                    <select id="selectLocationToUpdate" onchange="selectLocationForUpdate()">
+                    </select>
+                    <form action="/update/updateLocation" method="post">
+                        <input type="hidden" id="oldNameID" name="oldNameID"><br>
+                        <label for="newName">Name</label><br>
+                        <input type="text" id="newName" name="newName"><br>
+                        <label for="newURL">URL</label><br>
+                        <input type="text" id="newURL" name="newURL"><br>
+                        <label for="newDescription">Description</label><br>
+                        <input type="text" id="newDescription" name="newDescription"><br>
+                        <label for="newGeometry">Geometry</label><br>
+                        <input type="text" id="newGeometry" name="newGeometry"><br>
+                        <input type="submit" value="Update Location"><br><br>
+                    </form> 
+                </div>
+              </td>
+              <td>        
+                <div>
+                    <!--Deleting Locations-->
+                    <select id="selectLocationToDelete" onchange="selectLocationForDelete()">
+                    </select><br>
+                    <form action="/delete/removeLocation" method="post">
+                        <input type="hidden" id="oldName" name="oldName"><br>
+                        <input type="submit" value="Delete Location">
+                    </form><br><br>
+                </div>
+            </td>
+            </tr>
+          </table> 
         <!--map container-->  
         <div id="mapdiv">
         </div>
-        <div>
-            <!--Adding Tours-->
-            <p>Add Tour</p>
-            <select id="selectLocationToAddToTour"></select>
-            <button onclick="addLocationToTour()">Add Location to Tour</button> 
-            <form action="/add/newTour" method="post">
-                <label for="name">Tour</label><br>
-                <input type="text" id="tour" name="tour"><br>
-                <input type="text" id="locations" name="locations"><br>
-                <input type="submit" value="Add Tour">
-            </form>
-            <button onclick="clearLocations()">Clear Tour</button> 
-        </div>
-        <div>
-            <!--Updating Tours-->
-            <p>Update Tour</p>
-        </div>
-        <div>
-            <!--Deleting Tours-->
-            <p>Delete Tour</p>
-            <select id="selectTourToDelete" onchange="selectTourForDelete()">
-            </select><br>
-            <form action="/delete/removeTour" method="post">
-                <input type="hidden" id="oldTour" name="oldTour"><br>
-                <input type="submit" value="Delete Tour">
-            </form><br><br>
-        </div>
+        <table style="width:100%">
+            <tr>
+              <th>Add Tour</th>
+              <th>Update Tour</th>
+              <th>Delete Tour</th>
+            </tr>
+            <tr>
+              <td>
+                <div>
+                    <!--Adding Tours-->
+                    <select id="selectLocationToAddToTour"></select>
+                    <button onclick="addLocationToTour()">Add Location to Tour</button> 
+                    <form action="/add/newTour" method="post">
+                        <label for="name">Tour</label><br>
+                        <input type="text" id="tour" name="tour"><br>
+                        <input type="text" id="locations" name="locations"><br>
+                        <input type="submit" value="Add Tour">
+                    </form>
+                    <button onclick="clearLocations()">Clear Tour</button> 
+                </div>
+              </td>
+              <td>
+                <div>
+                    <!--Updating Tours-->
+                    <select id="selectTourToUpdate" onchange="selectTourForUpdate()"></select><br>
+                    <select id="selectLocationToDeleteFromTour"></select><button onclick="">Delete Location from Tour</button> <br>
+                    <select id="selectLocationToAddToTour2"></select><button onclick="">Add Location to Tour</button> <br>
+                    <form action="/update/updateTour" method="post">
+                        <label for="name">Tour</label>
+                        <input type="hidden" id="oldTour" name="oldTour"><br>
+                        <input type="text" id="newTour" name="newTour"><br>
+                        <input type="submit" value="Update Tour">
+                    </form>
+                    <p id="locationsList"></p>
+                </div>
+              </td>
+              <td>
+                <div>
+                    <!--Deleting Tours-->
+                    <select id="selectTourToDelete" onchange="selectTourForDelete()">
+                    </select><br>
+                    <form action="/delete/removeTour" method="post">
+                        <input type="hidden" id="oldTour" name="oldTour"><br>
+                        <input type="submit" value="Delete Tour">
+                    </form><br><br>
+                </div>
+              </td>
+            </tr>
+          </table> 
     </body>
     <!--Scripts-->
     <script src="./js/editor.js"></script>

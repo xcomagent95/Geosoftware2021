@@ -63,6 +63,7 @@ map.on('draw:created', function(e) {
 let locations; //Array to store Locations
 let tours; //Array to store Tours
 
+
 function getAllLocationsfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getLocations", //request url is the prebuild request
@@ -146,7 +147,6 @@ function getAllToursfromDB() {
             //is enriched with information extracted from the api locations
             tours = res;
             const togglerDelete = document.getElementById("selectTourToDelete");
-
             for(var i = 0; i < tours.length; i++) {
                 const elem = document.createElement("option");
                 elem.href = "#";
@@ -157,6 +157,17 @@ function getAllToursfromDB() {
                 document.getElementById('oldTour').value = tours[i].tourName;
             } 
             selectTourForDelete();
+
+            const togglerUpdate = document.getElementById("selectTourToUpdate");
+            for(var i = 0; i < tours.length; i++) {
+                const elem = document.createElement("option");
+                elem.href = "#";
+                const elemText = document.createTextNode(tours[i].tourName);
+                elem.setAttribute("value", tours[i].tourName) 
+                elem.appendChild(elemText);
+                togglerUpdate.appendChild(elem);
+                document.getElementById('oldTour').value = tours[i].tourName;
+            } 
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
             console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
@@ -168,6 +179,8 @@ function getAllToursfromDB() {
         })
     }
 }
+getAllLocationsfromDB(); //Get Locations from DB
+getAllToursfromDB();  //Get Tours from DB
 
 //Function for populating the Form which is used to select the Location to be Updated
 function selectLocationForUpdate() {
@@ -218,10 +231,49 @@ function selectTourForDelete() {
     var value = document.getElementById("selectTourToDelete").value;
     for(var i = 0; i < tours.length; i++) {
         if(tours[i].tourName == value) {
-            document.getElementById('oldTour').value = tours[i].tourName;
+            document.getElementById('newTour').value = tours[i].tourName;
         }
     }
 }
 
-getAllLocationsfromDB(); //Get Locations from DB
-getAllToursfromDB();  //Get Tours from DB
+function selectTourForUpdate() {
+    document.getElementById("selectLocationToDeleteFromTour").options.length = 0;
+    document.getElementById("selectLocationToAddToTour2").options.length = 0;
+    var value = document.getElementById("selectTourToUpdate").value;
+    var locationsInTour;
+    var locationsNameID = [];
+    for(var i = 0; i < tours.length; i++) {
+        if(tours[i].tourName == value) {
+            document.getElementById('oldTour').value = tours[i].tourName;
+            document.getElementById('newTour').value = tours[i].tourName;
+            locationsInTour = tours[i].locations;
+        }
+    }
+
+    const togglerDeleteLocation = document.getElementById("selectLocationToDeleteFromTour");
+    for(var i = 0; i < locationsInTour.length; i++) {
+        const elem = document.createElement("option");
+        elem.href = "#";
+        const elemText = document.createTextNode(locationsInTour[i]);
+        elem.setAttribute("value", locationsInTour[i]) 
+        elem.appendChild(elemText);
+        togglerDeleteLocation.appendChild(elem);
+    } 
+
+    const togglerAddLocation = document.getElementById("selectLocationToAddToTour2");
+    for(var i = 0; i < locationsInTour.length; i++) {
+        locationsNameID.push(locations[i].nameID)
+    }
+    console.log(locationsNameID);
+    console.log(locations);
+    for(var i = 0; i < locations.length; i++) {
+        if(locationsNameID.includes(locations[i].nameID) == false) {
+            const elem = document.createElement("option");
+            elem.href = "#";
+            const elemText = document.createTextNode(locations[i].nameID);
+            elem.setAttribute("value", locations[i]) 
+            elem.appendChild(elemText);
+            togglerAddLocation.appendChild(elem);
+        }
+    }
+}
