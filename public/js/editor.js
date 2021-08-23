@@ -62,7 +62,7 @@ map.on('draw:created', function(e) {
 
 let locations; //Array to store Locations
 let tours; //Array to store Tours
-
+var locationsInTour;
 
 function getAllLocationsfromDB() { 
     {$.ajax({ //handle request via ajax
@@ -124,7 +124,7 @@ function getAllLocationsfromDB() {
             }
             //Fill Forms
             selectLocationForUpdate();
-            selectLocationForDelete();      
+            selectLocationForDelete();   
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
             console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
@@ -240,7 +240,6 @@ function selectTourForUpdate() {
     document.getElementById("selectLocationToDeleteFromTour").options.length = 0;
     document.getElementById("selectLocationToAddToTour2").options.length = 0;
     var value = document.getElementById("selectTourToUpdate").value;
-    var locationsInTour;
     var locationsNameID = [];
     for(var i = 0; i < tours.length; i++) {
         if(tours[i].tourName == value) {
@@ -264,16 +263,53 @@ function selectTourForUpdate() {
     for(var i = 0; i < locationsInTour.length; i++) {
         locationsNameID.push(locations[i].nameID)
     }
-    console.log(locationsNameID);
-    console.log(locations);
     for(var i = 0; i < locations.length; i++) {
         if(locationsNameID.includes(locations[i].nameID) == false) {
             const elem = document.createElement("option");
             elem.href = "#";
             const elemText = document.createTextNode(locations[i].nameID);
-            elem.setAttribute("value", locations[i]) 
+            elem.setAttribute("value", locations[i].nameID) 
             elem.appendChild(elemText);
             togglerAddLocation.appendChild(elem);
         }
     }
+    document.getElementById("newLocations").value = locationsInTour;
+}
+
+function addLocationToTour() {
+    var locationToAdd = document.getElementById("selectLocationToAddToTour2").value;
+    console.log(document.getElementById("selectLocationToAddToTour2").value);
+    var newlocationsInTour = locationsInTour;
+    newlocationsInTour.push(locationToAdd);
+    console.log(newlocationsInTour);
+    document.getElementById("newLocations").value = newlocationsInTour;
+    locationsInTour = newlocationsInTour;
+    document.getElementById("selectLocationToAddToTour2").remove(document.getElementById("selectLocationToAddToTour2").selectedIndex); 
+
+    const elem = document.createElement("option");
+    elem.href = "#";
+    const elemText = document.createTextNode(locationToAdd);
+    elem.setAttribute("value", locationToAdd) 
+    elem.appendChild(elemText);
+    document.getElementById("selectLocationToDeleteFromTour").appendChild(elem);
+}
+
+function deleteLocationFromTour() {
+    var locationToDelete = document.getElementById("selectLocationToDeleteFromTour").value;
+    var newlocationsInTour = [];
+    for(var i = 0; i < locationsInTour.length; i++) {
+        if(locationsInTour[i] != locationToDelete) {
+            newlocationsInTour.push(locationsInTour[i]);
+        }
+    }
+    document.getElementById("newLocations").value = newlocationsInTour;
+    locationsInTour = newlocationsInTour;
+    document.getElementById("selectLocationToDeleteFromTour").remove(document.getElementById("selectLocationToDeleteFromTour").selectedIndex);
+    
+    const elem = document.createElement("option");
+    elem.href = "#";
+    const elemText = document.createTextNode(locationToDelete);
+    elem.setAttribute("value", locationToDelete) 
+    elem.appendChild(elemText);
+    document.getElementById("selectLocationToAddToTour2").appendChild(elem);
 }
