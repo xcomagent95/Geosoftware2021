@@ -75,6 +75,7 @@ router.post('/updateTour', function(req, res, next)
 {
   var oldTourName = req.body.oldTour;
   var newTourName = req.body.newTour;
+  var newLocations = req.body.newLocations.split(',');
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 
   {
@@ -94,7 +95,7 @@ router.post('/updateTour', function(req, res, next)
                 return;
             }
             else {
-              collection.updateOne({nameID: oldTourName}, {$set:{tourName: newTourName}}, function(err, result) 
+              collection.updateOne({nameID: oldTourName}, {$set:{tourName: newTourName, locations: newLocations}}, function(err, result) 
               {
               })
               res.sendFile(__dirname + "/done.html") //redirect after Post
