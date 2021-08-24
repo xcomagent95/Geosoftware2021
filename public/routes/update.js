@@ -95,7 +95,7 @@ router.post('/updateTour', function(req, res, next)
                 return;
             }
             else {
-              collection.updateOne({nameID: oldTourName}, {$set:{tourName: newTourName, locations: newLocations}}, function(err, result) 
+              collection.updateOne({tourName: oldTourName}, {$set:{tourName: newTourName, locations: newLocations}}, function(err, result) 
               {
               })
               res.sendFile(__dirname + "/done.html") //redirect after Post
