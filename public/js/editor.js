@@ -315,5 +315,4 @@ function deleteLocationFromTour() {
 }
 
 function getContentFromWikiMedia(keyword) {
-    
 }
