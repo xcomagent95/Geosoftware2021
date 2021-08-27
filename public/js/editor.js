@@ -313,3 +313,7 @@ function deleteLocationFromTour() {
     elem.appendChild(elemText);
     document.getElementById("selectLocationToAddToTour2").appendChild(elem);
 }
+
+function getContentFromWikiMedia(keyword) {
+    
+}
