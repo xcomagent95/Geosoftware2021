@@ -22,20 +22,16 @@ const client = new MongoClient(url) // mongodb client
 router.post('/newLocation', function(req, res, next) 
 {
   //Check Request
-  if(req.body.name == '' || req.body.url == '' || req.body.geometry == '') {
+  if(req.body.name == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') {
     res.sendFile(__dirname + "/error_empty_input.html")
     return;
   }
-
-  console.log("Payload URL:", req.body.url);
-  var description;
-
 
   //Crete Payload to Store
   var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
         '"properties":' +  '{' + '"Name":' + '"' + req.body.name + '"' + ',' 
                                + '"URL":' + '"' + req.body.url + '"' + ',' 
-                               + '"Description":' + '"' + description + '"' + '}' + ',' 
+                               + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
                                + '"geometry":' + req.body.geometry + '}' + ']' + '}';
   var nameID = req.body.name;
   var GeoJson = JSON.parse(GeoJsonString);

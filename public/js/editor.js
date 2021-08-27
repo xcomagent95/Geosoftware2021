@@ -314,5 +314,41 @@ function deleteLocationFromTour() {
     document.getElementById("selectLocationToAddToTour2").appendChild(elem);
 }
 
-function getContentFromWikiMedia(keyword) {
+function getDescription(sourceID, targetID) {
+    var url = document.getElementById(sourceID).value;
+    var keyword = getTitle(url);
+    console.log(getTitle(url));
+    if(url.includes("wikipedia.org")) {
+        $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=' + keyword + '&origin=*', function(data) {
+            console.log(data);
+            var key = Object.keys(data.query.pages)[0];
+            console.log(data.query.pages.valueOf(key));
+            if (key == -1) {
+                document.getElementById(targetID).value = "keine Information vorhanden";
+            }
+            else {
+                document.getElementById(targetID).value = "hier kommt der wiki";
+            }
+        });
+    }
+    else{
+        //console.log("not Wiki");
+        document.getElementById(targetID).value = "keine Information vorhanden";
+    }
+}
+
+function getTitle(url) {
+    var chars = Array.from(url);
+    console.log(chars);
+    var counter = 0;
+    var keyword = '';
+    for(var i = 0; i < chars.length; i++) {
+        if(chars[i] == '/') {
+            counter ++;
+        }
+        if(counter == 4) {
+            keyword = keyword + chars[i];
+        }
+    }
+    return keyword.substring(1);
 }

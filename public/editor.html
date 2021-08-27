@@ -28,7 +28,7 @@
                         <label for="name">Name</label><br>
                         <input type="text" id="name" name="name"><br>
                         <label for="url">URL</label><br>
-                        <input type="text" id="url" name="url"><br>
+                        <input type="text" id="url" name="url" onchange="getDescription('url', 'description')"><br>
                         <!--<label for="description">Description</label><br>-->
                         <input type="hidden" id="description" name="description"><br>
                         <!--<label for="geometry">Geometry</label><br>-->
@@ -47,7 +47,7 @@
                         <label for="newName">Name</label><br>
                         <input type="text" id="newName" name="newName"><br>
                         <label for="newURL">URL</label><br>
-                        <input type="text" id="newURL" name="newURL"><br>
+                        <input type="text" id="newURL" name="newURL" onchange="getDescription('newURL', 'newDescription')"><br>
                         <!--<label for="newDescription">Description</label><br>-->
                         <input type="hidden" id="newDescription" name="newDescription"><br>
                         <!--<label for="newGeometry">Geometry</label><br>-->
