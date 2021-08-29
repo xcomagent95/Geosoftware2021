@@ -75,7 +75,7 @@ function getAllLocationsfromDB() {
             for(i = 0; i < res.length; i++) {
                 var layer = L.geoJSON(locations[i].GeoJson);
                 locationLayer.addLayer(layer);
-                layer.bindPopup("Name: " + locations[i].nameID);
+                layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].nameID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.Description);
             }
             //Fit Bounds to the Objects
             map.fitBounds(locationLayer.getBounds());  
@@ -319,12 +319,9 @@ function deleteLocationsFromTour() {
 function getDescription(sourceID, targetID) {
     var url = document.getElementById(sourceID).value;
     var keyword = getTitle(url);
-    //console.log(getTitle(url));
     if(url.includes("wikipedia.org")) {
         $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=3&explaintext=true&titles=' + keyword + '&origin=*', function(data) {
-            console.log(data);
             var key = Object.keys(data.query.pages)[0];
-            //console.log(JSON.stringify(data.query.pages.valueOf(key)));
             var article = JSON.stringify(data.query.pages.valueOf(key));
             if (key == -1) {
                 document.getElementById(targetID).value = "keine Information vorhanden";
@@ -340,7 +337,6 @@ function getDescription(sourceID, targetID) {
         });
     }
     else{
-        //console.log("not Wiki");
         document.getElementById(targetID).value = "keine Information vorhanden";
     }
 }
