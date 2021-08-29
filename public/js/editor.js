@@ -317,17 +317,21 @@ function deleteLocationFromTour() {
 function getDescription(sourceID, targetID) {
     var url = document.getElementById(sourceID).value;
     var keyword = getTitle(url);
+    var snippet = [];
     console.log(getTitle(url));
     if(url.includes("wikipedia.org")) {
         $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=' + keyword + '&origin=*', function(data) {
             console.log(data);
             var key = Object.keys(data.query.pages)[0];
-            console.log(data.query.pages.valueOf(key));
+            //console.log(JSON.stringify(data.query.pages.valueOf(key)));
+            var article = Array.from(JSON.stringify(data.query.pages.valueOf(key)));
             if (key == -1) {
                 document.getElementById(targetID).value = "keine Information vorhanden";
             }
             else {
-                document.getElementById(targetID).value = "hier kommt der wiki";
+                for(var i = 0; i < article.length; i++) {
+                    
+                }
             }
         });
     }
