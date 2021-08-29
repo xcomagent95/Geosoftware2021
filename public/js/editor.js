@@ -320,18 +320,21 @@ function getDescription(sourceID, targetID) {
     var snippet = [];
     console.log(getTitle(url));
     if(url.includes("wikipedia.org")) {
-        $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=&titles=' + keyword + '&origin=*', function(data) {
+        $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=1&explaintext=true&titles=' + keyword + '&origin=*', function(data) {
             console.log(data);
             var key = Object.keys(data.query.pages)[0];
             //console.log(JSON.stringify(data.query.pages.valueOf(key)));
-            var article = Array.from(JSON.stringify(data.query.pages.valueOf(key)));
+            var article = JSON.stringify(data.query.pages.valueOf(key));
             if (key == -1) {
                 document.getElementById(targetID).value = "keine Information vorhanden";
             }
             else {
-                for(var i = 0; i < article.length; i++) {
-                    
-                }
+                article = article.substring(article.indexOf('"extract":"'));
+                article = article.replace('extract":"', "");
+                article = article.substring(0, article.length - 3);
+                article = article.substring(1);
+                document.getElementById(targetID).value = article;
+                console.log(article);
             }
         });
     }
