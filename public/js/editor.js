@@ -181,7 +181,6 @@ function getAllToursfromDB() {
 }
 getAllLocationsfromDB(); //Get Locations from DB
 getAllToursfromDB();  //Get Tours from DB
-selectLocationForUpdate();
 
 //Function for populating the Form which is used to select the Location to be Updated
 function selectLocationForUpdate() {
@@ -207,6 +206,7 @@ function selectLocationForDelete() {
     }
 }
 
+//add a Location to a new Tour
 function addLocationToTour() {
     if(document.getElementById("selectLocationToAddToTour").value == "") {
         return;
@@ -215,6 +215,7 @@ function addLocationToTour() {
     document.getElementById("selectLocationToAddToTour").remove(document.getElementById("selectLocationToAddToTour").selectedIndex);     
 }
 
+//clear Input-Field when creating a new Tour
 function clearLocations() {
     document.getElementById("selectLocationToAddToTour").options.length = 0;
     const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
@@ -229,6 +230,7 @@ function clearLocations() {
     document.getElementById('locations').value = "";
 }
 
+//Selector for the deletion of a Tour
 function selectTourForDelete() {
     var value = document.getElementById("selectTourToDelete").value;
     for(var i = 0; i < tours.length; i++) {
@@ -238,7 +240,7 @@ function selectTourForDelete() {
     }
 }
 
-
+//Selector for updating an existing Tour
 function selectTourForUpdate() {
     document.getElementById("newLocations").value = "";
     document.getElementById("selectLocationsToDeleteFromTour").options.length = 0;
@@ -280,6 +282,7 @@ function selectTourForUpdate() {
     }
 }
 
+//Add a Location to an existing Tour
 function addLocationsToTour() {
     var locationToAdd = document.getElementById("selectLocationsToAddToTour").value;
     var newlocationsInTour = locationsInTour;
@@ -296,7 +299,7 @@ function addLocationsToTour() {
     document.getElementById("selectLocationsToDeleteFromTour").appendChild(elem);
 }
 
-
+//Delete a Location from an existing Tour
 function deleteLocationsFromTour() {
     var locationToDelete = document.getElementById("selectLocationsToDeleteFromTour").value;
     var newlocationsInTour = [];
@@ -317,6 +320,7 @@ function deleteLocationsFromTour() {
     document.getElementById("selectLocationsToAddToTour").appendChild(elem);
 }
 
+//get Wikipaedia Snippets for valid Article-URL
 function getDescription(sourceID, targetID) {
     var url = document.getElementById(sourceID).value;
     var keyword = getTitle(url);
@@ -342,6 +346,7 @@ function getDescription(sourceID, targetID) {
     }
 }
 
+//Get Title of Article from Wikipaedia-URL
 function getTitle(url) {
     var chars = Array.from(url);
     console.log(chars);
