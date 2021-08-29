@@ -67,7 +67,7 @@ router.post('/removeTour', function(req, res, next)
     {
         const db = client.db(dbName)
         const collection = db.collection(toursCollection)
-        var oldTour = req.body.oldTour;
+        var oldTour = req.body.tourToDelete;
         //check if number exists
         collection.find({tourName: oldTour}).toArray(function(err, docs)
         {      

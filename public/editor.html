@@ -97,10 +97,10 @@
                 <div>
                     <!--Updating Tours-->
                     <select id="selectTourToUpdate" onchange="selectTourForUpdate()"></select><br>
-                    <select id="selectLocationToDeleteFromTour"></select>
-                    <button onclick="deleteLocationFromTour()">Delete Location from Tour</button> <br>
-                    <select id="selectLocationToAddToTour2"></select>
-                    <button onclick="addLocationToTour()">Add Location to Tour</button> <br>
+                    <select id="selectLocationsToDeleteFromTour"></select>
+                    <button onclick="deleteLocationsFromTour()">Delete Location from Tour</button> <br>
+                    <select id="selectLocationsToAddToTour"></select>
+                    <button onclick="addLocationsToTour()">Add Location to Tour</button> <br>
                     <form action="/update/updateTour" method="post">
                         <label for="name">Tour</label>
                         <input type="hidden" id="oldTour" name="oldTour"><br>
@@ -117,7 +117,7 @@
                     <select id="selectTourToDelete" onchange="selectTourForDelete()">
                     </select><br>
                     <form action="/delete/removeTour" method="post">
-                        <input type="hidden" id="oldTour" name="oldTour"><br>
+                        <input type="hidden" id="tourToDelete" name="tourToDelete"><br>
                         <input type="submit" value="Delete Tour">
                     </form><br><br>
                 </div>

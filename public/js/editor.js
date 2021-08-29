@@ -62,7 +62,7 @@ map.on('draw:created', function(e) {
 
 let locations; //Array to store Locations
 let tours; //Array to store Tours
-var locationsInTour;
+var locationsInTour = [];
 
 function getAllLocationsfromDB() { 
     {$.ajax({ //handle request via ajax
@@ -154,7 +154,7 @@ function getAllToursfromDB() {
                 elem.setAttribute("value", tours[i].tourName) 
                 elem.appendChild(elemText);
                 togglerDelete.appendChild(elem);
-                document.getElementById('oldTour').value = tours[i].tourName;
+                document.getElementById('tourToDelete').value = tours[i].tourName;
             } 
             selectTourForDelete();
 
@@ -166,7 +166,7 @@ function getAllToursfromDB() {
                 elem.setAttribute("value", tours[i].tourName) 
                 elem.appendChild(elemText);
                 togglerUpdate.appendChild(elem);
-                document.getElementById('oldTour').value = tours[i].tourName;
+                document.getElementById('tourToDelete').value = tours[i].tourName;
             } 
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
@@ -225,22 +225,24 @@ function clearLocations() {
                 elem.appendChild(elemText);
                 togglerAddToTour.appendChild(elem);
     }   
+    document.getElementById('locations').value = "";
 }
 
 function selectTourForDelete() {
     var value = document.getElementById("selectTourToDelete").value;
     for(var i = 0; i < tours.length; i++) {
         if(tours[i].tourName == value) {
-            document.getElementById('newTour').value = tours[i].tourName;
+            document.getElementById('tourToDelete').value = tours[i].tourName;
         }
     }
 }
 
+
 function selectTourForUpdate() {
-    document.getElementById("selectLocationToDeleteFromTour").options.length = 0;
-    document.getElementById("selectLocationToAddToTour2").options.length = 0;
+    document.getElementById("newLocations").value = "";
+    document.getElementById("selectLocationsToDeleteFromTour").options.length = 0;
+    document.getElementById("selectLocationsToAddToTour").options.length = 0;
     var value = document.getElementById("selectTourToUpdate").value;
-    var locationsNameID = [];
     for(var i = 0; i < tours.length; i++) {
         if(tours[i].tourName == value) {
             document.getElementById('oldTour').value = tours[i].tourName;
@@ -249,7 +251,20 @@ function selectTourForUpdate() {
         }
     }
 
-    const togglerDeleteLocation = document.getElementById("selectLocationToDeleteFromTour");
+    const togglerAddLocation = document.getElementById("selectLocationsToAddToTour");
+    for(var i = 0; i < locations.length; i++) {
+        var location = locations[i].nameID;
+        if (locationsInTour.includes(location) == false) {
+            const elem = document.createElement("option");
+            elem.href = "#";
+            const elemText = document.createTextNode(location);
+            elem.setAttribute("value", location) 
+            elem.appendChild(elemText);
+            togglerAddLocation.appendChild(elem);
+        }
+    }
+
+    const togglerDeleteLocation = document.getElementById("selectLocationsToDeleteFromTour");
     for(var i = 0; i < locationsInTour.length; i++) {
         const elem = document.createElement("option");
         elem.href = "#";
@@ -259,43 +274,30 @@ function selectTourForUpdate() {
         togglerDeleteLocation.appendChild(elem);
     } 
 
-    const togglerAddLocation = document.getElementById("selectLocationToAddToTour2");
     for(var i = 0; i < locationsInTour.length; i++) {
-        locationsNameID.push(locations[i].nameID)
+        document.getElementById("newLocations").value = document.getElementById("newLocations").value + locationsInTour[i] + ',';
     }
-    for(var i = 0; i < locations.length; i++) {
-        if(locationsNameID.includes(locations[i].nameID) == false) {
-            const elem = document.createElement("option");
-            elem.href = "#";
-            const elemText = document.createTextNode(locations[i].nameID);
-            elem.setAttribute("value", locations[i].nameID) 
-            elem.appendChild(elemText);
-            togglerAddLocation.appendChild(elem);
-        }
-    }
-    document.getElementById("newLocations").value = locationsInTour;
 }
 
-function addLocationToTour() {
-    var locationToAdd = document.getElementById("selectLocationToAddToTour2").value;
-    console.log(document.getElementById("selectLocationToAddToTour2").value);
+function addLocationsToTour() {
+    var locationToAdd = document.getElementById("selectLocationsToAddToTour").value;
     var newlocationsInTour = locationsInTour;
     newlocationsInTour.push(locationToAdd);
-    console.log(newlocationsInTour);
     document.getElementById("newLocations").value = newlocationsInTour;
     locationsInTour = newlocationsInTour;
-    document.getElementById("selectLocationToAddToTour2").remove(document.getElementById("selectLocationToAddToTour2").selectedIndex); 
+    document.getElementById("selectLocationsToAddToTour").remove(document.getElementById("selectLocationsToAddToTour").selectedIndex); 
 
     const elem = document.createElement("option");
     elem.href = "#";
     const elemText = document.createTextNode(locationToAdd);
     elem.setAttribute("value", locationToAdd) 
     elem.appendChild(elemText);
-    document.getElementById("selectLocationToDeleteFromTour").appendChild(elem);
+    document.getElementById("selectLocationsToDeleteFromTour").appendChild(elem);
 }
 
-function deleteLocationFromTour() {
-    var locationToDelete = document.getElementById("selectLocationToDeleteFromTour").value;
+
+function deleteLocationsFromTour() {
+    var locationToDelete = document.getElementById("selectLocationsToDeleteFromTour").value;
     var newlocationsInTour = [];
     for(var i = 0; i < locationsInTour.length; i++) {
         if(locationsInTour[i] != locationToDelete) {
@@ -304,23 +306,22 @@ function deleteLocationFromTour() {
     }
     document.getElementById("newLocations").value = newlocationsInTour;
     locationsInTour = newlocationsInTour;
-    document.getElementById("selectLocationToDeleteFromTour").remove(document.getElementById("selectLocationToDeleteFromTour").selectedIndex);
+    document.getElementById("selectLocationsToDeleteFromTour").remove(document.getElementById("selectLocationsToDeleteFromTour").selectedIndex);
     
     const elem = document.createElement("option");
     elem.href = "#";
     const elemText = document.createTextNode(locationToDelete);
     elem.setAttribute("value", locationToDelete) 
     elem.appendChild(elemText);
-    document.getElementById("selectLocationToAddToTour2").appendChild(elem);
+    document.getElementById("selectLocationsToAddToTour").appendChild(elem);
 }
 
 function getDescription(sourceID, targetID) {
     var url = document.getElementById(sourceID).value;
     var keyword = getTitle(url);
-    var snippet = [];
-    console.log(getTitle(url));
+    //console.log(getTitle(url));
     if(url.includes("wikipedia.org")) {
-        $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=1&explaintext=true&titles=' + keyword + '&origin=*', function(data) {
+        $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=3&explaintext=true&titles=' + keyword + '&origin=*', function(data) {
             console.log(data);
             var key = Object.keys(data.query.pages)[0];
             //console.log(JSON.stringify(data.query.pages.valueOf(key)));
