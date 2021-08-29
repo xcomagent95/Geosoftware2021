@@ -82,6 +82,11 @@ router.post('/updateTour', function(req, res, next)
     const db = client.db(dbName) //database
     const collection = db.collection(toursCollection) //collection
 
+    if(oldTourName == "" || newLocations == "" || newTourName == "") {
+      res.sendFile(__dirname + "/error_empty_input.html")
+      return;
+    }
+
     //check if exists
     collection.find({tourName: oldTourName}).toArray(function(err, docs) 
     {

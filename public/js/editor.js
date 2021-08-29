@@ -181,6 +181,7 @@ function getAllToursfromDB() {
 }
 getAllLocationsfromDB(); //Get Locations from DB
 getAllToursfromDB();  //Get Tours from DB
+selectLocationForUpdate();
 
 //Function for populating the Form which is used to select the Location to be Updated
 function selectLocationForUpdate() {
