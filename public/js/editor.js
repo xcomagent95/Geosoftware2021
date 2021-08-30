@@ -105,7 +105,8 @@ function getAllfromDB() {
                 var layer = L.geoJSON(locations[i].GeoJson);
                 locationLayer.addLayer(layer);
                 layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].nameID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.Description
-                +  '<input type="hidden" id="locationToDelete" name="locationToDelete"><br></br>' + '<button onclick="passLocationToDeleteForm()">Delete Location</button>');
+                + '<input type="hidden" id="locationToDelete" name="locationToDelete" value= "' + locations[i].nameID + '">' 
+                + '<br></br><button onclick="passLocationToDeleteForm()">Delete Location</button>');
             }
             //Fit Bounds to the Objects
             map.fitBounds(locationLayer.getBounds());  
