@@ -254,6 +254,10 @@ function selectTourForUpdate() {
         }
     }
 
+    for(var i = 0; i < locationsInTour.length; i++) {
+        document.getElementById("newLocations").value = document.getElementById("newLocations").value + locationsInTour[i] + ',';
+    }
+
     const togglerAddLocation = document.getElementById("selectLocationsToAddToTour");
     for(var i = 0; i < locations.length; i++) {
         var location = locations[i].nameID;
@@ -276,10 +280,6 @@ function selectTourForUpdate() {
         elem.appendChild(elemText);
         togglerDeleteLocation.appendChild(elem);
     } 
-
-    for(var i = 0; i < locationsInTour.length; i++) {
-        document.getElementById("newLocations").value = document.getElementById("newLocations").value + locationsInTour[i] + ',';
-    }
 }
 
 //Add a Location to an existing Tour
