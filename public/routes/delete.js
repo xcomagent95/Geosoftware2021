@@ -21,6 +21,7 @@ const client = new MongoClient(url) // mongodb client
 // Delete Router
 router.post('/removeLocation', function(req, res, next)
 {
+    console.log(req.body);
     client.connect(function(err)
     {
         const db = client.db(dbName)

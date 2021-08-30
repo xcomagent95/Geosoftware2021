@@ -21,6 +21,7 @@ const client = new MongoClient(url) // mongodb client
 //Post Location
 router.post('/newLocation', function(req, res, next) 
 {
+  console.log(req.body);
   //Check Request
   if(req.body.name == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') {
     res.sendFile(__dirname + "/error_empty_input.html")

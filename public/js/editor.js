@@ -32,22 +32,18 @@ map.addControl(drawControl); //add the control to the map
 var newGeoJSON; //initialize new GeoJson for new Locations
 
 map.on('draw:created', function(e) {
-    //add object to map
-    locationLayer.addLayer(e.layer); //add new Object to the locationLayer
-    locationLayer.bindPopup('<form action="/add/newLocation" method="post">'
-    + '<label for="name">Name</label><br>'
-    + '<input type="text" id="name" name="name"><br>'
-    + '<label for="url">URL</label><br>'
-    + '<input type="text" id="url" name="url" onchange="getDescription(' + 'url' + ', ' + 'description' + ')"><br>'
-    + '<!--<label for="description">Description</label><br>-->'
-    + '<input type="hidden" id="description" name="description"><br>'
-    + '<!--<label for="geometry">Geometry</label><br>-->'
-    + '<input type="text" id="geometry" name="geometry"><br><br>'
-    + '<input type="submit" value="Add Location">'
-    + '</form>' );
-
     //check if input is Array or Object
     if (e.layer._latlngs instanceof Array) { //Object is a Polygon
+        //add object to map
+    locationLayer.addLayer(e.layer); //add new Object to the locationLayer
+        locationLayer.bindPopup(
+            + '<label for="pname">Name</label><br>'
+            + '<input type="text" id="pname" name="pname"><br>'
+            + '<label for="purl">URL</label><br>'
+            + '<input type="text" id="purl" name="purl">'
+            + '<button onclick="passLocationToForm()">Pass Location</button> '
+        ).openPopup([e.layer._latlngs[0][0].lat, e.layer._latlngs[0][0].lng]);
+
         var geometry = []; //initinalize Array for the Verticies of the Polygon
         //get the Verticies
         for(var i = 0; i < e.layer._latlngs[0].length; i++) {
@@ -57,23 +53,45 @@ map.on('draw:created', function(e) {
         geometry.push([e.layer._latlngs[0][0].lng, e.layer._latlngs[0][0].lat]); 
         //parse the GeoJson as String
         newGeoJSON = '{' + '"type": "Polygon"' + ',' + '"coordinates":'  + '[' + JSON.stringify(geometry) + ']' + '}';
-        //document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
-        //document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
+        document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
+        document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
     } 
     else { //Object is a Point
+        //add object to map
+        locationLayer.addLayer(e.layer); //add new Object to the locationLayer
+        locationLayer.bindPopup(
+            + '<label for="pname">Name</label><br>'
+            + '<input type="text" id="pname" name="pname"><br>'
+            + '<label for="purl">URL</label><br>'
+            + '<input type="text" id="purl" name="purl">'
+            + '<button onclick="passLocationToForm()">Pass Location</button> '
+        ).openPopup([e.layer._latlng.lat + 0.0005, e.layer._latlng.lng]);
         var geometry; //initinalize Point
         //get the Point
         geometry = [e.layer._latlng.lat, e.layer._latlng.lng];
         //parse the GeoJson as String
         newGeoJSON = '{' + '"type": "Point"' + ',' + '"coordinates":' +  '[' + geometry[1] + ',' + geometry[0] + ']' + '}';
-        //document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
-        //document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
+        document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
+        document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
     }
 });
 
 let locations; //Array to store Locations
 let tours; //Array to store Tours
 var locationsInTour = [];
+
+function passLocationToAddForm() {
+    document.getElementById("name").value = document.getElementById("pname").value;
+    document.getElementById("url").value = document.getElementById("purl").value;
+    getDescription('url', 'description');
+    document.getElementById("addLocationAddForm").submit();
+}
+
+function passLocationToDeleteForm() {
+    document.getElementById("oldName").value = document.getElementById("locationToDelete").value;
+    document.getElementById("deleteLocationForm").submit();
+}
+
 
 function getAllfromDB() { 
     {$.ajax({ //handle request via ajax
@@ -83,11 +101,11 @@ function getAllfromDB() {
         .done(function(res) { //if the request is done -> successful
             locations = res[0];
             tours = res[1];
-            console.log(locations);
             for(i = 0; i < locations.length; i++) {
                 var layer = L.geoJSON(locations[i].GeoJson);
                 locationLayer.addLayer(layer);
-                layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].nameID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.Description);
+                layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].nameID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.Description
+                +  '<input type="hidden" id="locationToDelete" name="locationToDelete"><br></br>' + '<button onclick="passLocationToDeleteForm()">Delete Location</button>');
             }
             //Fit Bounds to the Objects
             map.fitBounds(locationLayer.getBounds());  
@@ -111,6 +129,7 @@ function getAllfromDB() {
                 }
             } 
 
+            /*
             //add Information to the Delete-Location-Selector
             const togglerLocationDelete = document.getElementById("selectLocationToDelete");
             for(i = 0; i < locations.length; i++) { //iterate over the Locations
@@ -122,6 +141,7 @@ function getAllfromDB() {
                 togglerLocationDelete.appendChild(elem);
                 document.getElementById('oldName').value = locations[i].nameID; //add Information to the Delete-Location-Form
             }  
+            */
             
              //add Information to the Add-Location-To-Tour-Selector
             const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
@@ -135,7 +155,7 @@ function getAllfromDB() {
             }
             //Fill Forms
             selectLocationForUpdate();
-            selectLocationForDelete();   
+            //selectLocationForDelete();   
 
             const togglerTourDelete = document.getElementById("selectTourToDelete");
             for(var i = 0; i < tours.length; i++) {

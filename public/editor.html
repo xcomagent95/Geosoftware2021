@@ -16,24 +16,19 @@
         <p>This is the editor</p>
         <table style="width:100%">
             <tr>
-              <th>Add Locations</th>
+              <th></th>
               <th>Update Locations</th>
               <th>Delete Locations</th>
             </tr>
             <tr>
               <td>
                 <div>
-                  <!--
-                    <form action="/add/newLocation" method="post">
-                        <label for="name">Name</label><br>
-                        <input type="text" id="name" name="name"><br>
-                        <label for="url">URL</label><br>
-                        <input type="text" id="url" name="url" onchange="getDescription('url', 'description')"><br>
+                    <form action="/add/newLocation" method="post" id="addLocationForm">
+                        <input type="hidden" id="name" name="name"><br>
+                        <input type="hidden" id="url" name="url"><br>
                         <input type="hidden" id="description" name="description"><br>
                         <input type="hidden" id="geometry" name="geometry"><br><br>
-                        <input type="submit" value="Add Location">
                     </form> 
-                  -->
                 </div>
               </td>
               <td>
@@ -58,11 +53,9 @@
               <td>        
                 <div>
                     <!--Deleting Locations-->
-                    <select id="selectLocationToDelete" onchange="selectLocationForDelete()">
-                    </select><br>
-                    <form action="/delete/removeLocation" method="post">
+                    <!--<select id="selectLocationToDelete" onchange="selectLocationForDelete()"></select><br>-->
+                    <form action="/delete/removeLocation" method="post" id="deleteLocationForm">
                         <input type="hidden" id="oldName" name="oldName"><br>
-                        <input type="submit" value="Delete Location">
                     </form><br><br>
                 </div>
             </td>
