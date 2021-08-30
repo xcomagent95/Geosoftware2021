@@ -55,5 +55,57 @@ It can be called with "http://localhost:3000/add/newTour".
 # Database
 ## Collections
 **locations:**
+The locations collection contains the locations.
+Each location is comprised of 
+- an __id_ which is an object created by mongoDB and acts as an internal primary key
+- a _nameID_ which is a user defined string which acts as the identifier for the location in athe application
+- a _GeoJson_ which contains the geometry (point or polygon) and the URL and description properties
+
+The point locations are formatted like:
+
+    "GeoJson": {
+     "type": "FeatureCollection",
+      "features": [{
+       "type": "Feature",
+        "properties": {
+         "Name": "name of the location (indentical to nameID)",
+         "URL": "some URL",
+         "Description": "some description"
+         },
+        "geometry": {
+         "type": "Point",
+         "coordinates": [some longitude, some latitude]
+        }
+      }]
+     }
+     
+The polygon locations are formatted like: 
+
+    "GeoJson": {
+     "type": "FeatureCollection",
+      "features": [{
+       "type": "Feature",
+        "properties": {
+         "Name": "name of the location (indentical to nameID)",
+         "URL": "some URL",
+         "Description": "some description"
+         },
+        "geometry": {
+         "type": "Polygon",
+         "coordinates": 
+         [
+          [
+           [some longitude, some latitude],
+           [some longitude, some latitude],
+           [some longitude, some latitude],
+           [some longitude, some latitude],
+           [some longitude, some latitude]
+          ]
+         ]
+        }
+      }]
+     }
+
 **tours:**
+The tours collection contains the tours.
 
