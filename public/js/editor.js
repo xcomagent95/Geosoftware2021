@@ -34,6 +34,17 @@ var newGeoJSON; //initialize new GeoJson for new Locations
 map.on('draw:created', function(e) {
     //add object to map
     locationLayer.addLayer(e.layer); //add new Object to the locationLayer
+    locationLayer.bindPopup('<form action="/add/newLocation" method="post">'
+    + '<label for="name">Name</label><br>'
+    + '<input type="text" id="name" name="name"><br>'
+    + '<label for="url">URL</label><br>'
+    + '<input type="text" id="url" name="url" onchange="getDescription(' + 'url' + ', ' + 'description' + ')"><br>'
+    + '<!--<label for="description">Description</label><br>-->'
+    + '<input type="hidden" id="description" name="description"><br>'
+    + '<!--<label for="geometry">Geometry</label><br>-->'
+    + '<input type="text" id="geometry" name="geometry"><br><br>'
+    + '<input type="submit" value="Add Location">'
+    + '</form>' );
 
     //check if input is Array or Object
     if (e.layer._latlngs instanceof Array) { //Object is a Polygon
@@ -46,8 +57,8 @@ map.on('draw:created', function(e) {
         geometry.push([e.layer._latlngs[0][0].lng, e.layer._latlngs[0][0].lat]); 
         //parse the GeoJson as String
         newGeoJSON = '{' + '"type": "Polygon"' + ',' + '"coordinates":'  + '[' + JSON.stringify(geometry) + ']' + '}';
-        document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
-        document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
+        //document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
+        //document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
     } 
     else { //Object is a Point
         var geometry; //initinalize Point
@@ -55,8 +66,8 @@ map.on('draw:created', function(e) {
         geometry = [e.layer._latlng.lat, e.layer._latlng.lng];
         //parse the GeoJson as String
         newGeoJSON = '{' + '"type": "Point"' + ',' + '"coordinates":' +  '[' + geometry[1] + ',' + geometry[0] + ']' + '}';
-        document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
-        document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
+        //document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
+        //document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
     }
 });
 
