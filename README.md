@@ -48,9 +48,18 @@ It can be called with "http://localhost:3000/add/newTour".
 
 # Webpages
 ## Landingpage
+
 ## Map
+
+The map page provides access the the actual application. locations and tours can be viewed here. Additionaly nearest busstops from a location and weather information at these busstops can be requested here. It can be accessed via "http://localhost:3000/map".
+
 ## Editor
+
+The editor page provides the user with all necessary fucntions to manage the locations and tours. It can be accessed via "http://localhost:3000/editor".
+
 ## Impressum
+
+The impressum page contains all legal information regarding the application and links to additional material. It can be accessed via "http://localhost:3000/impressum".
 
 # Database
 ## Collections
