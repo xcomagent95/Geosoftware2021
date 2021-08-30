@@ -1,7 +1,6 @@
 # Geosoftware_2021_Abschlussprojekt
 Abschlussprojekt für den Kurs Geosoftware I 2021
-# Geosoftware_2021_Abschlussprojekt
-Abschlussprojekt für den Kurs Geosoftware I 2021
+Authors: Alexander Pilz & Josefina Balzer
 
 The Tourguide employs the Express Node.js web application framework.
 
