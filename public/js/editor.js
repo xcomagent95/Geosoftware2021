@@ -64,6 +64,7 @@ let locations; //Array to store Locations
 let tours; //Array to store Tours
 var locationsInTour = [];
 
+/*
 function getAllLocationsfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getLocations", //request url is the prebuild request
@@ -136,7 +137,105 @@ function getAllLocationsfromDB() {
         })
     }
 }  
+*/
 
+function getAllfromDB() { 
+    {$.ajax({ //handle request via ajax
+        url: "/search//getAll", //request url is the prebuild request
+        method: "GET", //method is GET since we want to get data not post or update it
+        })
+        .done(function(res) { //if the request is done -> successful
+            locations = res[0];
+            tours = res[1];
+            console.log(locations);
+            for(i = 0; i < locations.length; i++) {
+                var layer = L.geoJSON(locations[i].GeoJson);
+                locationLayer.addLayer(layer);
+                layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].nameID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.Description);
+            }
+            //Fit Bounds to the Objects
+            map.fitBounds(locationLayer.getBounds());  
+
+            const togglerLocationUpdate = document.getElementById("selectLocationToUpdate");
+            for(i = 0; i < locations.length; i++) { //iterate over the Locations
+                const elem = document.createElement("option");
+                elem.href = "#";
+                const elemText = document.createTextNode(locations[i].nameID); 
+                elem.setAttribute("value", locations[i].nameID) 
+                elem.appendChild(elemText);
+                togglerLocationUpdate.appendChild(elem);
+                var value = document.getElementById("selectLocationToUpdate").value;
+                //add Information to the Update-Location-Form
+                if(locations[i].nameID == value) {
+                    document.getElementById('oldNameID').value = locations[i].nameID;
+                    document.getElementById('newName').value = locations[i].nameID;
+                    document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.URL;
+                    document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.Description;
+                    document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry);
+                }
+            } 
+
+            //add Information to the Delete-Location-Selector
+            const togglerLocationDelete = document.getElementById("selectLocationToDelete");
+            for(i = 0; i < locations.length; i++) { //iterate over the Locations
+                const elem = document.createElement("option");
+                elem.href = "#";
+                const elemText = document.createTextNode(locations[i].nameID);
+                elem.setAttribute("value", locations[i].nameID) 
+                elem.appendChild(elemText);
+                togglerLocationDelete.appendChild(elem);
+                document.getElementById('oldName').value = locations[i].nameID; //add Information to the Delete-Location-Form
+            }  
+            
+             //add Information to the Add-Location-To-Tour-Selector
+            const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
+            for(i = 0; i < locations.length; i++) {
+                const elem = document.createElement("option");
+                elem.href = "#";
+                const elemText = document.createTextNode(locations[i].nameID);
+                elem.setAttribute("value", locations[i].nameID) 
+                elem.appendChild(elemText);
+                togglerAddToTour.appendChild(elem);
+            }
+            //Fill Forms
+            selectLocationForUpdate();
+            selectLocationForDelete();   
+
+            const togglerTourDelete = document.getElementById("selectTourToDelete");
+            for(var i = 0; i < tours.length; i++) {
+                const elem = document.createElement("option");
+                elem.href = "#";
+                const elemText = document.createTextNode(tours[i].tourName);
+                elem.setAttribute("value", tours[i].tourName) 
+                elem.appendChild(elemText);
+                togglerTourDelete.appendChild(elem);
+                document.getElementById('tourToDelete').value = tours[i].tourName;
+            } 
+            selectTourForDelete();
+
+            const togglerTourUpdate = document.getElementById("selectTourToUpdate");
+            for(var i = 0; i < tours.length; i++) {
+                const elem = document.createElement("option");
+                elem.href = "#";
+                const elemText = document.createTextNode(tours[i].tourName);
+                elem.setAttribute("value", tours[i].tourName) 
+                elem.appendChild(elemText);
+                togglerTourUpdate.appendChild(elem);
+                document.getElementById('tourToDelete').value = tours[i].tourName;
+            } 
+        })
+        .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
+            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
+            return;
+        })
+        .always(function(xhr, status) { //if the request is "closed", either successful or not 
+            console.log("Request completed"); //a short message is logged
+            return; 
+        })
+    }
+}  
+
+/*
 function getAllToursfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getTours", //request url is the prebuild request
@@ -179,8 +278,10 @@ function getAllToursfromDB() {
         })
     }
 }
-getAllLocationsfromDB(); //Get Locations from DB
-getAllToursfromDB();  //Get Tours from DB
+*/
+//getAllLocationsfromDB(); //Get Locations from DB
+//getAllToursfromDB();  //Get Tours from DB
+getAllfromDB();
 
 //Function for populating the Form which is used to select the Location to be Updated
 function selectLocationForUpdate() {
