@@ -1,7 +1,35 @@
 <!DOCTYPE html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <!--CSS-->
+        <!--<link rel="stylesheet" type="text/css" href="./css/editor.css"/>-->
+        <!--Leaflet-->
+        <link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
+        <script type="text/javascript" src="/leaflet/dist/leaflet.js"></script>
+        <!--Leaflet Draw-->
+        <link rel="stylesheet" href='/leaflet-draw/dist/leaflet.draw.css'/>
+        <script src='/leaflet-draw/dist/leaflet.draw.js'></script>
+        <!--jQuery-->
+        <script src="/jquery/dist/jquery.js"></script>        
     <body>
         <p>This is the map</p>
+        <table id="locations">
+            <tr>
+                <th>Name</th>
+            </tr>
+            <tBody id="locationsTableBody">
+            </tBody>
+        </table> 
+        <table id="tours">
+            <tr>
+                <th>Name</th>
+            </tr>
+            <tBody id="toursTableBody">
+            </tBody>
+        </table>
+        <!--map container-->  
+        <div id="mapdiv">
+        </div>
     </body>
+    <script src="./js/map.js"></script>
 </html> 

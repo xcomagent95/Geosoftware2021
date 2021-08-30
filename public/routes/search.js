@@ -74,7 +74,7 @@ router.get('/getUsedLocations', function(req, res, next)
 });
 
 //get All Tours and their Locations
-router.get('/getAll', function(req, res, next) 
+router.get('/getCollections', function(req, res, next) 
 {
   //Connect to the mongodb database and retrieve all docs
   client.connect(function(err) 
@@ -109,6 +109,47 @@ router.get('/getAll', function(req, res, next)
           }
           result.push(obj);
         }*/
+        //console.log(result);
+        res.json(result); //return documents from Database
+      })
+    })
+  })
+});
+
+router.get('/getAll', function(req, res, next) 
+{
+  //Connect to the mongodb database and retrieve all docs
+  client.connect(function(err) 
+  {
+  
+    const db = client.db(dbName); //Database
+    const tcollection = db.collection(toursCollection); //Collection
+    const lcollection = db.collection(locationsCollection); //Collection
+
+    // Find all documents
+    var tresult = [];
+    var lresult = [];
+    tcollection.find({}).toArray(function(err, docs) 
+    {
+      tresult = docs;
+
+      lcollection.find({}).toArray(function(err, docs2) 
+      {
+        lresult = docs2;
+        var result = [];
+        
+        for(var i = 0; i < tresult.length; i++) {
+          var obj = {tour: tresult[i].tourName , locations: []};
+          for(var j = 0; j < tresult[i].locations.length; j++) {
+            for(var k = 0; k < lresult.length; k++) {
+              if (tresult[i].locations[j] == lresult[k].nameID) {
+                obj.locations.push(lresult[k]);
+              }
+            }
+          }
+          result.push(obj);
+        }
+        //console.log(result);
         res.json(result); //return documents from Database
       })
     })
