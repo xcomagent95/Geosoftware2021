@@ -109,7 +109,6 @@ router.get('/getAll', function(req, res, next)
           }
           result.push(obj);
         }*/
-        console.log(result);
         res.json(result); //return documents from Database
       })
     })
