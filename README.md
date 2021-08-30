@@ -3,7 +3,7 @@ Abschlussprojekt für den Kurs Geosoftware I 2021
 Authors: Alexander Pilz & Josefina Balzer
 
 # Server
-The Tourguide employs the Express Node.js web application framework.
+The Tourguide employs the Express Node.js web application framework. The application run on port 3000.
 
 # Routers:
 ## Search-Router:
@@ -47,6 +47,13 @@ It can be called with "http://localhost:3000/add/newTour".
 ## Delete-Router:
 
 # Webpages
+## Landingpage
+## Map
+## Editor
+## Impressum
 
 # Database
+## Collections
+**locations:**
+**tours:**
 
