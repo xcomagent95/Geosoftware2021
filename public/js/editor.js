@@ -23,7 +23,7 @@ var drawControl = new L.Control.Draw({
     edit: {
         //drawn features will be stored in the locationLayer
         featureGroup: locationLayer,
-        remove: false,
+        remove: false,shsjsjs
         edit: false
     }
 }); 
