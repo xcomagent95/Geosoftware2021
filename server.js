@@ -30,6 +30,6 @@ app.get("/impressum", (req, res) => { res.sendFile(__dirname + "/public/impressu
 //Listener
 app.listen(port, () => {
     console.log(`>Server started`);
-	console.log(`>Example app listening at http://localhost:${port}`);
+	console.log(`>Example app listening at http://localhost:${port}`); test
     }
 );
