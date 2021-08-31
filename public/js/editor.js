@@ -24,7 +24,7 @@ var drawControl = new L.Control.Draw({
         //drawn features will be stored in the locationLayer
         featureGroup: locationLayer,
         remove: false,
-        edit: false
+        edit: false hjkkkw
     }
 }); 
 map.addControl(drawControl); //add the control to the map
