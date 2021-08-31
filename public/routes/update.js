@@ -117,4 +117,3 @@ router.post('/updateTour', function(req, res, next)
   })
 });
 module.exports = router; //export as router
-
