@@ -31,8 +31,8 @@ router.post('/updateLocation', function(req, res, next)
                                + '"Description":' + '"' + req.body.newDescription + '"' + '}' + ',' 
                                + '"geometry":' + req.body.newGeometry + '}' + ']' + '}';
   //console.log(req);
-  var newNameID = req.body.newName;
-  var oldNameID = req.body.oldNameID;
+  var newlocationID = req.body.newName;
+  var oldlocationID = req.body.oldlocationID;
   var newGeoJson = JSON.parse(GeoJsonString);
 
   //connect to the mongodb database and insert one new element
@@ -42,19 +42,19 @@ router.post('/updateLocation', function(req, res, next)
     const collection = db.collection(locationsCollection) //collection
 
     //check if exists
-    collection.find({nameID: oldNameID}).toArray(function(err, docs) 
+    collection.find({locationID: oldlocationID}).toArray(function(err, docs) 
     {
       if(docs.length >= 1) {
           //Update the document in the database
-          collection.find({nameID: newNameID}).toArray(function(err, docs) 
+          collection.find({locationID: newlocationID}).toArray(function(err, docs) 
           {
-            if(docs.length >= 1 && oldNameID != newNameID) {
+            if(docs.length >= 1 && oldlocationID != newlocationID) {
                 //Update the document in the database
                 res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
                 return;
             }
             else {
-              collection.updateOne({nameID: oldNameID}, {$set:{nameID: newNameID, GeoJson: newGeoJson}}, function(err, result) 
+              collection.updateOne({locationID: oldlocationID}, {$set:{locationID: newlocationID, GeoJson: newGeoJson}}, function(err, result) 
               {
               })
               res.sendFile(__dirname + "/done.html") //redirect after Post
@@ -73,8 +73,8 @@ router.post('/updateLocation', function(req, res, next)
 
 router.post('/updateTour', function(req, res, next) 
 {
-  var oldTourName = req.body.oldTour;
-  var newTourName = req.body.newTour;
+  var oldtourID = req.body.oldTour;
+  var newtourID = req.body.newTour;
   var newLocations = req.body.newLocations.split(',');
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 
@@ -82,25 +82,25 @@ router.post('/updateTour', function(req, res, next)
     const db = client.db(dbName) //database
     const collection = db.collection(toursCollection) //collection
 
-    if(oldTourName == "" || newLocations == "" || newTourName == "") {
+    if(oldtourID == "" || newLocations == "" || newtourID == "") {
       res.sendFile(__dirname + "/error_empty_input.html")
       return;
     }
 
     //check if exists
-    collection.find({tourName: oldTourName}).toArray(function(err, docs) 
+    collection.find({tourID: oldtourID}).toArray(function(err, docs) 
     {
       if(docs.length >= 1) {
           //Update the document in the database
-          collection.find({tourName: newTourName}).toArray(function(err, docs) 
+          collection.find({tourID: newtourID}).toArray(function(err, docs) 
           {
-            if(docs.length >= 1 && oldTourName != newTourName) {
+            if(docs.length >= 1 && oldtourID != newtourID) {
                 //Update the document in the database
                 res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
                 return;
             }
             else {
-              collection.updateOne({tourName: oldTourName}, {$set:{tourName: newTourName, locations: newLocations}}, function(err, result) 
+              collection.updateOne({tourID: oldtourID}, {$set:{tourID: newtourID, locations: newLocations}}, function(err, result) 
               {
               })
               res.sendFile(__dirname + "/done.html") //redirect after Post

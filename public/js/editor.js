@@ -104,8 +104,8 @@ function getAllfromDB() {
             for(i = 0; i < locations.length; i++) {
                 var layer = L.geoJSON(locations[i].GeoJson);
                 locationLayer.addLayer(layer);
-                layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].nameID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.Description
-                + '<input type="hidden" id="locationToDelete" name="locationToDelete" value= "' + locations[i].nameID + '">' 
+                layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].locationID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.Description
+                + '<input type="hidden" id="locationToDelete" name="locationToDelete" value= "' + locations[i].locationID + '">' 
                 + '<br></br><button onclick="passLocationToDeleteForm()">Delete Location</button>');
             }
             //Fit Bounds to the Objects
@@ -115,15 +115,15 @@ function getAllfromDB() {
             for(i = 0; i < locations.length; i++) { //iterate over the Locations
                 const elem = document.createElement("option");
                 elem.href = "#";
-                const elemText = document.createTextNode(locations[i].nameID); 
-                elem.setAttribute("value", locations[i].nameID) 
+                const elemText = document.createTextNode(locations[i].locationID); 
+                elem.setAttribute("value", locations[i].locationID) 
                 elem.appendChild(elemText);
                 togglerLocationUpdate.appendChild(elem);
                 var value = document.getElementById("selectLocationToUpdate").value;
                 //add Information to the Update-Location-Form
-                if(locations[i].nameID == value) {
-                    document.getElementById('oldNameID').value = locations[i].nameID;
-                    document.getElementById('newName').value = locations[i].nameID;
+                if(locations[i].locationID == value) {
+                    document.getElementById('oldNameID').value = locations[i].locationID;
+                    document.getElementById('newName').value = locations[i].locationID;
                     document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.URL;
                     document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.Description;
                     document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry);
@@ -135,8 +135,8 @@ function getAllfromDB() {
             for(i = 0; i < locations.length; i++) {
                 const elem = document.createElement("option");
                 elem.href = "#";
-                const elemText = document.createTextNode(locations[i].nameID);
-                elem.setAttribute("value", locations[i].nameID) 
+                const elemText = document.createTextNode(locations[i].locationID);
+                elem.setAttribute("value", locations[i].locationID) 
                 elem.appendChild(elemText);
                 togglerAddToTour.appendChild(elem);
             }
@@ -145,22 +145,22 @@ function getAllfromDB() {
             for(var i = 0; i < tours.length; i++) {
                 const elem = document.createElement("option");
                 elem.href = "#";
-                const elemText = document.createTextNode(tours[i].tourName);
-                elem.setAttribute("value", tours[i].tourName) 
+                const elemText = document.createTextNode(tours[i].tourID);
+                elem.setAttribute("value", tours[i].tourID) 
                 elem.appendChild(elemText);
                 togglerTourDelete.appendChild(elem);
-                document.getElementById('tourToDelete').value = tours[i].tourName;
+                document.getElementById('tourToDelete').value = tours[i].tourID;
             } 
 
             const togglerTourUpdate = document.getElementById("selectTourToUpdate");
             for(var i = 0; i < tours.length; i++) {
                 const elem = document.createElement("option");
                 elem.href = "#";
-                const elemText = document.createTextNode(tours[i].tourName);
-                elem.setAttribute("value", tours[i].tourName) 
+                const elemText = document.createTextNode(tours[i].tourID);
+                elem.setAttribute("value", tours[i].tourID) 
                 elem.appendChild(elemText);
                 togglerTourUpdate.appendChild(elem);
-                document.getElementById('tourToDelete').value = tours[i].tourName;
+                document.getElementById('tourToDelete').value = tours[i].tourID;
             }
             //Fill Forms
             selectLocationForUpdate();
@@ -183,11 +183,11 @@ getAllfromDB();
 function selectLocationForUpdate() {
     var value = document.getElementById("selectLocationToUpdate").value;
     for(var i = 0; i < locations.length; i++) {
-        if(locations[i].nameID == value) {
-            document.getElementById('oldNameID').value = locations[i].nameID;
-            document.getElementById('newName').value = locations[i].nameID;
-            document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.URL;
-            document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.Description;
+        if(locations[i].locationID == value) {
+            document.getElementById('oldNameID').value = locations[i].locationID;
+            document.getElementById('newName').value = locations[i].locationID;
+            document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.url;
+            document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.description;
             document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry);
         }
     }
@@ -209,8 +209,8 @@ function clearLocations() {
             for(i = 0; i < locations.length; i++) {
                 const elem = document.createElement("option");
                 elem.href = "#";
-                const elemText = document.createTextNode(locations[i].nameID);
-                elem.setAttribute("value", locations[i].nameID) 
+                const elemText = document.createTextNode(locations[i].locationID);
+                elem.setAttribute("value", locations[i].locationID) 
                 elem.appendChild(elemText);
                 togglerAddToTour.appendChild(elem);
     }   
@@ -221,8 +221,8 @@ function clearLocations() {
 function selectTourForDelete() {
     var value = document.getElementById("selectTourToDelete").value;
     for(var i = 0; i < tours.length; i++) {
-        if(tours[i].tourName == value) {
-            document.getElementById('tourToDelete').value = tours[i].tourName;
+        if(tours[i].tourID == value) {
+            document.getElementById('tourToDelete').value = tours[i].tourID;
         }
     }
 }
@@ -234,9 +234,9 @@ function selectTourForUpdate() {
     document.getElementById("selectLocationsToAddToTour").options.length = 0;
     var value = document.getElementById("selectTourToUpdate").value;
     for(var i = 0; i < tours.length; i++) {
-        if(tours[i].tourName == value) {
-            document.getElementById('oldTour').value = tours[i].tourName;
-            document.getElementById('newTour').value = tours[i].tourName;
+        if(tours[i].tourID == value) {
+            document.getElementById('oldTour').value = tours[i].tourID;
+            document.getElementById('newTour').value = tours[i].tourID;
             locationsInTour = tours[i].locations;
         }
     }
@@ -247,7 +247,7 @@ function selectTourForUpdate() {
 
     const togglerAddLocation = document.getElementById("selectLocationsToAddToTour");
     for(var i = 0; i < locations.length; i++) {
-        var location = locations[i].nameID;
+        var location = locations[i].locationID;
         if (locationsInTour.includes(location) == false) {
             const elem = document.createElement("option");
             elem.href = "#";
@@ -324,7 +324,7 @@ function getDescription(sourceID, targetID) {
                 article = article.substring(0, article.length - 3);
                 article = article.substring(1);
                 document.getElementById(targetID).value = article;
-                console.log(article);
+                //console.log(article);
             }
         });
     }

@@ -30,11 +30,11 @@ router.post('/newLocation', function(req, res, next)
 
   //Crete Payload to Store
   var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
-        '"properties":' +  '{' + '"Name":' + '"' + req.body.name + '"' + ',' 
-                               + '"URL":' + '"' + req.body.url + '"' + ',' 
-                               + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
+        '"properties":' +  '{' + '"name":' + '"' + req.body.name + '"' + ',' 
+                               + '"url":' + '"' + req.body.url + '"' + ',' 
+                               + '"description":' + '"' + req.body.description + '"' + '}' + ',' 
                                + '"geometry":' + req.body.geometry + '}' + ']' + '}';
-  var nameID = req.body.name;
+  var locationID = req.body.name;
   var GeoJson = JSON.parse(GeoJsonString);
 
   //connect to the mongodb database and insert one new element
@@ -42,7 +42,7 @@ router.post('/newLocation', function(req, res, next)
   {
     const db = client.db(dbName) //database
     const collection = db.collection(locationsCollection) //collection
-    collection.find({nameID: req.body.name}).toArray(function(err, docs)
+    collection.find({locationID: req.body.name}).toArray(function(err, docs)
     {
         //assert.strictEqual(err, null)
         //check if name already exists
@@ -52,7 +52,7 @@ router.post('/newLocation', function(req, res, next)
         } 
         else {
           //Insert the document in the database
-          collection.insertOne({GeoJson, nameID}, function(err, result) 
+          collection.insertOne({GeoJson, locationID}, function(err, result) 
           {
             //assert.strictEqual(err, null)
             //assert.strictEqual(1, result.result.ok)
@@ -74,7 +74,7 @@ router.post('/newTour', function(req, res, next)
   }
 
   //Create Payload to Store
-  var tourName = req.body.tour;
+  var tourID = req.body.tour;
   var trimmedLocations = req.body.locations.substring(0, req.body.locations.length - 1);
   var locations = trimmedLocations.split(',');
 
@@ -83,7 +83,7 @@ router.post('/newTour', function(req, res, next)
   {
     const db = client.db(dbName) //database
     const collection = db.collection(toursCollection) //collection
-    collection.find({tourName: req.body.tour}).toArray(function(err, docs)
+    collection.find({tourID: req.body.tour}).toArray(function(err, docs)
     {
         //check if name already exists
         if(docs.length >= 1){
@@ -92,7 +92,7 @@ router.post('/newTour', function(req, res, next)
         } 
         else {
           //Insert the document in the database
-          collection.insertOne({tourName,locations}, function(err, result) 
+          collection.insertOne({tourID,locations}, function(err, result) 
           {
             res.sendFile(__dirname + "/done.html");
             return;

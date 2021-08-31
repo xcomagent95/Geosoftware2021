@@ -99,10 +99,10 @@ router.get('/getCollections', function(req, res, next)
         result[1] = tresult; 
         /*
         for(var i = 0; i < tresult.length; i++) {
-          var obj = {tour: tresult[i].tourName , locations: []};
+          var obj = {tour: tresult[i].tourID , locations: []};
           for(var j = 0; j < tresult[i].locations.length; j++) {
             for(var k = 0; k < lresult.length; k++) {
-              if (tresult[i].locations[j] == lresult[k].nameID) {
+              if (tresult[i].locations[j] == lresult[k].locationID) {
                 obj.locations.push(lresult[k]);
               }
             }
@@ -139,10 +139,10 @@ router.get('/getAll', function(req, res, next)
         var result = [];
         
         for(var i = 0; i < tresult.length; i++) {
-          var obj = {tour: tresult[i].tourName , locations: []};
+          var obj = {tour: tresult[i].tourID , locations: []};
           for(var j = 0; j < tresult[i].locations.length; j++) {
             for(var k = 0; k < lresult.length; k++) {
-              if (tresult[i].locations[j] == lresult[k].nameID) {
+              if (tresult[i].locations[j] == lresult[k].locationID) {
                 obj.locations.push(lresult[k]);
               }
             }

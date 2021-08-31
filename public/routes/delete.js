@@ -41,11 +41,11 @@ router.post('/removeLocation', function(req, res, next)
         })
 
         //check if number exists
-        collection.find({nameID: oldName}).toArray(function(err, docs)
+        collection.find({locationID: oldName}).toArray(function(err, docs)
         {      
             if(docs.length >= 1 && inUse == false){
                 //delete Document
-                collection.deleteOne({nameID: oldName}, function(err, results){
+                collection.deleteOne({locationID: oldName}, function(err, results){
                 })
                 res.sendFile(__dirname + "/done.html")
                 return;
@@ -70,11 +70,11 @@ router.post('/removeTour', function(req, res, next)
         const collection = db.collection(toursCollection)
         var oldTour = req.body.tourToDelete;
         //check if number exists
-        collection.find({tourName: oldTour}).toArray(function(err, docs)
+        collection.find({tourID: oldTour}).toArray(function(err, docs)
         {      
             if(docs.length >= 1){
                 //delete Document
-                collection.deleteOne({tourName: oldTour}, function(err, results){
+                collection.deleteOne({tourID: oldTour}, function(err, results){
                 })
                 res.sendFile(__dirname + "/done.html")
             }
