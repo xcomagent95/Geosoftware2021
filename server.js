@@ -23,6 +23,7 @@ app.use('/update', updateRouter);
 app.use('/delete', deleteRouter);
 
 //Gets
+app.get("/", (req, res) => { res.sendFile(__dirname + "/public/landing.html"); });
 app.get("/map", (req, res) => { res.sendFile(__dirname + "/public/map.html"); });
 app.get("/editor", (req, res) => { res.sendFile(__dirname + "/public/editor.html"); });
 app.get("/impressum", (req, res) => { res.sendFile(__dirname + "/public/impressum.html"); });
