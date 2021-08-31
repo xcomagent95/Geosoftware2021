@@ -50,13 +50,13 @@
               <div>
                 <!--Updating Locations-->
                 <br><b>Ändern einer Sehenswürdigkeit</b><br><br>
-                <select class="custom-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"><option selected>Auswählen...</option></select>
+                <h>Sehenswürdigkeit, welche geändert werden soll: </h><select class="custom-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"><option selected>Auswählen...</option></select>
                 <form action="/update/updateLocation" method="post">
                   <input type="hidden" id="oldNameID" name="oldNameID" style="font-size:0px;"><br>
-                    <label for="newName">Name</label><br>
-                    <input type="text" id="newName" name="newName"><br>
-                    <label for="newURL">URL</label><br>
-                  <input type="text" id="newURL" name="newURL" onchange="getDescription('newURL', 'newDescription')"><br>
+                  <label for="newName">Name der Sehenswürdigkeit: </label><br>
+                  <input type="text" id="newName" placeholder="Neuer Name" name="newName"><br>
+                  <label for="newURL">URL der Sehenswürdigkeit: </label><br>
+                  <input type="text" id="newURL" name="newURL" placeholder="Neue URL" onchange="getDescription('newURL', 'newDescription')"><br>
                   <!--<label for="newDescription">Description</label><br>-->
                   <input type="hidden" id="newDescription" name="newDescription" style="font-size:0px;"><br>
                   <!--<label for="newGeometry">Geometry</label><br>-->
@@ -74,21 +74,23 @@
               </div>
               <div>
                 <!--Adding Tours-->
-                <b>Hinzufüge einer Route</b><br><br>
-                <select class="custom-select" id="selectLocationToAddToTour"><option selected>Auswählen...</option></select>
-                <button onclick="addLocationToTour()">Add Location to Tour</button> 
+                <b>Hinzufügen einer Route</b><br><br>
                 <form action="/add/newTour" method="post">
-                    <label for="name">Tour</label><br>
-                    <input type="text" id="tour" name="tour"><br>
-                    <input type="hidden" id="locations" name="locations"><br>
-                    <input type="submit" value="Add Tour">
+                    <label for="name" >Name der Tour: </label><br>
+                    <input type="text" placeholder="Name" id="tour" name="tour"><br>
+                    
+                    <input type="hidden" id="locations" name="locations"><br><br>
+                    <input type="submit" value="Hinzufügen dieser Tour">
                 </form>
+                <h>Auswählen der Sehenswürdigkeiten auf der Route: </h><br>
+                <select class="custom-select" id="selectLocationToAddToTour"><option selected>Auswählen...</option></select>
+                <button onclick="addLocationToTour()">Hinzufügen der Sehenswürdigkeit</button> 
                 <button onclick="clearLocations()">Zurücksetzen</button> 
               </div><br><br>
               <div>
                 <!--Updating Tours-->
                 <b>Ändern einer Route</b><br><br>
-                <select class="custom-select" id="selectTourToUpdate" onchange="selectTourForUpdate()"><option selected>Auswählen...</option></select><br>
+                <h>Route, welche geändert werden soll: </h><select class="custom-select" id="selectTourToUpdate" onchange="selectTourForUpdate()"><option selected>Auswählen...</option></select><br>
                 <select class="custom-select" id="selectLocationsToDeleteFromTour"></select>
                 <button onclick="deleteLocationsFromTour()">Diese Sehenswürdigkeit aus der Tour löschen</button><br>
                 <select class="custom-select" id="selectLocationsToAddToTour"></select>
@@ -118,13 +120,13 @@
             </div> <br>
           </div>
         </div>
-          <!-- Footer -->
-          <footer id="footer" class="bg-dark text-center text-lg-start text-white sticky-bottom">
-            <!-- Copyright -->
-            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-              © 2021 Copyright: A. Pilz / J. Balzer 
-              </div>
-          </footer>
+        <!-- Footer -->
+        <footer id="footer" class="bg-dark text-center text-lg-start text-white sticky-bottom">
+          <!-- Copyright -->
+          <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2021 Copyright: A. Pilz / J. Balzer 
+            </div>
+        </footer>
     </body>
     <!--Scripts-->
     <!--CSS-->
