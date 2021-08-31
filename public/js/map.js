@@ -1,6 +1,4 @@
-var locations;
-var tours;
-
+var map = L.map('mapdiv'); 
 function getAllfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getCollections", //request url is the prebuilt request
@@ -9,8 +7,9 @@ function getAllfromDB() {
         .done(function(res) { //if the request is done -> successful
             locations = res[0];
             tours = res[1];
+            positions = [];
             fillTables();
-            console.log(locations);
+            populateMap()
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
             console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
@@ -48,7 +47,7 @@ function fillTables() {
         var row =  `<tr>
                         <td>${locationsTableData[i][0]}</td>
                         <td><a href="${locationsTableData[i][1]}">Link</a></td>
-                        <td><button>Zoom to Feature</button><td>
+                        <td><button onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button><td>
                     </tr>`
         locationsTable.innerHTML += row; //pass row to given table
     }
@@ -61,9 +60,50 @@ function fillTables() {
 }
 
 //----------------->Map & and Map related Functions<-----------------
-//Map Object
-var map = L.map('mapdiv'); 
-map.setView([51.975, 7.61], 13);
+function populateMap() {
+    //Map Object
+    map.setView([51.975, 7.61], 13);
 
-//Basemap Layer
-var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map); 
+    //Basemap Layer
+    var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map); 
+
+    //Feature Layer
+    var locationsLayer = L.featureGroup().addTo(map);
+    var toursLayer = L.featureGroup().addTo(map);
+
+    for(var i = 0; i < locations.length; i++) {
+        var location = L.geoJson(locations[i].GeoJson);
+        positions.push({
+            leafletObject: location,
+            name: locations[i].locationID,
+            coords: locations[i].GeoJson.features[0].geometry.coordinates
+        });
+        location.addTo(locationsLayer);
+        location.bindPopup(
+            '<b>' + "Name: " + '</b>' + locations[i].locationID + 
+            '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
+            '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.description
+        );
+    }
+
+    //Layer Control
+    var baseLayer = {
+        "Open Street Map": osm,
+    };
+    
+    var featureLayer = {
+        "Sehenwürdigkeiten": locationsLayer,
+        "Touren": toursLayer
+    };
+
+    L.control.layers(baseLayer, featureLayer).addTo(map);
+}
+
+function zoomToFeature(name) {
+    for(var i = 0; i < positions.length; i++) {
+        if(positions[i].name == name) {
+            map.fitBounds(positions[i].leafletObject.getBounds());
+            positions[i].leafletObject.openPopup();
+        }
+    }
+}
