@@ -36,16 +36,20 @@ function fillTables() {
     var locationsTableData = []; //initialise tabledata as array
     var toursTableData = []; //initialise tabledata as array
     for(var i = 0; i < locations.length; i++) { //iterate over the paths
-        locationsTableData.push(locations[i].nameID); //push aggregated paths into table data array
+        locationsTableData.push([locations[i].locationID, locations[i].GeoJson.features[0].properties.url]); //push aggregated paths into table data array
     }
     for(var i = 0; i < tours.length; i++) { //iterate over the paths
-        toursTableData.push(tours[i].tourName); //push aggregated paths into table data array
+        toursTableData.push(tours[i].tourID); //push aggregated paths into table data array
     }
 
     //fill the table with the paths
     for(var i = 0; i < locationsTableData.length; i++) { //iterate over table data
         //initialise table row as variable
-        var row =  `<tr><td>${locationsTableData[i]}</td></tr>`
+        var row =  `<tr>
+                        <td>${locationsTableData[i][0]}</td>
+                        <td><a href="${locationsTableData[i][1]}">Link</a></td>
+                        <td><button>Zoom to Feature</button><td>
+                    </tr>`
         locationsTable.innerHTML += row; //pass row to given table
     }
     //fill the table with the paths
@@ -55,3 +59,11 @@ function fillTables() {
         toursTable.innerHTML += row; //pass row to given table
     }
 }
+
+//----------------->Map & and Map related Functions<-----------------
+//Map Object
+var map = L.map('mapdiv'); 
+map.setView([51.975, 7.61], 13);
+
+//Basemap Layer
+var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map); 
