@@ -111,6 +111,9 @@ function getAllfromDB() {
             //Fit Bounds to the Objects
             map.fitBounds(locationLayer.getBounds());  
 
+            buildCheckboxDynamically(locations);
+
+            
             const togglerLocationUpdate = document.getElementById("selectLocationToUpdate");
             for(i = 0; i < locations.length; i++) { //iterate over the Locations
                 const elem = document.createElement("option");
@@ -179,6 +182,27 @@ function getAllfromDB() {
 }  
 getAllfromDB();
 
+// Dynamische Checkbox:
+
+function buildCheckboxDynamically(listOfLocations){
+    for(var i=0; i<listOfLocations.length; i++){
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = listOfLocations[0].locationID
+        checkbox.value = listOfLocations[0].locationID
+
+        var label = document.createElement('label');
+        label.htmlFor = listOfLocations[0].locationID;
+        label.appendChild(document.createTextNode(listOfLocations[0].locationID));
+
+        var br = document.createElement('br');
+        var container = document.getElementById('checkboxContainer');
+        container.appendChild(checkbox);
+        container.appendChild(label);
+        container.appendChild(br);
+    }
+
+}
 //Function for populating the Form which is used to select the Location to be Updated
 function selectLocationForUpdate() {
     var value = document.getElementById("selectLocationToUpdate").value;
@@ -350,3 +374,6 @@ function getTitle(url) {
     return keyword.substring(1);
 
 }
+
+
+
