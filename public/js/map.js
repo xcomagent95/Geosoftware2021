@@ -109,7 +109,8 @@ function populateMap() {
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
             '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
             '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
-            '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
+            // '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
+            '<button onclick="getNearestBusstopp(' + i + ')">Nächste Bushaltestelle</button>'
         );
     }
 
@@ -305,32 +306,28 @@ var nearestStoppLayer = L.featureGroup().addTo(map);
 
 getAllBusstopps();
 var sortedStopps = [];
-function getNearestBusstopp(currentMarker){ // WARUM IST CURRENT MARKER UNDEFINED???????
-    return currentMarker;
-    console.log(currentMarker[0]+', '+currentMarker[1]);
+var test;
+function getNearestBusstopp(markerIndex){ // WARUM IST CURRENT MARKER UNDEFINED???????
+    // console.log(markerIndex);
+    // maconsole.log(positions[markerIndex]);
+    // return markerIndex;
+    //console.log(currentMarker[0]+', '+currentMarker[1]);
     for(var i=0; i<stopps.features.length; i++){
         var name = stopps.features[i].properties.lbez;
         var position = stopps.features[i].geometry.coordinates; // [lat, lon]
-        var distance = calculateDistance(position, currentMarker);
-        console.log(distance);
+        var distance = calculateDistance(position, positions[markerIndex].coords);
+        //console.log(distance);
         sortedStopps[i] = [name, distance, position];
     }
     sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e });
     nearestStopp = sortedStopps[0];
-    console.log(nearestStopp);
+    // console.log(nearestStopp);
     switchCoords(nearestStopp[2]);
     var markerNearestStopp = L.marker(nearestStopp[2]).addTo(map);
+    markerNearestStopp.bindPopup(nearestStopp[0]).openPopup();
+    // positions[markerIndex].
     //var ns = L.marker(nearestStopp[2]);
     //nearestStoppLayer.addLayer(ns);
     //featureLayer.Busstopp = nearestStoppLayer;
 
 }
-
-/*
-var featureLayer = {
-        "Sehenwürdigkeiten": locationsLayer,
-        "Touren": toursLayer
-    };
-
-    L.control.layers(baseLayer, featureLayer).addTo(map);
-     */
