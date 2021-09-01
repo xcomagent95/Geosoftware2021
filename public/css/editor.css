@@ -42,7 +42,9 @@ h1, p, table, div, a{
 #checkboxContainer label{
     margin: 6px;
 }
-
+#footerReplacement{
+    height: 40px;
+}
 @media only screen and (max-width: 991px) {
     #mapdiv {
         height: 450px;

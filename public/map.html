@@ -35,31 +35,45 @@
                 </div>
             </div>
         </nav>
-        <p>This is the map</p>
+        <!--Navbar Ende-->
+        <div id="columnContainer" class="container-fluid"> 
+            <div class="row">
+                <!--Menu-->
+                <div id="menu" class="column"> 
+                    <table id="locations">
+                        <tr>
+                            <th>Name</th>
+                            <th>URL</th>
+                            <th>Auswahl</th>
+                        </tr>
+                        <tBody id="locationsTableBody"></tBody>
+                    </table>
+                    <table id="tours">
+                        <tr>
+                            <th>Name</th>
+                            <th>Auswahl</th>
+                        </tr>
+                        <tBody id="toursTableBody"> </tBody>
+                    </table><br>
+                </div><br><br>
+                <!--Map-->
+                <div id="columnMap" class="column">
+                    <div id="mapdiv"></div><br>
+                </div> 
+                <div id="footerReplacement"></div>
+
+            </div>
+        </div>
+        <!--
         <table>
             <tr>
-                <table id="locations">
-                    <tr>
-                        <th>Name</th>
-                        <th>URL</th>
-                        <th>Auswahl</th>
-                    </tr>
-                    <tBody id="locationsTableBody">
-                    </tBody>
-                </table> 
+                ...
             </tr>
         </table>
-        <table id="tours">
-            <tr>
-                <th>Name</th>
-                <th>Auswahl</th>
-            </tr>
-            <tBody id="toursTableBody">
-            </tBody>
-        </table>
+        -->
         <!--map container-->  
-        <div id="mapdiv">
-        </div>
+        <!--<div id="mapdiv">
+        </div>-->
     </body>
     <!-- Footer -->
     <footer id="footer" class="bg-dark text-center text-lg-start text-white sticky-bottom">
