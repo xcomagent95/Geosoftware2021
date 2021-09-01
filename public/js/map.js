@@ -304,6 +304,7 @@ function getAllBusstopps(){
 
 var nearestStoppLayer = L.featureGroup().addTo(map);
 
+
 getAllBusstopps();
 var sortedStopps = [];
 var test;
@@ -331,3 +332,4 @@ function getNearestBusstopp(markerIndex){ // WARUM IST CURRENT MARKER UNDEFINED?
     //featureLayer.Busstopp = nearestStoppLayer;
 
 }
+
