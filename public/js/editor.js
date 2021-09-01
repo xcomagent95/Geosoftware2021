@@ -193,7 +193,7 @@ function buildCheckboxDynamically(listOfLocations){
 
         var label = document.createElement('label');
         label.htmlFor = listOfLocations[0].locationID;
-        label.appendChild(document.createTextNode(listOfLocations[0].locationID));
+        label.appendChild(document.createTextNode(listOfLocations[i].locationID));
 
         var br = document.createElement('br');
         var container = document.getElementById('checkboxContainer');
@@ -203,6 +203,7 @@ function buildCheckboxDynamically(listOfLocations){
     }
 
 }
+
 //Function for populating the Form which is used to select the Location to be Updated
 function selectLocationForUpdate() {
     var value = document.getElementById("selectLocationToUpdate").value;
@@ -374,6 +375,4 @@ function getTitle(url) {
     return keyword.substring(1);
 
 }
-
-
 
