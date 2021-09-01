@@ -107,3 +107,14 @@ function zoomToFeature(name) {
         }
     }
 }
+
+function zoomToTour(tour) {
+    var locationsInTour = [];
+    for(var i = 0; i < tour.locations.length; i++) {
+        for(var j = 0; j < locations.length; j ++) {
+            if(locations[j].locationID == tour.locations[i]) {
+                locationsInTour.push(locations[j]);
+            }
+        }
+    }
+}
