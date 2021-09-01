@@ -57,25 +57,18 @@
                         </tr>
                         <tBody id="toursTableBody"> </tBody>
                     </table><br>
-                </div><br><br>
+                    <button onclick="getAllBusstopps()">getAllBusstopps()</button><br><br>
+                    <p>Geben Sie hier ihren persönlichen API-Key für die OpenWeather-API ein:</p>
+                    <p><a href="https://home.openweathermap.org/api_keys" style="font-size:15px">Persönlichen API-Key generieren></a></p>
+                    <input id="apiField" placeholder="Hier OpenWeather API-Key eingeben"/><br><br>
+                </div><br>
                 <!--Map-->
                 <div id="columnMap" class="column">
                     <div id="mapdiv"></div><br>
                 </div> 
                 <div id="footerReplacement"></div>
-
             </div>
         </div>
-        <!--
-        <table>
-            <tr>
-                ...
-            </tr>
-        </table>
-        -->
-        <!--map container-->  
-        <!--<div id="mapdiv">
-        </div>-->
     </body>
     <!-- Footer -->
     <footer id="footer" class="bg-dark text-center text-lg-start text-white sticky-bottom">
