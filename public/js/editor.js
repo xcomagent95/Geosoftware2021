@@ -133,6 +133,7 @@ function getAllfromDB() {
                 }
             } 
             
+            /*
              //add Information to the Add-Location-To-Tour-Selector
             const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
             for(i = 0; i < locations.length; i++) {
@@ -142,7 +143,7 @@ function getAllfromDB() {
                 elem.setAttribute("value", locations[i].locationID) 
                 elem.appendChild(elemText);
                 togglerAddToTour.appendChild(elem);
-            }
+            */
 
             const togglerTourDelete = document.getElementById("selectTourToDelete");
             for(var i = 0; i < tours.length; i++) {
@@ -204,8 +205,9 @@ function buildCheckboxDynamically(listOfLocations){
     }
 }
 
-var checked = [];
+
 function getAllChecked(){
+    var checked = [];
     var counter = 0;
     for(var i=0; i<locations.length; i++){
         if(document.getElementById(locations[i].locationID).checked == true){
@@ -213,6 +215,7 @@ function getAllChecked(){
             counter++;
         }
     }
+    return checked;
 }
 
 //Function for populating the Form which is used to select the Location to be Updated
@@ -230,6 +233,7 @@ function selectLocationForUpdate() {
 }
 
 //add a Location to a new Tour
+/*
 function addLocationToTour() {
     if(document.getElementById("selectLocationToAddToTour").value == "") {
         return;
@@ -237,6 +241,7 @@ function addLocationToTour() {
     document.getElementById('locations').value = document.getElementById('locations').value + document.getElementById("selectLocationToAddToTour").value + ',';
     document.getElementById("selectLocationToAddToTour").remove(document.getElementById("selectLocationToAddToTour").selectedIndex);     
 }
+*/
 
 //clear Input-Field when creating a new Tour
 function clearLocations() {
@@ -251,6 +256,12 @@ function clearLocations() {
                 togglerAddToTour.appendChild(elem);
     }   
     document.getElementById('locations').value = "";
+}
+
+function addTour() {
+    var locations = getAllChecked();
+    document.getElementById("locations").value = locations;
+    document.getElementById("addTourForm").submit();
 }
 
 //Selector for the deletion of a Tour

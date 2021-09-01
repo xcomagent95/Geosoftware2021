@@ -74,19 +74,18 @@
               </div>
               <div>
                 <!--Adding Tours-->
-                <b>Hinzufügen einer Route</b><br><br>
-                <form action="/add/newTour" method="post">
+                <b>Hinzufügen einer Tour</b><br><br>
+                <form action="/add/newTour" method="post" id="addTourForm">
                     <label for="name" >Name der Tour: </label><br>
                     <input type="text" placeholder="Name" id="tour" name="tour"><br>
-                    
                     <input type="hidden" id="locations" name="locations"><br><br>
-                    <input type="submit" value="Hinzufügen dieser Tour">
                 </form>
                 <h>Auswählen der Sehenswürdigkeiten auf der Route: </h><br>
                 <div id="checkboxContainer"></div>
-                <select class="custom-select" id="selectLocationToAddToTour"><option selected>Auswählen...</option></select>
-                <button onclick="addLocationToTour()">Hinzufügen der Sehenswürdigkeiten</button> 
-                <button onclick="clearLocations()">Zurücksetzen</button> 
+                <button onclick="addTour()">Hinzufügen der Tour</button>
+                <!--<select class="custom-select" id="selectLocationToAddToTour"><option selected>Auswählen...</option></select>-->
+                <!--<button onclick="addLocationToTour()">Hinzufügen der Sehenswürdigkeiten</button>-->
+                <!--<button onclick="clearLocations()">Zurücksetzen</button>-->
               </div><br><br>
               <div>
                 <!--Updating Tours-->
