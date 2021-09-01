@@ -80,6 +80,22 @@ function populateMap() {
 
     for(var i = 0; i < locations.length; i++) {
         var location = L.geoJson(locations[i].GeoJson);
+        var position;
+        if(locations[i].GeoJson.features[0].geometry.type == "Polygon") {
+            var polygon = [];
+            var coordinates = [];
+            for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
+                coordinates.push([
+                    locations[i].GeoJson.features[0].geometry.coordinates[0][j][0],
+                    locations[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
+                ]);
+            }
+            polygon.push(coordinates);
+            position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
+        }
+        else {
+            position = locations[i].GeoJson.features[0].geometry.coordinates;
+        }
         positions.push({
             leafletObject: location,
             name: locations[i].locationID,
@@ -89,7 +105,8 @@ function populateMap() {
         location.bindPopup(
             '<b>' + "Name: " + '</b>' + locations[i].locationID + 
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
-            '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.description
+            '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
+            '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
         );
     }
 
@@ -138,6 +155,28 @@ function zoomToTour(name) {
     map.removeLayer(locationsLayer);
     for(var k = 0; k < locationsInTour.length; k++) {
         var location = L.geoJson(locationsInTour[k].GeoJson)
+        var position;
+        if(locations[i].GeoJson.features[0].geometry.type == "Polygon") {
+            var polygon = [];
+            var coordinates = [];
+            for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
+                coordinates.push([
+                    locations[i].GeoJson.features[0].geometry.coordinates[0][j][0],
+                    locations[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
+                ]);
+            }
+            polygon.push(coordinates);
+            position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
+        }
+        else {
+            position = locations[i].GeoJson.features[0].geometry.coordinates;
+        }
+        location.bindPopup(
+            '<b>' + "Name: " + '</b>' + locations[i].locationID + 
+            '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
+            '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
+            '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
+        );
         location.addTo(toursLayer);
     }
     map.fitBounds(toursLayer.getBounds());
