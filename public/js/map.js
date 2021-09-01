@@ -123,6 +123,8 @@ function populateMap() {
     L.control.layers(baseLayer, featureLayer).addTo(map);
 }
 
+var currentMarker;
+
 function zoomToFeature(name) {
     map.removeLayer(toursLayer);
     map.addLayer(locationsLayer);
@@ -130,6 +132,7 @@ function zoomToFeature(name) {
         if(positions[i].name == name) {
             map.fitBounds(positions[i].leafletObject.getBounds());
             positions[i].leafletObject.openPopup();
+            currentMarker = positions[i];
         }
     }
 }
@@ -183,20 +186,106 @@ function zoomToTour(name) {
 }
 
 // --------------- API Bushaltestellen --------------- 
+
+// distance calculation: 
+// This constant is the mean earth radius
+const R = 6371 
+
+/**
+*@function deg2rad - Function to convert degree to radian
+*@param {double} degree
+*@returns {double} radian
+*/
+function deg2rad(deg) 
+{
+    return deg * (Math.PI/180)
+}
+
+/**
+*@function rad2deg - Function to convert from radian to degree
+*@param {double} radian
+*@returns {double} degree 
+*/
+function rad2deg(rad)
+{
+    return rad * (180/Math.PI)
+}
+
+/**
+* @function calculateDistance - Function to calculat the distance between two coordinates
+* @param {double} coord1 - is the first coordinate [lat, lon]
+* @param {double} coord2 - is the second coordinate [lat, lon]
+* @returns {double} dist - returns the distance in km 
+*/
+function calculateDistance(coord1, coord2) // works
+{
+    var lat1 = deg2rad(coord1[0])
+    var lon1 = deg2rad(coord1[1])
+    var lat2 = deg2rad(coord2[0])
+    var lon2 = deg2rad(coord2[1])
+ 
+    var dLat = lat2-lat1
+    var dLon = lon2-lon1
+    var a = Math.sin(dLon/2) * Math.sin(dLon/2) +
+            Math.cos(lon1) * Math.cos(lon2) * 
+            Math.sin(dLat/2) * Math.sin(dLat/2)
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    var dist = R * c // Distance in km
+    return dist
+}
+
+/**
+ * This function switches lon lat in a pair of coordinates
+ * @param {[double,double]} coords - Gets coordinates (usually in format lon|lat)
+ */
+function switchCoords(coords){
+    var temp = coords[0];
+    coords[0] = coords[1];
+    coords[1] = temp;
+}
+
+// ---- Needed for whether request -------
+// The API gets stored in this variable.
+var api;
+
+/**
+ * @function {initializeAPI} - This funtion builds up the whole api to use it afterwards.
+ * @param {String} key - This key is user-dependent and has to be entered by the user himself.
+ * @param {[double, double]} coordinates - These are the requested coordinates. Either the
+ * browser location or the standard coordinates (GEO1).
+ */
+function iniatializeAPI(key, coordinates){
+    api = "https://api.openweathermap.org/data/2.5/onecall?units=metric&lat="
+    api += coordinates[1]+"&lon="+coordinates[0]+"&exclude="+"hourly"+"&appid="+key
+}
+
+//variable to store the API-Key
+var clientAPIKey
+/**
+* @function {} - reads the API-Key from Input-Field
+* and the geolocatization is not possible.
+*/
+function getAPIKey(){
+    clientAPIKey = document.getElementById("apiField").value //retrieve API-Key
+}
+// ------------------------------------------
+
+// Bus Api
 var busAPI = "https://rest.busradar.conterra.de/prod/haltestellen";
 var stopps = [];
+var nearestStopp;
 
+/**
+ * This function sends a request to the api server and calculates the distances of the current marker to all responded busstopps
+ * 
+ */
 function getAllBusstopps(){
     {$.ajax({
         url: busAPI,
         method: "GET",
         })
         .done(function(res){
-            for(var i=0; i<res.features.length; i++){
-                var name = res.features[i].properties.lbez;
-                var position = res.features[i].geometry.coordinates;
-                stopps[i] = [name, position];
-            }
+            stopps = res;
         })
         .fail(function(xhr, status, errorThrown) {
             console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
@@ -208,3 +297,19 @@ function getAllBusstopps(){
         })
     }
 }   
+<<<<<<< Updated upstream
+=======
+
+function getNearestBusstopp(currentMarker){
+    for(var i=0; i<res.features.length; i++){
+        var name = res.features[i].properties.lbez;
+        var position = (res.features[i].geometry.coordinates); // [lat, lon]
+        var distance = calculateDistance(position, currentMarker);
+        stopps[i] = [name, distance];
+    }
+    stopps.sort(function([a,b],[c,d]){ return b-d });
+    nearestStopp = stopps[0];
+    console.log(nearestStopp);
+}
+
+>>>>>>> Stashed changes
