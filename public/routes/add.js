@@ -67,6 +67,7 @@ router.post('/newLocation', function(req, res, next)
 //Post Tours
 router.post('/newTour', function(req, res, next) 
 {
+  console.log(req.body);
   //Check Request
   if(req.body.tour == '' || req.body.locations == '') {
     res.sendFile(__dirname + "/error_empty_input.html")
