@@ -1,3 +1,4 @@
+"use strict"
 //----------------->Map & and Map related Functions<-----------------
 //Map Object
 var map = L.map('mapdiv'); 

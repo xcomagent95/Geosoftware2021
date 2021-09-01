@@ -61,7 +61,10 @@ function fillTables() {
     //fill the table with the paths
     for(var i = 0; i < toursTableData.length; i++) { //iterate over table data
         //initialise table row as variable
-        var row =  `<tr><td>${toursTableData[i]}</td></tr>`
+        var row =  `<tr>
+                        <td>${toursTableData[i]}</td>
+                        <td><button onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button><td>
+                    </tr>`
         toursTable.innerHTML += row; //pass row to given table
     }
 }
@@ -114,9 +117,16 @@ function zoomToFeature(name) {
     }
 }
 
-function zoomToTour(tour) {
+function zoomToTour(name) {
+    toursLayer.clearLayers()
     map.removeLayer(locationsLayer);
     map.addLayer(toursLayer);
+    var tour;
+    for(var l = 0; l < tours.length; l++) {
+        if(name == tours[l].tourID) {
+            tour = tours[l];
+        }
+    }
     var locationsInTour = [];
     for(var i = 0; i < tour.locations.length; i++) {
         for(var j = 0; j < locations.length; j ++) {
