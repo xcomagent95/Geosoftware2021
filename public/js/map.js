@@ -1,3 +1,8 @@
+"use strict"
+var locations;
+var tours;
+var positions;
+
 var map = L.map('mapdiv'); 
 var locationsLayer = L.featureGroup().addTo(map);
 var toursLayer = L.featureGroup().addTo(map);
@@ -129,3 +134,28 @@ function zoomToTour(tour) {
 }
 
 // --------------- API Bushaltestellen --------------- 
+var busAPI = "https://rest.busradar.conterra.de/prod/haltestellen";
+var stopps = [];
+
+function getAllBusstopps(){
+    {$.ajax({
+        url: busAPI,
+        method: "GET",
+        })
+        .done(function(res){
+            for(var i=0; i<res.features.length; i++){
+                var name = res.features[i].properties.lbez;
+                var position = res.features[i].geometry.coordinates;
+                stopps[i] = [name, position];
+            }
+        })
+        .fail(function(xhr, status, errorThrown) {
+            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
+            return;
+        })
+        .always(function(xhr, status) {
+            console.log("Request completed"); //a short message is logged
+            return; 
+        })
+    }
+}   
