@@ -1,4 +1,6 @@
 var map = L.map('mapdiv'); 
+var locationsLayer = L.featureGroup().addTo(map);
+var toursLayer = L.featureGroup().addTo(map);
 function getAllfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getCollections", //request url is the prebuilt request
@@ -66,10 +68,7 @@ function populateMap() {
 
     //Basemap Layer
     var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map); 
-
-    //Feature Layer
-    var locationsLayer = L.featureGroup().addTo(map);
-    var toursLayer = L.featureGroup().addTo(map);
+    
 
     for(var i = 0; i < locations.length; i++) {
         var location = L.geoJson(locations[i].GeoJson);
@@ -100,6 +99,8 @@ function populateMap() {
 }
 
 function zoomToFeature(name) {
+    map.removeLayer(toursLayer);
+    map.addLayer(locationsLayer);
     for(var i = 0; i < positions.length; i++) {
         if(positions[i].name == name) {
             map.fitBounds(positions[i].leafletObject.getBounds());
@@ -108,8 +109,9 @@ function zoomToFeature(name) {
     }
 }
 
-<<<<<<< Updated upstream
 function zoomToTour(tour) {
+    map.removeLayer(locationsLayer);
+    map.addLayer(toursLayer);
     var locationsInTour = [];
     for(var i = 0; i < tour.locations.length; i++) {
         for(var j = 0; j < locations.length; j ++) {
@@ -118,7 +120,12 @@ function zoomToTour(tour) {
             }
         }
     }
+    map.removeLayer(locationsLayer);
+    for(var k = 0; k < locationsInTour.length; k++) {
+        var location = L.geoJson(locationsInTour[k].GeoJson)
+        location.addTo(toursLayer);
+    }
+    map.fitBounds(toursLayer.getBounds());
 }
-=======
+
 // --------------- API Bushaltestellen --------------- 
->>>>>>> Stashed changes
