@@ -108,6 +108,7 @@ function zoomToFeature(name) {
     }
 }
 
+<<<<<<< Updated upstream
 function zoomToTour(tour) {
     var locationsInTour = [];
     for(var i = 0; i < tour.locations.length; i++) {
@@ -118,3 +119,6 @@ function zoomToTour(tour) {
         }
     }
 }
+=======
+// --------------- API Bushaltestellen --------------- 
+>>>>>>> Stashed changes
