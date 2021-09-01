@@ -297,8 +297,6 @@ function getAllBusstopps(){
         })
     }
 }   
-<<<<<<< Updated upstream
-=======
 
 function getNearestBusstopp(currentMarker){
     for(var i=0; i<res.features.length; i++){
@@ -312,4 +310,3 @@ function getNearestBusstopp(currentMarker){
     console.log(nearestStopp);
 }
 
->>>>>>> Stashed changes
