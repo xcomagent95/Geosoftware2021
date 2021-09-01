@@ -39,7 +39,9 @@ h1, p, table, div, a{
 #deleteLocationForm{
     font-size: 0px;
 }
-
+#checkboxContainer label{
+    margin: 6px;
+}
 
 @media only screen and (max-width: 991px) {
     #mapdiv {

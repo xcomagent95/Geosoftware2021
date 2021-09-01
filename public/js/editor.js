@@ -41,7 +41,7 @@ map.on('draw:created', function(e) {
             + '<input type="text" id="pname" name="pname"><br>'
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl">'
-            + '<button onclick="passLocationToAddForm()">Pass Location</button> '
+            + '<button onclick="passLocationToAddForm()">Location hinzufügen</button> '
         ).openPopup([e.layer._latlngs[0][0].lat, e.layer._latlngs[0][0].lng]);
 
         var geometry = []; //initinalize Array for the Verticies of the Polygon
@@ -64,7 +64,7 @@ map.on('draw:created', function(e) {
             + '<input type="text" id="pname" name="pname"><br>'
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl">'
-            + '<button onclick="passLocationToAddForm()">Pass Location</button> '
+            + '<button onclick="passLocationToAddForm()">Location hinzufügen</button> '
         ).openPopup([e.layer._latlng.lat, e.layer._latlng.lng]);
         var geometry; //initinalize Point
         //get the Point
@@ -106,7 +106,7 @@ function getAllfromDB() {
                 locationLayer.addLayer(layer);
                 layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].locationID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.description
                 + '<input type="hidden" id="locationToDelete" name="locationToDelete" value= "' + locations[i].locationID + '">' 
-                + '<br></br><button onclick="passLocationToDeleteForm()">Delete Location</button>');
+                + '<br></br><button onclick="passLocationToDeleteForm()">Location löschen</button>');
             }
             //Fit Bounds to the Objects
             map.fitBounds(locationLayer.getBounds());  
@@ -188,11 +188,12 @@ function buildCheckboxDynamically(listOfLocations){
     for(var i=0; i<listOfLocations.length; i++){
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.id = listOfLocations[0].locationID
-        checkbox.value = listOfLocations[0].locationID
+        checkbox.id = listOfLocations[i].locationID;
+        checkbox.value = listOfLocations[i].locationID;
 
         var label = document.createElement('label');
-        label.htmlFor = listOfLocations[0].locationID;
+        label.id = listOfLocations[i].locationID;
+        label.htmlFor = listOfLocations[i].locationID;
         label.appendChild(document.createTextNode(listOfLocations[i].locationID));
 
         var br = document.createElement('br');
@@ -201,7 +202,17 @@ function buildCheckboxDynamically(listOfLocations){
         container.appendChild(label);
         container.appendChild(br);
     }
+}
 
+var checked = [];
+function getAllChecked(){
+    var counter = 0;
+    for(var i=0; i<locations.length; i++){
+        if(document.getElementById(locations[i].locationID).checked == true){
+            checked[counter] = locations[i].locationID;
+            counter++;
+        }
+    }
 }
 
 //Function for populating the Form which is used to select the Location to be Updated
