@@ -250,7 +250,7 @@ function switchCoords(coords){
 
 // ---- Needed for whether request -------
 // The API gets stored in this variable.
-var api;
+var weatherApi;
 
 /**
  * @function {initializeAPI} - This funtion builds up the whole api to use it afterwards.
@@ -259,8 +259,8 @@ var api;
  * browser location or the standard coordinates (GEO1).
  */
 function iniatializeAPI(key, coordinates){
-    api = "https://api.openweathermap.org/data/2.5/onecall?units=metric&lat="
-    api += coordinates[1]+"&lon="+coordinates[0]+"&exclude="+"hourly"+"&appid="+key
+    weatherApi = "https://api.openweathermap.org/data/2.5/onecall?units=metric&lat="
+    weatherApi += coordinates[1]+"&lon="+coordinates[0]+"&exclude="+"hourly"+"&appid="+key
 }
 
 //variable to store the API-Key
@@ -302,13 +302,42 @@ function getAllBusstopps(){
     }
 } 
 
-var nearestStoppLayer = L.featureGroup().addTo(map);
+var output;
 
+function getWeather(coordinates){
+    getAPIKey();
+    if(clientAPIKey == ''){
+        console.log('You have to enter an api key!');
+        alert('You have to enter an api key!');
+        return;
+    } else {
+        iniatializeAPI(clientAPIKey, coordinates);
+        {$.ajax({
+            url: weatherApi,
+            method: "GET",
+            })
+            .done(function(res){
+                output = res;
+            })
+            .fail(function(xhr, status, errorThrown){
+                console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
+                return;
+            })
+            .always(function(xhr, status) {
+                console.log("Request completed"); //a short message is logged
+                return; 
+            })
+        }
+    }
+}
+
+
+//var nearestStoppLayer = L.featureGroup().addTo(map);
 
 getAllBusstopps();
 var sortedStopps = [];
 var test;
-function getNearestBusstopp(markerIndex){ // WARUM IST CURRENT MARKER UNDEFINED???????
+function getNearestBusstopp(markerIndex){ 
     // console.log(markerIndex);
     // maconsole.log(positions[markerIndex]);
     // return markerIndex;
@@ -316,7 +345,7 @@ function getNearestBusstopp(markerIndex){ // WARUM IST CURRENT MARKER UNDEFINED?
     for(var i=0; i<stopps.features.length; i++){
         var name = stopps.features[i].properties.lbez;
         var position = stopps.features[i].geometry.coordinates; // [lat, lon]
-        var distance = calculateDistance(position, positions[markerIndex].coords);
+        var distance = calculateDistance(position, positions[markerIndex].coords); // CENTROID CALCULATION DOESNT WORK 
         //console.log(distance);
         sortedStopps[i] = [name, distance, position];
     }
@@ -330,6 +359,7 @@ function getNearestBusstopp(markerIndex){ // WARUM IST CURRENT MARKER UNDEFINED?
     //var ns = L.marker(nearestStopp[2]);
     //nearestStoppLayer.addLayer(ns);
     //featureLayer.Busstopp = nearestStoppLayer;
+
 
 }
 
