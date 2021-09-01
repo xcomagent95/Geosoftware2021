@@ -296,20 +296,17 @@ function getAllBusstopps(){
             return; 
         })
     }
-}   
-<<<<<<< Updated upstream
-=======
-
+} 
+getAllBusstopps();
+var sortedStopps = [];
 function getNearestBusstopp(currentMarker){
-    for(var i=0; i<res.features.length; i++){
-        var name = res.features[i].properties.lbez;
-        var position = (res.features[i].geometry.coordinates); // [lat, lon]
+    for(var i=0; i<stopps.features.length; i++){
+        var name = stopps.features[i].properties.lbez;
+        var position = (stopps.features[i].geometry.coordinates); // [lat, lon]
         var distance = calculateDistance(position, currentMarker);
-        stopps[i] = [name, distance];
+        sortedStopps[i] = [name, distance, position];
     }
-    stopps.sort(function([a,b],[c,d]){ return b-d });
-    nearestStopp = stopps[0];
+    sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e });
+    nearestStopp = sortedStopps[0];
     console.log(nearestStopp);
 }
-
->>>>>>> Stashed changes
