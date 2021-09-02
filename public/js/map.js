@@ -133,7 +133,7 @@ function populateMap() {
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
             '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
             '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
-            <button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
+            '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
             //'<button onclick="getNearestBusstopp(' + i + ')">Nächste Bushaltestelle</button>'
         );
     }
