@@ -24,6 +24,7 @@ function getAllfromDB() {
     {$.ajax({ //handle request via ajax
         url: "/search/getCollections", //request url is the prebuilt request
         method: "GET", //method is GET since we want to get data not post or update it
+        async: false
         })
         .done(function(res) { //if the request is done -> successful
             locations = res[0];
