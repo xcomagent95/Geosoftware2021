@@ -44,7 +44,16 @@ The newTour function add a new tour to the tours collection in the mongoDB. A to
 It can be called with "http://localhost:3000/add/newTour".
 
 ## Update-Router:
+
+**updateLocation:**
+
+**updateTour:**
+
 ## Delete-Router:
+
+**removeLocation:**
+
+**removeTour:**
 
 # Webpages
 ## Landingpage
@@ -77,9 +86,9 @@ The point locations are formatted like:
       "features": [{
        "type": "Feature",
         "properties": {
-         "name": "name of the location (indentical to nameID)",
-         "url": "some URL",
-         "description": "some description"
+         "Name": "name of the location (indentical to nameID)",
+         "URL": "some URL",
+         "Description": "some description"
          },
         "geometry": {
          "type": "Point",
@@ -95,9 +104,9 @@ The polygon locations are formatted like:
       "features": [{
        "type": "Feature",
         "properties": {
-         "name": "name of the location (indentical to nameID)",
-         "url": "some URL",
-         "description": "some description"
+         "Name": "name of the location (indentical to nameID)",
+         "URL": "some URL",
+         "Description": "some description"
          },
         "geometry": {
          "type": "Polygon",
