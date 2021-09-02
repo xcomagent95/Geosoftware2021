@@ -330,14 +330,6 @@ function getAllBusstopps(){
     }
 } 
 
-/*
-var busIcon = L.icon({
-    iconUrl: 'src/busstoppsicon.png',
-    iconSize: [30,30],
-    iconAnchor: [15,30],
-    popupAnchor: [0,0]
-}); // DOENST WORK CORRECTLY
-*/
 
 var output;
 //function getWeather(coordinates, stoppname){
