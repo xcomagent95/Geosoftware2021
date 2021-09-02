@@ -2,6 +2,20 @@
 var locations;
 var tours;
 var positions;
+//Markers
+var locationIcon = L.icon({
+    iconUrl: './gfx/location_marker.png',
+    iconSize:     [32, 45], // size of the icon
+    iconAnchor:   [15, 43], // point of the icon which will correspond to marker's location
+    popupAnchor:  [0, -35] // point from which the popup should open relative to the iconAnchor
+});
+
+var busstoppIcon = L.icon({
+    iconUrl: './gfx/busstopp_marker.png',
+    iconSize:     [32, 38], // size of the icon
+    iconAnchor:   [18, 36], // point of the icon which will correspond to marker's location
+    popupAnchor:  [0, -35] // point from which the popup should open relative to the iconAnchor
+});
 
 var map = L.map('mapdiv'); 
 var locationsLayer = L.featureGroup().addTo(map);
@@ -76,8 +90,7 @@ function populateMap() {
     map.setView([51.975, 7.61], 13);
 
     //Basemap Layer
-    var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map); 
-    
+    var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map);
 
     for(var i = 0; i < locations.length; i++) {
         var location = L.geoJson(locations[i].GeoJson);
@@ -103,8 +116,10 @@ function populateMap() {
             coords: locations[i].GeoJson.features[0].geometry.coordinates
         });
         console.log(position);
-        location.addTo(locationsLayer);
-        location.bindPopup(
+        
+        var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
+        mapObject.addTo(locationsLayer);
+        mapObject.addTo(map).bindPopup(
             '<b>' + "Name: " + '</b>' + locations[i].locationID + 
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
             '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
@@ -113,6 +128,8 @@ function populateMap() {
             '<button onclick="getNearestBusstopp(' + i + ')">Nächste Bushaltestelle</button>'
         );
     }
+
+    
 
     //Layer Control
     var baseLayer = {
@@ -174,15 +191,18 @@ function zoomToTour(name) {
             }
             polygon.push(coordinates);
             position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
+            console.log("P:", position);
         }
         else {
             position = locations[i].GeoJson.features[0].geometry.coordinates;
+            console.log("P:", position);
         }
         location.bindPopup(
             '<b>' + "Name: " + '</b>' + locations[i].locationID + 
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
             '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
-            '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
+            // '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
+            '<button onclick="getNearestBusstopp(' + i + ')">Nächste Bushaltestelle</button>'
         );
         location.addTo(toursLayer);
     }
@@ -301,15 +321,16 @@ function getAllBusstopps(){
     }
 } 
 
+/*
 var busIcon = L.icon({
     iconUrl: 'src/busstoppsicon.png',
     iconSize: [30,30],
     iconAnchor: [15,30],
     popupAnchor: [0,0]
 }); // DOENST WORK CORRECTLY
+*/
 
 var output;
-
 //function getWeather(coordinates, stoppname){
 function getWeather(lon, lat, name){
     getAPIKey();
@@ -385,7 +406,7 @@ function getNearestBusstopp(markerIndex){
     nearestStopp.lon = sortedStopps[0][2][1];
     console.log(nearestStopp.lat +', '+nearestStopp.lon);
     // console.log(nearestStopp);
-    markerNearestStopp = L.marker([nearestStopp.lon,nearestStopp.lat], {icon: busIcon}).addTo(map);
+    markerNearestStopp = L.marker([nearestStopp.lon,nearestStopp.lat], {icon: busstoppIcon}).addTo(map);
 
     markerNearestStopp.bindPopup(
         '<b>Name: ' + nearestStopp.name + '</b><br>' + 
