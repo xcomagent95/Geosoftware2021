@@ -4,17 +4,17 @@ var tours;
 var positions;
 //Markers
 var locationIcon = L.icon({
-    iconUrl: './gfx/location_marker.png',
-    iconSize:     [32, 45], // size of the icon
-    iconAnchor:   [15, 43], // point of the icon which will correspond to marker's location
-    popupAnchor:  [0, -35] // point from which the popup should open relative to the iconAnchor
+    iconUrl: './gfx/museum.png',
+    iconSize:     [32, 32], // size of the icon
+    iconAnchor:   [15, 32], // point of the icon which will correspond to marker's location
+    popupAnchor:  [0, -28] // point from which the popup should open relative to the iconAnchor
 });
 
 var busstoppIcon = L.icon({
-    iconUrl: './gfx/busstopp_marker.png',
-    iconSize:     [32, 38], // size of the icon
-    iconAnchor:   [18, 36], // point of the icon which will correspond to marker's location
-    popupAnchor:  [0, -35] // point from which the popup should open relative to the iconAnchor
+    iconUrl: './gfx/busstop.png',
+    iconSize:     [32, 32], // size of the icon
+    iconAnchor:   [15, 32], // point of the icon which will correspond to marker's location
+    popupAnchor:  [0, -28] // point from which the popup should open relative to the iconAnchor
 });
 
 var map = L.map('mapdiv'); 
@@ -105,6 +105,7 @@ function populateMap() {
         var location = L.geoJson(locations[i].GeoJson);
         var position;
         if(locations[i].GeoJson.features[0].geometry.type == "Polygon") {
+            location.addTo(locationsLayer);
             var polygon = [];
             var coordinates = [];
             for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
@@ -124,7 +125,6 @@ function populateMap() {
             name: locations[i].locationID,
             coords: locations[i].GeoJson.features[0].geometry.coordinates
         });
-        console.log(position);
         
         var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
         mapObject.addTo(locationsLayer);
@@ -133,8 +133,8 @@ function populateMap() {
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
             '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
             '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
-            // '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
-            '<button onclick="getNearestBusstopp(' + i + ')">Nächste Bushaltestelle</button>'
+            <button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
+            //'<button onclick="getNearestBusstopp(' + i + ')">Nächste Bushaltestelle</button>'
         );
     }
 
