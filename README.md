@@ -67,7 +67,7 @@ The impressum page contains all legal information regarding the application and 
 The locations collection contains the locations.
 Each location is comprised of 
 - an __id_ which is an object created by mongoDB and acts as an internal primary key
-- a _nameID_ which is a user defined string which acts as the identifier for the location in athe application
+- a _locationID_ which is a user defined string which acts as the identifier for the location in athe application
 - a _GeoJson_ which contains the geometry (point or polygon) and the URL and description properties
 
 The point locations are formatted like:
@@ -77,9 +77,9 @@ The point locations are formatted like:
       "features": [{
        "type": "Feature",
         "properties": {
-         "Name": "name of the location (indentical to nameID)",
-         "URL": "some URL",
-         "Description": "some description"
+         "name": "name of the location (indentical to nameID)",
+         "url": "some URL",
+         "description": "some description"
          },
         "geometry": {
          "type": "Point",
@@ -95,9 +95,9 @@ The polygon locations are formatted like:
       "features": [{
        "type": "Feature",
         "properties": {
-         "Name": "name of the location (indentical to nameID)",
-         "URL": "some URL",
-         "Description": "some description"
+         "name": "name of the location (indentical to nameID)",
+         "url": "some URL",
+         "description": "some description"
          },
         "geometry": {
          "type": "Polygon",
