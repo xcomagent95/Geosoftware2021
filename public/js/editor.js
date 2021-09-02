@@ -361,6 +361,7 @@ function getDescription(sourceID, targetID) {
     var keyword = getTitle(url);
     if(url.includes("wikipedia.org")) {
         $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=3&explaintext=true&titles=' + keyword + '&origin=*', function(data) {
+            async: false
             var key = Object.keys(data.query.pages)[0];
             var article = JSON.stringify(data.query.pages.valueOf(key));
             if (key == -1) {
@@ -383,7 +384,6 @@ function getDescription(sourceID, targetID) {
 //Get Title of Article from Wikipaedia-URL
 function getTitle(url) {
     var chars = Array.from(url);
-    console.log(chars);
     var counter = 0;
     var keyword = '';
     for(var i = 0; i < chars.length; i++) {
@@ -395,6 +395,5 @@ function getTitle(url) {
         }
     }
     return keyword.substring(1);
-
 }
 

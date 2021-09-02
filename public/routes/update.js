@@ -20,6 +20,7 @@ const client = new MongoClient(url) // mongodb client
 //Post Router
 router.post('/updateLocation', function(req, res, next) 
 {
+  //console.log(req.body);
   //Check Request
   if(req.body.newName == '' || req.body.newURL == '' || req.body.newDescription == '' || req.body.newGeometry == '') {
     res.sendFile(__dirname + "/error_empty_input.html")
@@ -32,7 +33,7 @@ router.post('/updateLocation', function(req, res, next)
                                + '"geometry":' + req.body.newGeometry + '}' + ']' + '}';
   //console.log(req);
   var newlocationID = req.body.newName;
-  var oldlocationID = req.body.oldlocationID;
+  var oldlocationID = req.body.oldNameID;
   var newGeoJson = JSON.parse(GeoJsonString);
 
   //connect to the mongodb database and insert one new element
