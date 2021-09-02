@@ -372,7 +372,6 @@ function getDescription(sourceID, targetID) {
                 article = article.substring(0, article.length - 3);
                 article = article.substring(1);
                 document.getElementById(targetID).value = article;
-                //console.log(article);
             }
         });
     }

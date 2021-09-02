@@ -76,7 +76,7 @@ router.post('/newTour', function(req, res, next)
 
   //Create Payload to Store
   var tourID = req.body.tour;
-  var trimmedLocations = req.body.locations.substring(0, req.body.locations.length - 1);
+  var trimmedLocations = req.body.locations.substring(0, req.body.locations.length);
   var locations = trimmedLocations.split(',');
 
   //connect to the mongodb database and insert one new element

@@ -120,12 +120,6 @@ function populateMap() {
         else {
             position = locations[i].GeoJson.features[0].geometry.coordinates;
         }
-        positions.push({
-            leafletObject: location,
-            name: locations[i].locationID,
-            coords: locations[i].GeoJson.features[0].geometry.coordinates
-        });
-        
         var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
         mapObject.addTo(locationsLayer);
         mapObject.addTo(map).bindPopup(
@@ -133,9 +127,14 @@ function populateMap() {
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
             '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
             '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
-            <button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
-            //'<button onclick="getNearestBusstopp(' + i + ')">Nächste Bushaltestelle</button>'
+            '<button onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
+        positions.push({
+            leafletObject: location,
+            name: locations[i].locationID,
+            coords: locations[i].GeoJson.features[0].geometry.coordinates,
+            popup: mapObject
+        });
     }
 
     
@@ -156,12 +155,13 @@ function populateMap() {
 var currentMarker;
 
 function zoomToFeature(name) {
+    toursLayer.clearLayers()
     map.removeLayer(toursLayer);
     map.addLayer(locationsLayer);
     for(var i = 0; i < positions.length; i++) {
         if(positions[i].name == name) {
             map.fitBounds(positions[i].leafletObject.getBounds());
-            positions[i].leafletObject.openPopup();
+            positions[i].popup.openPopup();
             currentMarker = positions[i];
         }
     }
@@ -177,6 +177,7 @@ function zoomToTour(name) {
             tour = tours[l];
         }
     }
+
     var locationsInTour = [];
     for(var i = 0; i < tour.locations.length; i++) {
         for(var j = 0; j < locations.length; j ++) {
@@ -185,38 +186,40 @@ function zoomToTour(name) {
             }
         }
     }
+
     map.removeLayer(locationsLayer);
-    for(var k = 0; k < locationsInTour.length; k++) {
-        var location = L.geoJson(locationsInTour[k].GeoJson)
-        var position;
-        if(locations[i].GeoJson.features[0].geometry.type == "Polygon") {
-            var polygon = [];
-            var coordinates = [];
-            for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
-                coordinates.push([
-                    locations[i].GeoJson.features[0].geometry.coordinates[0][j][0],
-                    locations[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
-                ]);
-            }
-            polygon.push(coordinates);
-            position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
-            console.log("P:", position);
-        }
-        else {
-            position = locations[i].GeoJson.features[0].geometry.coordinates;
-            console.log("P:", position);
-        }
-        location.bindPopup(
-            '<b>' + "Name: " + '</b>' + locations[i].locationID + 
-            '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
-            '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
-            // '<button onclick="getNearestBusstopp(' + position + ')">Nächste Bushaltestelle</button>'
-            '<button onclick="getNearestBusstopp(' + i + ')">Nächste Bushaltestelle</button>'
-        );
+    for(var i = 0; i < locationsInTour.length; i++) {
+    var location = L.geoJson(locations[i].GeoJson);
+    var position;
+    if(locationsInTour[i].GeoJson.features[0].geometry.type == "Polygon") {
         location.addTo(toursLayer);
+        var polygon = [];
+        var coordinates = [];
+        for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
+            coordinates.push([
+                locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][0],
+                locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
+            ]);
+        }
+        polygon.push(coordinates);
+        position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
+    }
+    else {
+        position = locationsInTour[i].GeoJson.features[0].geometry.coordinates;
+    }
+    var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
+    mapObject.addTo(toursLayer);
+    mapObject.addTo(map).bindPopup(
+        '<b>' + "Name: " + '</b>' + locationsInTour[i].locationID + 
+        '<br><br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.url + 
+        '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.description +
+        '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
+        '<button onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
+    );
     }
     map.fitBounds(toursLayer.getBounds());
 }
+
 
 // --------------- API Bushaltestellen --------------- 
 
@@ -330,7 +333,6 @@ function getAllBusstopps(){
     }
 } 
 
-
 var output;
 //function getWeather(coordinates, stoppname){
 function getWeather(lon, lat, name){
@@ -373,7 +375,12 @@ function getWeather(lon, lat, name){
         }
     }
 }
+ /**
+  * Ergänzt werden muss noch, dass beim klicken von mehr als 1 mal auf 'mächste haltestelle' nicht die darauffolgend nächste kommt'
+  * mittelpunkt von polygon funktionert nicht.
+  */
 
+//var nearestStoppLayer = L.featureGroup().addTo(map);
 
 getAllBusstopps();
 var sortedStopps = [];
@@ -381,24 +388,32 @@ var test;
 var nearestStopp = {};
 var markerNearestStopp;
 
-function getNearestBusstopp(markerIndex){ 
+function getNearestBusstopp(position){ 
+    console.log(position);
+    /*
     for(var i=0; i<stopps.features.length; i++){
         var name = stopps.features[i].properties.lbez;
-        var position = stopps.features[i].geometry.coordinates; // [lat, lon]
+        var position = position; // [lat, lon]
         var distance = calculateDistance(position, positions[markerIndex].coords); // CENTROID CALCULATION DOESNT WORK 
+        //console.log(distance);
         sortedStopps[i] = [name, distance, position];
     }
     sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e });
+    // nearestStopp = sortedStopps[0];
     nearestStopp.name = sortedStopps[0][0];
     nearestStopp.distance = sortedStopps[0][1];
+    //nearestStopp.position = sortedStopps[0][2];
     nearestStopp.lat = sortedStopps[0][2][0];
     nearestStopp.lon = sortedStopps[0][2][1];
-
+    console.log(nearestStopp.lat +', '+nearestStopp.lon);
+    // console.log(nearestStopp);
     markerNearestStopp = L.marker([nearestStopp.lon,nearestStopp.lat], {icon: busstoppIcon}).addTo(map);
+
     markerNearestStopp.bindPopup(
         '<b>Name: ' + nearestStopp.name + '</b><br>' + 
         '<b>Koordinaten: ' + nearestStopp.lon + nearestStopp.lat + '</b><br>' +
         '<button onclick="getWeather(' + nearestStopp.lon + ',' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
         ).openPopup();
+*/
 }
 
