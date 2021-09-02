@@ -66,19 +66,28 @@ function fillTables() {
     //fill the table with the paths
     for(var i = 0; i < locationsTableData.length; i++) { //iterate over table data
         //initialise table row as variable
-        var row =  `<tr>
+        var row =  `<tr scope="row">
                         <td>${locationsTableData[i][0]}</td>
                         <td><a href="${locationsTableData[i][1]}">Link</a></td>
-                        <td><button onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button><td>
+                        <td><button onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button></td>
                     </tr>`
         locationsTable.innerHTML += row; //pass row to given table
     }
+
     //fill the table with the paths
     for(var i = 0; i < toursTableData.length; i++) { //iterate over table data
+        //get all locations from a tour
+        var locationsInTour = "<ul>";
+        for(var j = 0; j < tours[i].locations.length; j++){
+            locationsInTour += "<li>" + tours[i].locations[j];
+        }
+        locationsInTour += "</ul>";
+        
         //initialise table row as variable
         var row =  `<tr>
                         <td>${toursTableData[i]}</td>
-                        <td><button onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button><td>
+                        <td><button onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button></td>
+                        <td>${locationsInTour}</td>
                     </tr>`
         toursTable.innerHTML += row; //pass row to given table
     }
