@@ -258,9 +258,9 @@ var weatherApi;
  * @param {[double, double]} coordinates - These are the requested coordinates. Either the
  * browser location or the standard coordinates (GEO1).
  */
-function iniatializeAPI(key, coordinates){
+function iniatializeAPI(coordinates,key){
     weatherApi = "https://api.openweathermap.org/data/2.5/onecall?units=metric&lat="
-    weatherApi += coordinates[1]+"&lon="+coordinates[0]+"&exclude="+"hourly"+"&appid="+key
+    weatherApi += coordinates[0]+"&lon="+coordinates[1]+"&exclude="+"hourly"+"&appid="+key
 }
 
 //variable to store the API-Key
@@ -277,7 +277,6 @@ function getAPIKey(){
 // Bus Api
 var busAPI = "https://rest.busradar.conterra.de/prod/haltestellen";
 var stopps = [];
-var nearestStopp;
 
 /**
  * This function sends a request to the api server and calculates the distances of the current marker to all responded busstopps
@@ -302,22 +301,44 @@ function getAllBusstopps(){
     }
 } 
 
+var busIcon = L.icon({
+    iconUrl: 'src/busstoppsicon.png',
+    iconSize: [30,30],
+    iconAnchor: [15,30],
+    popupAnchor: [0,0]
+}); // DOENST WORK CORRECTLY
+
 var output;
 
-function getWeather(coordinates){
+//function getWeather(coordinates, stoppname){
+function getWeather(lon, lat, name){
     getAPIKey();
+    console.log('l.316: lon: '+lon);
+    console.log('lat: '+lat);
     if(clientAPIKey == ''){
         console.log('You have to enter an api key!');
         alert('You have to enter an api key!');
         return;
     } else {
-        iniatializeAPI(clientAPIKey, coordinates);
+        //console.log("'coords:' "+coordinates);
+        iniatializeAPI([lon,lat], clientAPIKey);
         {$.ajax({
             url: weatherApi,
             method: "GET",
             })
             .done(function(res){
                 output = res;
+                markerNearestStopp.bindPopup( 
+                    '<p></p>' + 
+                    '<p  style="font-size: 18px;">Wetter an der Haltestelle ' + name + '</p>' +
+                    '<p>Ort: ' +  res.lat + ', ' + res.lon + '<br>' + //position
+                    'Zeitzone: ' + res.timezone + '<br>' + //timezone
+                    'Temperatur: ' + res.current.temp + '°C<br>' + //temperature
+                    'Luftfeuchte: ' + res.current.humidity + '%<br>' + //humidity
+                    'Luftdruck: ' + res.current.pressure + 'hPa<br>' + //pressure
+                    'Wolkenbedeckung: ' + res.current.clouds + '%<br>' + //cloud cover
+                    'Wetter: ' + res.current.weather[0].description + '</p>' //openWeather short classification
+                    ).openPopup();
             })
             .fail(function(xhr, status, errorThrown){
                 console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
@@ -330,13 +351,19 @@ function getWeather(coordinates){
         }
     }
 }
-
+ /**
+  * Ergänzt werden muss noch, dass beim klicken von mehr als 1 mal auf 'mächste haltestelle' nicht die darauffolgend nächste kommt'
+  * mittelpunkt von polygon funktionert nicht.
+  */
 
 //var nearestStoppLayer = L.featureGroup().addTo(map);
 
 getAllBusstopps();
 var sortedStopps = [];
 var test;
+var nearestStopp = {};
+var markerNearestStopp;
+
 function getNearestBusstopp(markerIndex){ 
     // console.log(markerIndex);
     // maconsole.log(positions[markerIndex]);
@@ -350,11 +377,24 @@ function getNearestBusstopp(markerIndex){
         sortedStopps[i] = [name, distance, position];
     }
     sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e });
-    nearestStopp = sortedStopps[0];
+    // nearestStopp = sortedStopps[0];
+    nearestStopp.name = sortedStopps[0][0];
+    nearestStopp.distance = sortedStopps[0][1];
+    //nearestStopp.position = sortedStopps[0][2];
+    nearestStopp.lat = sortedStopps[0][2][0];
+    nearestStopp.lon = sortedStopps[0][2][1];
+    console.log(nearestStopp.lat +', '+nearestStopp.lon);
     // console.log(nearestStopp);
-    switchCoords(nearestStopp[2]);
-    var markerNearestStopp = L.marker(nearestStopp[2]).addTo(map);
-    markerNearestStopp.bindPopup(nearestStopp[0]).openPopup();
+    markerNearestStopp = L.marker([nearestStopp.lon,nearestStopp.lat], {icon: busIcon}).addTo(map);
+
+    markerNearestStopp.bindPopup(
+        '<b>Name: ' + nearestStopp.name + '</b><br>' + 
+        '<b>Koordinaten: ' + nearestStopp.lon + nearestStopp.lat + '</b><br>' +
+        '<button onclick="getWeather(' + nearestStopp.lon + ',' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
+        ).openPopup();
+    
+
+
     // positions[markerIndex].
     //var ns = L.marker(nearestStopp[2]);
     //nearestStoppLayer.addLayer(ns);
