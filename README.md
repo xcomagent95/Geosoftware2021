@@ -129,4 +129,4 @@ The tours collection contains the tours.
 Each tour is comprised of 
 - an __id_ which is an object created by mongoDB and acts as an internal primary key
 - a _tourID_ which is a user defined string which acts as the identifier for the tour in athe application
-- _locations_ which contain the _nameIDs_ of the locations which are part of the tour
+- _locations_ which contain the _locationID_s of the locations which are part of the tour
