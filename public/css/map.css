@@ -27,13 +27,18 @@ h1, p, table, div, a{
 #columnContainer {
     padding-top: 10px;
     padding-left: 40px;
-    padding-right: 40px;
-
-    width: 100vw;
 }
 #footerReplacement{
     height: 40px;
 }
+#apiField{
+    font-size:15px;
+    width: 300px;
+}
+#generateAPI{
+    font-size:12px;
+}
+
 @media only screen and (min-width: 992px) {
     #menu {
         width: 30%;
@@ -48,11 +53,8 @@ h1, p, table, div, a{
     #columnMap{
         width: 60%;
         bottom: 100px;
-    }
-    
+    }   
 }
-
-
 
 @media only screen and (max-width: 991px) {
     #menu {
