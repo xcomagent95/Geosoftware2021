@@ -49,19 +49,19 @@
               </div>
               <div>
                 <!--Updating Locations-->
-                <br><b>Ändern einer Sehenswürdigkeit</b><br><br>
+                <br><h5><b>Ändern einer Sehenswürdigkeit</b></h5>
                 <h>Sehenswürdigkeit, welche geändert werden soll: </h><select class="custom-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"><option selected>Auswählen...</option></select>
                 <form action="/update/updateLocation" method="post">
                   <input type="hidden" id="oldNameID" name="oldNameID" style="font-size:0px;"><br>
                   <label for="newName">Name der Sehenswürdigkeit: </label><br>
-                  <input type="text" id="newName" placeholder="Neuer Name" name="newName"><br>
+                  <input type="text" id="newName" placeholder="Neuer Name" name="newName"><br><br>
                   <label for="newURL">URL der Sehenswürdigkeit: </label><br>
                   <input type="text" id="newURL" name="newURL" placeholder="Neue URL" onchange="getDescription('newURL', 'newDescription')"><br>
                   <!--<label for="newDescription">Description</label><br>-->
                   <input type="hidden" id="newDescription" name="newDescription" style="font-size:0px;"><br>
                   <!--<label for="newGeometry">Geometry</label><br>-->
-                  <input type="hidden" id="newGeometry" name="newGeometry" style="font-size:0px;"><br>
-                  <input type="submit" value="Location updaten"><br><br>
+                  <input type="hidden" id="newGeometry" name="newGeometry" style="font-size:0px;">
+                  <input type="submit" value="Location aktualisieren"><br>
                 </form> 
                 <br><br>
               </div>       
@@ -74,11 +74,11 @@
               </div>
               <div>
                 <!--Adding Tours-->
-                <b>Hinzufügen einer Tour</b><br><br>
+                <h5><b>Hinzufügen einer Tour</b></h5>
                 <form action="/add/newTour" method="post" id="addTourForm">
                     <label for="name" >Name der Tour: </label><br>
                     <input type="text" placeholder="Name" id="tour" name="tour"><br>
-                    <input type="hidden" id="locations" name="locations"><br><br>
+                    <input type="hidden" id="locations" name="locations"><br>
                 </form>
                 <h>Auswählen der Sehenswürdigkeiten auf der Route: </h><br>
                 <div id="checkboxContainer"></div>
@@ -89,24 +89,29 @@
               </div><br><br>
               <div>
                 <!--Updating Tours-->
-                <b>Ändern einer Route</b><br><br>
+                <h5><b>Ändern einer Route</b></h5>
                 <h>Route, welche geändert werden soll: </h><select class="custom-select" id="selectTourToUpdate" onchange="selectTourForUpdate()"><option selected>Auswählen...</option></select><br>
+                <div style="height: 10px;"></div>
                 <select class="custom-select" id="selectLocationsToDeleteFromTour"></select>
                 <button onclick="deleteLocationsFromTour()">Diese Sehenswürdigkeit aus der Tour löschen</button><br>
+                <div style="height: 5px;"></div>
                 <select class="custom-select" id="selectLocationsToAddToTour"></select>
                 <button onclick="addLocationsToTour()">Hinzufügen einer Sehenswürdigkeit zu einer Route</button> <br>
+                <div style="height: 5px;"></div>
                 <form action="/update/updateTour" method="post">
-                    <label for="name">Tour</label>
+                    <div style="height: 5px;"></div>
+                    <label for="name">Neuer Name:</label>
                     <input type="hidden" id="oldTour" name="oldTour"><br>
-                    <input type="text" id="newTour" name="newTour"><br>
-                    <input type="text" id="newLocations" name="newLocations"><br>
+                    <input type="text" id="newTour" name="newTour"><br> 
+                    <div style="height: 5px;"></div>
                     <input type="submit" value="Updaten der Tour">
+                    <input type="hidden" id="newLocations" name="newLocations"><br>
                 </form>
                 <p id="locationsList"></p>
               </div><br>
               <div>
                 <!--Deleting Tours-->
-                <b>Löschen einer Route</b><br><br>
+                <h5><b>Löschen einer Route</b></h5>
                 <select class="custom-select" id="selectTourToDelete" onchange="selectTourForDelete()"><option selected>Auswählen...</option></select><br>
                 <form action="/delete/removeTour" method="post">
                     <input type="hidden" id="tourToDelete" name="tourToDelete"><br>

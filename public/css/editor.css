@@ -62,10 +62,10 @@ h1, p, table, div, a{
         height: 650px;
     }
     #menu{
-        width: 20%;
+        width: 40%;
     }
     #columnMap{
-        width: 80%;
+        width: 60%;
         height: 100%;
     }
 }

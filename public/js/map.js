@@ -330,14 +330,6 @@ function getAllBusstopps(){
     }
 } 
 
-/*
-var busIcon = L.icon({
-    iconUrl: 'src/busstoppsicon.png',
-    iconSize: [30,30],
-    iconAnchor: [15,30],
-    popupAnchor: [0,0]
-}); // DOENST WORK CORRECTLY
-*/
 
 var output;
 //function getWeather(coordinates, stoppname){
@@ -381,12 +373,7 @@ function getWeather(lon, lat, name){
         }
     }
 }
- /**
-  * Ergänzt werden muss noch, dass beim klicken von mehr als 1 mal auf 'mächste haltestelle' nicht die darauffolgend nächste kommt'
-  * mittelpunkt von polygon funktionert nicht.
-  */
 
-//var nearestStoppLayer = L.featureGroup().addTo(map);
 
 getAllBusstopps();
 var sortedStopps = [];
@@ -395,41 +382,23 @@ var nearestStopp = {};
 var markerNearestStopp;
 
 function getNearestBusstopp(markerIndex){ 
-    // console.log(markerIndex);
-    // maconsole.log(positions[markerIndex]);
-    // return markerIndex;
-    //console.log(currentMarker[0]+', '+currentMarker[1]);
     for(var i=0; i<stopps.features.length; i++){
         var name = stopps.features[i].properties.lbez;
         var position = stopps.features[i].geometry.coordinates; // [lat, lon]
         var distance = calculateDistance(position, positions[markerIndex].coords); // CENTROID CALCULATION DOESNT WORK 
-        //console.log(distance);
         sortedStopps[i] = [name, distance, position];
     }
     sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e });
-    // nearestStopp = sortedStopps[0];
     nearestStopp.name = sortedStopps[0][0];
     nearestStopp.distance = sortedStopps[0][1];
-    //nearestStopp.position = sortedStopps[0][2];
     nearestStopp.lat = sortedStopps[0][2][0];
     nearestStopp.lon = sortedStopps[0][2][1];
-    console.log(nearestStopp.lat +', '+nearestStopp.lon);
-    // console.log(nearestStopp);
-    markerNearestStopp = L.marker([nearestStopp.lon,nearestStopp.lat], {icon: busstoppIcon}).addTo(map);
 
+    markerNearestStopp = L.marker([nearestStopp.lon,nearestStopp.lat], {icon: busstoppIcon}).addTo(map);
     markerNearestStopp.bindPopup(
         '<b>Name: ' + nearestStopp.name + '</b><br>' + 
         '<b>Koordinaten: ' + nearestStopp.lon + nearestStopp.lat + '</b><br>' +
         '<button onclick="getWeather(' + nearestStopp.lon + ',' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
         ).openPopup();
-    
-
-
-    // positions[markerIndex].
-    //var ns = L.marker(nearestStopp[2]);
-    //nearestStoppLayer.addLayer(ns);
-    //featureLayer.Busstopp = nearestStoppLayer;
-
-
 }
 
