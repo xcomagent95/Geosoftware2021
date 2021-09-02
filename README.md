@@ -44,7 +44,16 @@ The newTour function add a new tour to the tours collection in the mongoDB. A to
 It can be called with "http://localhost:3000/add/newTour".
 
 ## Update-Router:
+
+**updateLocation:**
+
+**updateTour:**
+
 ## Delete-Router:
+
+**removeLocation:**
+
+**removeTour:**
 
 # Webpages
 ## Landingpage
@@ -67,7 +76,7 @@ The impressum page contains all legal information regarding the application and 
 The locations collection contains the locations.
 Each location is comprised of 
 - an __id_ which is an object created by mongoDB and acts as an internal primary key
-- a _nameID_ which is a user defined string which acts as the identifier for the location in athe application
+- a _locationID_ which is a user defined string which acts as the identifier for the location in athe application
 - a _GeoJson_ which contains the geometry (point or polygon) and the URL and description properties
 
 The point locations are formatted like:
@@ -120,4 +129,4 @@ The tours collection contains the tours.
 Each tour is comprised of 
 - an __id_ which is an object created by mongoDB and acts as an internal primary key
 - a _tourID_ which is a user defined string which acts as the identifier for the tour in athe application
-- _locations_ which contain the _nameIDs_ of the locations which are part of the tour
+- _locations_ which contain the _locationID_ of the locations which are part of the tour
