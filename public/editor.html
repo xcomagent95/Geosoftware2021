@@ -40,12 +40,33 @@
             <div id="menu" class="column"> 
               <!--Adding Locations-->
               <div>
-                <form id="addLocationForm" action="/add/newLocation" method="post" id="addLocationForm">
+                <form id="addLocationForm" action="/add/newLocation" method="post">
                   <input type="hidden" id="name" name="name"><br>
                   <input type="hidden" id="url" name="url"><br>
                   <input type="hidden" id="description" name="description"><br>
                   <input type="hidden" id="geometry" name="geometry"><br><br>
                 </form> 
+              </div>
+              <div>
+                <br><h5><b>Hinzufügen einer Sehenswürdigkeit als GeoJSON</b></h5>
+                <textarea type="text" id="geoJsonInput" 
+                  placeholder='Sehenswürdigkeit als GeoJSON
+Notwendiges Format:
+  {"type": "FeatureCollection",
+    "features": [{
+      "type": "Feature",
+      "properties": {
+      "Name": "name of the location (indentical to nameID)",
+      "URL": "some URL",
+      "Description": "some description"
+    },
+    "geometry": {
+      "type": "Point",
+      "coordinates": [some longitude, some latitude]
+    }
+  }
+                '></textarea><br>
+                <button type="button" class="btn btn-dark" onclick="getInputValue()">Verwendung der GeoJSON</button>
               </div>
               <div>
                 <!--Updating Locations-->
