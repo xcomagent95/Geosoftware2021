@@ -125,11 +125,11 @@ function populateMap() {
         var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
         mapObject.addTo(locationsLayer);
         mapObject.addTo(map).bindPopup(
-            '<b>' + "Name: " + '</b>' + locations[i].locationID + 
-            '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
-            '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
-            '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position[1] + ", " + position[0] +  
-            '<br><br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
+            '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locations[i].locationID + "</p>" +
+            '<br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
+            '<br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
+            '<br>' + '<b>' + "Koordinaten: " + '</b>' + position[1] + ", " + position[0] + "<br><br>" + 
+            '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
         positions.push({
             leafletObject: location,
@@ -212,11 +212,11 @@ function zoomToTour(name) {
     var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
     mapObject.addTo(toursLayer);
     mapObject.addTo(map).bindPopup(
-        '<b>' + "Name: " + '</b>' + locationsInTour[i].locationID + 
-        '<br><br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.url + 
-        '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.description +
-        '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
-        '<br><br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
+        '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locationsInTour[i].locationID + 
+        '<br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.url + 
+        '<br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.description +
+        '<br>' + '<b>' + "Koordinaten: " + '</b></p>' + position + 
+        '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
     );
     }
     map.fitBounds(toursLayer.getBounds());
@@ -356,14 +356,14 @@ function getWeather(lon, lat, name){
                 output = res;
                 markerNearestStopp.bindPopup( 
                     '<p></p>' + 
-                    '<p  style="font-size: 18px;">Wetter an der Haltestelle ' + name + '</p>' +
-                    '<p>Ort: ' +  res.lat + ', ' + res.lon + '<br>' + //position
-                    'Zeitzone: ' + res.timezone + '<br>' + //timezone
-                    'Temperatur: ' + res.current.temp + '°C<br>' + //temperature
-                    'Luftfeuchte: ' + res.current.humidity + '%<br>' + //humidity
-                    'Luftdruck: ' + res.current.pressure + 'hPa<br>' + //pressure
-                    'Wolkenbedeckung: ' + res.current.clouds + '%<br>' + //cloud cover
-                    'Wetter: ' + res.current.weather[0].description + '</p>' //openWeather short classification
+                    '<p  style="font-size: 18px;"><b>Wetter an der Haltestelle ' + name + '</p></b>' +
+                    '<p>Ort: <em>' +  res.lon + ', ' + res.lat + '</em><br>' + //position
+                    'Zeitzone: <em>' + res.timezone + '</em><br>' + //timezone
+                    'Temperatur: <em>' + res.current.temp + ' °C</em><br>' + //temperature
+                    'Luftfeuchte: <em>' + res.current.humidity + '%</em><br>' + //humidity
+                    'Luftdruck: <em>' + res.current.pressure + ' hPa</em><br>' + //pressure
+                    'Wolkenbedeckung: <em>' + res.current.clouds + '%</em><br>' + //cloud cover
+                    'Wetter: <em>' + res.current.weather[0].description + '</em></p>' //openWeather short classification
                     ).openPopup();
             })
             .fail(function(xhr, status, errorThrown){
@@ -410,9 +410,9 @@ function getNearestBusstopp(locationsPosition){
     markerNearestStopp = L.marker([nearestStopp.lat, nearestStopp.lon], {icon: busstoppIcon}).addTo(map);
 
     markerNearestStopp.bindPopup(
-        '<b>Name: </b>' + nearestStopp.name + '<br>' + 
-        '<b>Koordinaten: </b>' + nearestStopp.lat + ', ' + nearestStopp.lon + '<br>' +
-        '<button onclick="getWeather(' + nearestStopp.lon + ', ' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
+        '<p style="font-size: 18px;"><b>Name der nächsten Haltestelle: </b>' + nearestStopp.name + '<br></p>' + 
+        '<b>Koordinaten: </b>' + nearestStopp.lat + ', ' + nearestStopp.lon + '<br><br><br>' +
+        '<button class="btn btn-dark" onclick="getWeather(' + nearestStopp.lon + ', ' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
         ).openPopup();
 
 }
