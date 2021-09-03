@@ -46,7 +46,7 @@ h1, p, table, div, a{
     #mapdiv {
         width: 100%;
         margin: auto;
-        height: 550px;
+        height: 900px;
         bottom: 0;
         /*overflow: hidden;*/
     }
