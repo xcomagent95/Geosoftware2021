@@ -398,24 +398,20 @@ function getNearestBusstopp(locationsPosition){
         var name = stopps.features[i].properties.lbez;
         var busStopp = stopps.features[i].geometry.coordinates; // [lat, lon]
         var distance = calculateDistance(switchCoords(locationsPosition), switchCoords(busStopp)); 
-        //console.log(distance);
         sortedStopps[i] = [name, distance, busStopp];
     }
-    sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e });
-    // nearestStopp = sortedStopps[0];
-    nearestStopp.name = sortedStopps[0][0];
-    nearestStopp.distance = sortedStopps[0][1];
-    //nearestStopp.position = sortedStopps[0][2];
-    nearestStopp.lat = sortedStopps[0][2][0];
-    nearestStopp.lon = sortedStopps[0][2][1];
-    console.log(nearestStopp.lat +', '+nearestStopp.lon);
-    // console.log(nearestStopp);
+    sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e }); // Sorts the stopps ascending by the distance to the current location
+    nearestStopp.name = sortedStopps[0][0]; // GeoJson filled up with information about the name,
+    nearestStopp.distance = sortedStopps[0][1]; // the distance between current location and busstopp,
+    nearestStopp.lat = sortedStopps[0][2][0]; // latitude and
+    nearestStopp.lon = sortedStopps[0][2][1]; // longitude
+    console.log(nearestStopp.lat + ', ' + nearestStopp.lon);
     markerNearestStopp = L.marker([nearestStopp.lat,nearestStopp.lon], {icon: busstoppIcon}).addTo(map);
 
     markerNearestStopp.bindPopup(
         '<b>Name: ' + nearestStopp.name + '</b><br>' + 
-        '<b>Koordinaten: ' + nearestStopp.lat + nearestStopp.lon + '</b><br>' +
-        '<button onclick="getWeather(' + nearestStopp.lon + ',' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
+        '<b>Koordinaten: ' + nearestStopp.lat + ', ' + nearestStopp.lon + '</b><br>' +
+        '<button onclick="getWeather(' + nearestStopp.lon + ', ' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
         ).openPopup();
 
 }
