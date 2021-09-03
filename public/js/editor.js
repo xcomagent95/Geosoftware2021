@@ -429,6 +429,7 @@ var jsonInput;
                             document.getElementById("url").value = jsonInput.features[0].properties.url;
                             document.getElementById("description").value = jsonInput.features[0].properties.description; 
                             document.getElementById("geometry").value = JSON.stringify(jsonInput.features[0].geometry); 
+                            getDescription('url', 'description');
                             document.getElementById("addLocationForm").submit();
                             document.getElementById("errorMessage").className = "alert alert-success"
                             document.getElementById("errorMessage").innerHTML = 'Das Hinzufügen war erfolgreich!'
