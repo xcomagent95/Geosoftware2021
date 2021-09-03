@@ -1,6 +1,6 @@
 # Geosoftware_2021_Abschlussprojekt
-Abschlussprojekt für den Kurs Geosoftware I 2021
-Authors: Alexander Pilz & Josefina Balzer
+Abschlussprojekt für den Kurs Geosoftware I 2021 <br>
+Authoren: Alexander Pilz & Josefina Balzer
 
 # Server
 The Tourguide employs the Express Node.js web application framework. The application run on port 3000.
