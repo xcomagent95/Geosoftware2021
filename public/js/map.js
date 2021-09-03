@@ -70,7 +70,7 @@ function fillTables() {
         var row =  `<tr scope="row">
                         <td>${locationsTableData[i][0]}</td>
                         <td><a href="${locationsTableData[i][1]}">Link</a></td>
-                        <td><button onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button></td>
+                        <td><button type="button" class="btn btn-dark" onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button></td>
                     </tr>`
         locationsTable.innerHTML += row; //pass row to given table
     }
@@ -87,7 +87,7 @@ function fillTables() {
         //initialise table row as variable
         var row =  `<tr>
                         <td>${toursTableData[i]}</td>
-                        <td><button onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button></td>
+                        <td><button type="button" class="btn btn-dark" onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button></td>
                         <td>${locationsInTour}</td>
                     </tr>`
         toursTable.innerHTML += row; //pass row to given table
@@ -128,7 +128,7 @@ function populateMap() {
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
             '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
             '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
-            '<button onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
+            '<br><br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
         positions.push({
             leafletObject: location,
@@ -215,7 +215,7 @@ function zoomToTour(name) {
         '<br><br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.url + 
         '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.description +
         '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
-        '<button onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
+        '<br><br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
     );
     }
     map.fitBounds(toursLayer.getBounds());
