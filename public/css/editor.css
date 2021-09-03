@@ -45,6 +45,13 @@ h1, p, table, div, a{
 #footerReplacement{
     height: 40px;
 }
+#geoJsonInput{
+    width: 100%;
+    height: 300px;
+}
+#geoJsonInput::-webkit-input-placeholder {
+    font-size: 12px;
+}
 @media only screen and (max-width: 991px) {
     #mapdiv {
         height: 450px;

@@ -84,7 +84,7 @@ Each location is comprised of
 
 The point locations are formatted like:
 
-    "GeoJson": {
+    {
      "type": "FeatureCollection",
       "features": [{
        "type": "Feature",
@@ -102,7 +102,7 @@ The point locations are formatted like:
      
 The polygon locations are formatted like: 
 
-    "GeoJson": {
+    {
      "type": "FeatureCollection",
       "features": [{
        "type": "Feature",

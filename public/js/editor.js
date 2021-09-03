@@ -134,18 +134,6 @@ function getAllfromDB() {
                     document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry);
                 }
             } 
-            
-            /*
-             //add Information to the Add-Location-To-Tour-Selector
-            const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
-            for(i = 0; i < locations.length; i++) {
-                const elem = document.createElement("option");
-                elem.href = "#";
-                const elemText = document.createTextNode(locations[i].locationID);
-                elem.setAttribute("value", locations[i].locationID) 
-                elem.appendChild(elemText);
-                togglerAddToTour.appendChild(elem);
-            */
 
             const togglerTourDelete = document.getElementById("selectTourToDelete");
             for(var i = 0; i < tours.length; i++) {
@@ -233,17 +221,6 @@ function selectLocationForUpdate() {
         }
     }
 }
-
-//add a Location to a new Tour
-/*
-function addLocationToTour() {
-    if(document.getElementById("selectLocationToAddToTour").value == "") {
-        return;
-    }
-    document.getElementById('locations').value = document.getElementById('locations').value + document.getElementById("selectLocationToAddToTour").value + ',';
-    document.getElementById("selectLocationToAddToTour").remove(document.getElementById("selectLocationToAddToTour").selectedIndex);     
-}
-*/
 
 //clear Input-Field when creating a new Tour
 function clearLocations() {
@@ -382,7 +359,11 @@ function getDescription(sourceID, targetID) {
     }
 }
 
-//Get Title of Article from Wikipaedia-URL
+/**
+ * @function {getTitle} - Get title of article from wikipaedia-URL
+ * @param {String} url - The function gets an url in form of a string 
+ * @returns 
+ */
 function getTitle(url) {
     var chars = Array.from(url);
     var counter = 0;
@@ -397,4 +378,44 @@ function getTitle(url) {
     }
     return keyword.substring(1);
 }
+
+/**
+ *@function {isvalid} - Function checks whether the given string is a valid stringified JSON
+ *@param {string} str - stringified JSON
+ *@throws Will throw an error if the entered string is not a stringified JSON
+ */
+ function isValid(str){
+	try{
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
+
+var jsonInput;
+/**
+ * @function {getInputValue} - Reads the inpute from textarea and saves it as "linestring".
+ * Then it the main-method gets called with the new route.
+ */
+ function getInputValue(){
+    
+    if(isValid(document.getElementById("input").value) == true){ // Checks whether the input is valid
+        jsonInput = JSON.parse(document.getElementById("input").value);
+        if(jsonInput.type != "FeatureCollection")
+    }
+
+    document.getElementById("errorMessage").innerHTML = ""
+    if(isValid(document.getElementById("input").value) == true){ // Checks whether the input is valid
+        if((JSON.parse(document.getElementById("input").value)).type != "LineString"){
+            document.getElementById("errorMessage").innerHTML = 'ERROR: This is not a LineString. Expected pattern: {"type":"LineString","coordinates":[...]}'
+        } else{
+            linestring = JSON.parse(document.getElementById("input").value)
+            main(linestring)
+        }
+    } else { // Throws an error if not
+        document.getElementById("errorMessage").innerHTML = "ERROR: This is not a valid GeoJSON"
+    }
+}
+
 
