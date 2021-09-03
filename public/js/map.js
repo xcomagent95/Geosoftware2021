@@ -128,7 +128,7 @@ function populateMap() {
             '<b>' + "Name: " + '</b>' + locations[i].locationID + 
             '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
             '<br><br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
-            '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position + 
+            '<br><br>' + '<b>' + "Koordinaten: " + '</b>' + position[1] + ", " + position[0] +  
             '<br><br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
         positions.push({
@@ -277,10 +277,9 @@ function calculateDistance(coord1, coord2) // works
  * @param {[double,double]} coords - Gets coordinates (usually in format lon|lat)
  */
 function switchCoords(coords){
-    var temp = coords[0];
-    coords[0] = coords[1];
-    coords[1] = temp;
-    return coords;
+    var lat = coords[1];
+    var lon = coords[0];
+    return [lat, lon];
 }
 
 // ---- Needed for whether request -------
@@ -393,24 +392,26 @@ var markerNearestStopp;
 
 function getNearestBusstopp(locationsPosition){ 
     console.log(locationsPosition);
-    
+    console.log("stopps.features.length: "+stopps.features.length);
     for(var i=0; i<stopps.features.length; i++){
         var name = stopps.features[i].properties.lbez;
-        var busStopp = stopps.features[i].geometry.coordinates; // [lat, lon]
-        var distance = calculateDistance(switchCoords(locationsPosition), switchCoords(busStopp)); 
+        var busStopp = switchCoords(stopps.features[i].geometry.coordinates); // [lat, lon]
+        var location = switchCoords(locationsPosition);
+        var distance = calculateDistance(location, busStopp); 
         sortedStopps[i] = [name, distance, busStopp];
     }
     sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e }); // Sorts the stopps ascending by the distance to the current location
     nearestStopp.name = sortedStopps[0][0]; // GeoJson filled up with information about the name,
+    console.log("nearestStopp.name: "+nearestStopp.name);
     nearestStopp.distance = sortedStopps[0][1]; // the distance between current location and busstopp,
     nearestStopp.lat = sortedStopps[0][2][0]; // latitude and
     nearestStopp.lon = sortedStopps[0][2][1]; // longitude
     console.log(nearestStopp.lat + ', ' + nearestStopp.lon);
-    markerNearestStopp = L.marker([nearestStopp.lat,nearestStopp.lon], {icon: busstoppIcon}).addTo(map);
+    markerNearestStopp = L.marker([nearestStopp.lat, nearestStopp.lon], {icon: busstoppIcon}).addTo(map);
 
     markerNearestStopp.bindPopup(
-        '<b>Name: ' + nearestStopp.name + '</b><br>' + 
-        '<b>Koordinaten: ' + nearestStopp.lat + ', ' + nearestStopp.lon + '</b><br>' +
+        '<b>Name: </b>' + nearestStopp.name + '<br>' + 
+        '<b>Koordinaten: </b>' + nearestStopp.lat + ', ' + nearestStopp.lon + '<br>' +
         '<button onclick="getWeather(' + nearestStopp.lon + ', ' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
         ).openPopup();
 
