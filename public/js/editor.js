@@ -399,22 +399,42 @@ var jsonInput;
  * Then it the main-method gets called with the new route.
  */
  function getInputValue(){
-    
-    if(isValid(document.getElementById("input").value) == true){ // Checks whether the input is valid
-        jsonInput = JSON.parse(document.getElementById("input").value);
-        if(jsonInput.type != "FeatureCollection")
-    }
-
+    document.getElementById("errorMessage").className = ""
     document.getElementById("errorMessage").innerHTML = ""
-    if(isValid(document.getElementById("input").value) == true){ // Checks whether the input is valid
-        if((JSON.parse(document.getElementById("input").value)).type != "LineString"){
-            document.getElementById("errorMessage").innerHTML = 'ERROR: This is not a LineString. Expected pattern: {"type":"LineString","coordinates":[...]}'
-        } else{
-            linestring = JSON.parse(document.getElementById("input").value)
-            main(linestring)
+    if(isValid(document.getElementById("geoJsonInput").value) == true) { // Checks whether the input is valid
+        jsonInput = JSON.parse(document.getElementById("geoJsonInput").value);
+        if(jsonInput.type != "FeatureCollection") {
+            document.getElementById("errorMessage").className = "alert alert-warning"
+            document.getElementById("errorMessage").innerHTML = 'ERROR: Dies ist keine FeatureCollection. Die erwartete Form sieht folgendermaßen aus: {"type":"FeatureCollection","features":[...]}'
+        } else {
+            if(jsonInput.features.length != 1) {
+                document.getElementById("errorMessage").className = "alert alert-warning"
+                document.getElementById("errorMessage").innerHTML = 'ERROR: Die FeatureCollection darf nur ein einzelnes Feature enthalten.'
+            } else {
+                if(jsonInput.features[0].type != "Feature") {
+                    document.getElementById("errorMessage").className = "alert alert-warning"
+                    document.getElementById("errorMessage").innerHTML = 'ERROR: Die FeatureCollection muss ein Feature enthalten.'
+                } else {
+                    if(jsonInput.features[0].geometry.type != "Point") {
+                        document.getElementById("errorMessage").className = "alert alert-warning"
+                        document.getElementById("errorMessage").innerHTML = 'ERROR: Das Feature in der FeatureCollection muss einen einzelnen Punkt als Geometrie enthalten.'
+                    } else {
+                        if(jsonInput.features[0].geometry.coordinates.length != 2) {
+                            document.getElementById("errorMessage").className = "alert alert-warning"
+                            document.getElementById("errorMessage").innerHTML = 'ERROR: Das Feature in der FeatureCollection muss ein Paar an Koordinaten enthalten.'
+                        } else {
+                            document.getElementById("name").value = jsonInput.features[0].properties.name;
+                            document.getElementById("url").value = jsonInput.features[0].properties.url;
+                            document.getElementById("description").value = jsonInput.features[0].properties.description; 
+                            document.getElementById("geometry").value = JSON.stringify(jsonInput.features[0].geometry); 
+                            document.getElementById("addLocationForm").submit();
+                            document.getElementById("errorMessage").className = "alert alert-success"
+                            document.getElementById("errorMessage").innerHTML = 'Das Hinzufügen war erfolgreich!'
+                        }
+                    }
+                }
+            }
         }
-    } else { // Throws an error if not
-        document.getElementById("errorMessage").innerHTML = "ERROR: This is not a valid GeoJSON"
     }
 }
 
