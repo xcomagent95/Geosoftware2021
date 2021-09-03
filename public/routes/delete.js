@@ -1,61 +1,57 @@
-var express = require('express');
-const app = express();
-var router = express.Router();
-const assert = require('assert');
+var express = require('express'); //require express
+const app = express(); //initialize express app
+var router = express.Router(); //initialize express-router
 
 //Here we are configuring express to use body-parser as middle-ware
 app.use(express.json());
 app.use(express.urlencoded());
 
-//MongoConnect
-//-------------->>>>Hier muss die passende Datenbank und die passende Collection angegeben werden!!!!!<<<<--------------
+//MongoClient and DB
 const url = 'mongodb://localhost:27017' // connection URL
 const dbName = 'tourguidedb' // database name
-const locationsCollection = 'locations' // collection name
-const toursCollection = 'tours' // collection name
-
-//----------------------------------------------------------------------------------------------------------------------
-const MongoClient = require('mongodb').MongoClient
+const locationsCollection = 'locations' // collection containing the locations
+const toursCollection = 'tours' // collection containing the tours
+const MongoClient = require('mongodb').MongoClient;
+const { stringify } = require('querystring'); 
 const client = new MongoClient(url) // mongodb client
 
-// Delete Router
+//Delete Location - this post operation can be used to remove existing locations from the locations collection 
 router.post('/removeLocation', function(req, res, next)
 {
-    console.log(req.body);
+    console.log(">remove location payload: ", req.body); //log the request body on the server console
+
     client.connect(function(err)
     {
         const db = client.db(dbName)
         const collection = db.collection(locationsCollection)
-        var oldName = req.body.oldName;
+        var oldLocationID = req.body.oldName;
         var inUse = false;
-        //check if Location is used
+        //check if Location is part of a stored tour
         db.collection(toursCollection).find({}).toArray(function(err, docs) 
         {
           for(var i = 0; i < docs.length; i++) {
             for(var j = 0; j < docs[i].locations.length; j++) {
-              if(oldName == docs[i].locations[j]) {
+              if(oldLocationID == docs[i].locations[j]) {
                 inUse = true;
               }
             }
           }
         })
 
-        //check if number exists
-        collection.find({locationID: oldName}).toArray(function(err, docs)
+        collection.find({locationID: oldLocationID}).toArray(function(err, docs)
         {      
             if(docs.length >= 1 && inUse == false){
-                //delete Document
-                collection.deleteOne({locationID: oldName}, function(err, results){
+                collection.deleteOne({locationID: oldLocationID}, function(err, results){
                 })
-                res.sendFile(__dirname + "/done.html")
+                res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
                 return;
             }
             if(inUse == true) {
-                res.sendFile(__dirname + "/error_location_in_use.html")
+                res.sendFile(__dirname + "/error_location_in_use.html");  //send a location in use error   
                 return; 
             }
             else {
-                res.sendFile(__dirname + "/error_nonexistent_number.html")
+                res.sendFile(__dirname + "/error_nonexistent_number.html"); //send nonexistent location error
                 return;
             }
         })
@@ -68,13 +64,13 @@ router.post('/removeTour', function(req, res, next)
     {
         const db = client.db(dbName)
         const collection = db.collection(toursCollection)
-        var oldTour = req.body.tourToDelete;
+        var oldTourID = req.body.tourToDelete;
         //check if number exists
-        collection.find({tourID: oldTour}).toArray(function(err, docs)
+        collection.find({tourID: oldTourID}).toArray(function(err, docs)
         {      
             if(docs.length >= 1){
                 //delete Document
-                collection.deleteOne({tourID: oldTour}, function(err, results){
+                collection.deleteOne({tourID: oldTourID}, function(err, results){
                 })
                 res.sendFile(__dirname + "/done.html")
             }

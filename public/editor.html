@@ -112,7 +112,7 @@
               <div>
                 <!--Deleting Tours-->
                 <h5><b>Löschen einer Route</b></h5>
-                <select class="custom-select" id="selectTourToDelete" onchange="selectTourForDelete()"><option selected>Auswählen...</option></select><br>
+                <select class="custom-select" id="selectTourToDelete" onchange="selectTourForDelete()"></select><br>
                 <form action="/delete/removeTour" method="post">
                     <input type="hidden" id="tourToDelete" name="tourToDelete"><br>
                     <input type="submit" value="Löschen der Tour">

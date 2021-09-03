@@ -3,6 +3,7 @@
 var locations;
 var tours;
 var positions;
+
 //Markers
 var locationIcon = L.icon({
     iconUrl: './gfx/museum.png',
@@ -19,23 +20,24 @@ var busstoppIcon = L.icon({
 });
 
 var map = L.map('mapdiv'); 
-var locationsLayer = L.featureGroup().addTo(map);
-var toursLayer = L.featureGroup().addTo(map);
+var locationsLayer = L.featureGroup().addTo(map); //layerGroup for the locations
+var toursLayer = L.featureGroup().addTo(map); //layerGroup for the tours
 function getAllfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getCollections", //request url is the prebuilt request
         method: "GET", //method is GET since we want to get data not post or update it
-        async: false
+        async: false //function does not return immediately 
         })
         .done(function(res) { //if the request is done -> successful
-            locations = res[0];
-            tours = res[1];
-            positions = [];
-            fillTables();
-            populateMap()
+            locations = res[0]; //retrieve locations from response
+            tours = res[1]; //retrieve tours from response
+            positions = []; //initialize positions
+            fillTables(); //fill alles tables
+            populateMap(); //populate the map with the locations
+            return;
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
-            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
+            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //log a message on the console
             return;
         })
         .always(function(xhr, status) { //if the request is "closed", either successful or not 
@@ -45,17 +47,15 @@ function getAllfromDB() {
     }
 }  
 getAllfromDB();
+
 var featureLayer;
 
 /**
- * @function {fillTable} - 
- * @param {} data - 
- * @param {Srtring} table - Gets the id of a table
- * @param {} field - 
+ * @function {fillTables} - 
  */
 function fillTables() {
-    var locationsTable = document.getElementById('locationsTableBody');
-    var toursTable = document.getElementById('toursTableBody');
+    var locationsTable = document.getElementById('locationsTableBody'); //get the the table containing the locations
+    var toursTable = document.getElementById('toursTableBody'); //get the the table containing the tours
     var locationsTableData = []; //initialise tabledata as array
     var toursTableData = []; //initialise tabledata as array
     for(var i = 0; i < locations.length; i++) { //iterate over the paths
@@ -73,7 +73,7 @@ function fillTables() {
                         <td><a href="${locationsTableData[i][1]}">Link</a></td>
                         <td><button type="button" class="btn btn-dark" onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button></td>
                     </tr>`
-        locationsTable.innerHTML += row; //pass row to given table
+        locationsTable.innerHTML += row; //pass row into given table
     }
 
     //fill the table with the paths
@@ -96,12 +96,15 @@ function fillTables() {
 }
 
 //----------------->Map & and Map related Functions<-----------------
+/**
+ * @function {populateMap} - 
+ */
 function populateMap() {
     //Map Object
     map.setView([51.975, 7.61], 13);
 
     //Basemap Layer
-    var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map);
+    var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map); //OpenStreetMap
 
     for(var i = 0; i < locations.length; i++) {
         var location = L.geoJson(locations[i].GeoJson);
@@ -139,8 +142,6 @@ function populateMap() {
         });
     }
 
-    
-
     //Layer Control
     var baseLayer = {
         "Open Street Map": osm,
@@ -151,11 +152,10 @@ function populateMap() {
         "Touren": toursLayer
     };
 
-    L.control.layers(baseLayer, featureLayer).addTo(map);
+    L.control.layers(baseLayer, featureLayer).addTo(map); //add layer control to map
 }
 
 var currentMarker;
-
 function zoomToFeature(name) {
     toursLayer.clearLayers()
     map.removeLayer(toursLayer);
@@ -227,7 +227,7 @@ function zoomToTour(name) {
 
 // distance calculation: 
 // This constant is the mean earth radius
-const R = 6371 
+const R = 6371;
 
 /**
 *@function deg2rad - Function to convert degree to radian
@@ -236,7 +236,7 @@ const R = 6371
 */
 function deg2rad(deg) 
 {
-    return deg * (Math.PI/180)
+    return deg * (Math.PI/180);
 }
 
 /**
@@ -246,7 +246,7 @@ function deg2rad(deg)
 */
 function rad2deg(rad)
 {
-    return rad * (180/Math.PI)
+    return rad * (180/Math.PI);
 }
 
 /**
@@ -257,19 +257,19 @@ function rad2deg(rad)
 */
 function calculateDistance(coord1, coord2) // works
 {
-    var lat1 = deg2rad(coord1[0])
-    var lon1 = deg2rad(coord1[1])
-    var lat2 = deg2rad(coord2[0])
-    var lon2 = deg2rad(coord2[1])
+    var lat1 = deg2rad(coord1[0]);
+    var lon1 = deg2rad(coord1[1]);
+    var lat2 = deg2rad(coord2[0]);
+    var lon2 = deg2rad(coord2[1]);
  
-    var dLat = lat2-lat1
-    var dLon = lon2-lon1
+    var dLat = lat2-lat1;
+    var dLon = lon2-lon1;
     var a = Math.sin(dLon/2) * Math.sin(dLon/2) +
             Math.cos(lon1) * Math.cos(lon2) * 
-            Math.sin(dLat/2) * Math.sin(dLat/2)
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
-    var dist = R * c // Distance in km
-    return dist
+            Math.sin(dLat/2) * Math.sin(dLat/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var dist = R * c; // Distance in km
+    return dist;
 }
 
 /**
@@ -294,11 +294,11 @@ var weatherApi;
  */
 function iniatializeAPI(coordinates,key){
     weatherApi = "https://api.openweathermap.org/data/2.5/onecall?units=metric&lat="
-    weatherApi += coordinates[0]+"&lon="+coordinates[1]+"&exclude="+"hourly"+"&appid="+key
+    weatherApi += coordinates[0]+"&lon="+coordinates[1]+"&exclude="+"hourly"+"&appid="+key;
 }
 
 //variable to store the API-Key
-var clientAPIKey
+var clientAPIKey;
 /**
 * @function {} - reads the API-Key from Input-Field
 * and the geolocatization is not possible.
@@ -336,7 +336,6 @@ function getAllBusstopps(){
 } 
 
 var output;
-//function getWeather(coordinates, stoppname){
 function getWeather(lon, lat, name){
     getAPIKey();
     console.log('l.316: lon: '+lon);

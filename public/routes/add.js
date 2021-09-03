@@ -9,8 +9,8 @@ app.use(express.urlencoded());
 //MongoClient and DB
 const url = 'mongodb://localhost:27017' // connection URL
 const dbName = 'tourguidedb' // database name
-const locationsCollection = 'locations' // collection name
-const toursCollection = 'tours' // collection name
+const locationsCollection = 'locations' // collection containing the locations
+const toursCollection = 'tours' // collection containing the tours
 const MongoClient = require('mongodb').MongoClient;
 const { stringify } = require('querystring'); 
 const client = new MongoClient(url) // mongodb client
@@ -41,7 +41,7 @@ router.post('/newLocation', function(req, res, next)
   {
     const db = client.db(dbName) //database
     const collection = db.collection(locationsCollection) //locations collection
-    collection.find({locationID: req.body.name}).toArray(function(err, docs)
+    collection.find({locationID: locationID}).toArray(function(err, docs)
     {
         //check if name already exists
         if(docs.length >= 1) { //if a location with the same locationID already exists
@@ -80,7 +80,7 @@ router.post('/newTour', function(req, res, next)
   {
     const db = client.db(dbName) //database
     const collection = db.collection(toursCollection) //collection
-    collection.find({tourID: req.body.tour}).toArray(function(err, docs)
+    collection.find({tourID: tourID}).toArray(function(err, docs)
     {
         //check if name already exists
         if(docs.length >= 1){ //if a tour with the same tourID already exists
@@ -89,7 +89,7 @@ router.post('/newTour', function(req, res, next)
         } 
         else {
           //Insert the document in the database
-          collection.insertOne({tourID,locations}, function(err, result) //insert new tour into collection
+          collection.insertOne({tourID, locations}, function(err, result) //insert new tour into collection
           {
             res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
             return;
