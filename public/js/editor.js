@@ -1,4 +1,7 @@
 "use strict"
+$.ajaxSetup({
+    async: false
+});
 //----------------->Map & and Map related Functions<-----------------
 //Map Object
 var map = L.map('mapdiv'); 
@@ -35,7 +38,7 @@ var newGeoJSON; //initialize new GeoJson for new Locations
 map.on('draw:created', function(e) {
     //check if input is Array or Object
     if (e.layer._latlngs instanceof Array) { //Object is a Polygon
-        //add object to map
+    //add object to map
     locationLayer.addLayer(e.layer); //add new Object to the locationLayer
     e.layer.bindPopup(
             '<label for="pname">Name</label><br>'
@@ -339,7 +342,6 @@ function getDescription(sourceID, targetID) {
     var keyword = getTitle(url);
     if(url.includes("wikipedia.org")) {
         $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=3&explaintext=true&titles=' + keyword + '&origin=*', function(data) {
-            async: false
             var key = Object.keys(data.query.pages)[0];
             var article = JSON.stringify(data.query.pages.valueOf(key));
             if (key == -1) {
