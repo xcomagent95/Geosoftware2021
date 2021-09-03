@@ -1,4 +1,5 @@
 "use strict"
+
 var locations;
 var tours;
 var positions;
@@ -279,6 +280,7 @@ function switchCoords(coords){
     var temp = coords[0];
     coords[0] = coords[1];
     coords[1] = temp;
+    return coords;
 }
 
 // ---- Needed for whether request -------
@@ -389,15 +391,15 @@ var test;
 var nearestStopp = {};
 var markerNearestStopp;
 
-function getNearestBusstopp(position){ 
-    console.log(position);
-    /*
+function getNearestBusstopp(locationsPosition){ 
+    console.log(locationsPosition);
+    
     for(var i=0; i<stopps.features.length; i++){
         var name = stopps.features[i].properties.lbez;
-        var position = position; // [lat, lon]
-        var distance = calculateDistance(position, positions[markerIndex].coords); // CENTROID CALCULATION DOESNT WORK 
+        var busStopp = stopps.features[i].geometry.coordinates; // [lat, lon]
+        var distance = calculateDistance(switchCoords(locationsPosition), switchCoords(busStopp)); 
         //console.log(distance);
-        sortedStopps[i] = [name, distance, position];
+        sortedStopps[i] = [name, distance, busStopp];
     }
     sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e });
     // nearestStopp = sortedStopps[0];
@@ -408,13 +410,13 @@ function getNearestBusstopp(position){
     nearestStopp.lon = sortedStopps[0][2][1];
     console.log(nearestStopp.lat +', '+nearestStopp.lon);
     // console.log(nearestStopp);
-    markerNearestStopp = L.marker([nearestStopp.lon,nearestStopp.lat], {icon: busstoppIcon}).addTo(map);
+    markerNearestStopp = L.marker([nearestStopp.lat,nearestStopp.lon], {icon: busstoppIcon}).addTo(map);
 
     markerNearestStopp.bindPopup(
         '<b>Name: ' + nearestStopp.name + '</b><br>' + 
-        '<b>Koordinaten: ' + nearestStopp.lon + nearestStopp.lat + '</b><br>' +
+        '<b>Koordinaten: ' + nearestStopp.lat + nearestStopp.lon + '</b><br>' +
         '<button onclick="getWeather(' + nearestStopp.lon + ',' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
         ).openPopup();
-*/
+
 }
 
