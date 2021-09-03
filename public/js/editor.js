@@ -109,7 +109,9 @@ function getAllfromDB() {
             for(i = 0; i < locations.length; i++) {
                 var layer = L.geoJSON(locations[i].GeoJson);
                 locationLayer.addLayer(layer);
-                layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].locationID + '<br><br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + '<br><br>' + '<b>' +  "Description: " + '</b>' + locations[i].GeoJson.features[0].properties.description
+                layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].locationID + '<br><br>' 
+                                + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + '<br><br>' 
+                                + '<b>' +  "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description
                 + '<input type="hidden" id="locationToDelete" name="locationToDelete" value= "' + locations[i].locationID + '">' 
                 + '<br></br><button onclick="passLocationToDeleteForm()">Location löschen</button>');
             }
