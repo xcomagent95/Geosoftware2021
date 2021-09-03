@@ -24,33 +24,33 @@ router.post('/removeLocation', function(req, res, next)
     {
         const db = client.db(dbName)
         const collection = db.collection(locationsCollection)
-        var oldLocationID = req.body.oldName;
+        var locationID = req.body.oldName;
         var inUse = false;
         //check if Location is part of a stored tour
         db.collection(toursCollection).find({}).toArray(function(err, docs) 
         {
-          for(var i = 0; i < docs.length; i++) {
-            for(var j = 0; j < docs[i].locations.length; j++) {
-              if(oldLocationID == docs[i].locations[j]) {
-                inUse = true;
+          for(var i = 0; i < docs.length; i++) { //check all tours
+            for(var j = 0; j < docs[i].locations.length; j++) { //check all locations in tours
+              if(locationID == docs[i].locations[j]) { //if the location to be deleted is still part of a tour
+                inUse = true; //set inUse to true
               }
             }
           }
-        })
+        });
 
-        collection.find({locationID: oldLocationID}).toArray(function(err, docs)
+        collection.find({locationID: locationID}).toArray(function(err, docs)
         {      
-            if(docs.length >= 1 && inUse == false){
-                collection.deleteOne({locationID: oldLocationID}, function(err, results){
+            if(docs.length >= 1 && inUse == false){ //if the locations exists and is not in use
+                collection.deleteOne({locationID: locationID}, function(err, results){ //delte the location from the locations collection
                 })
                 res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
                 return;
             }
-            if(inUse == true) {
+            if(inUse == true) { //if the location is still in use
                 res.sendFile(__dirname + "/error_location_in_use.html");  //send a location in use error   
                 return; 
             }
-            else {
+            else { //if the location does not exist
                 res.sendFile(__dirname + "/error_nonexistent_number.html"); //send nonexistent location error
                 return;
             }
@@ -58,24 +58,25 @@ router.post('/removeLocation', function(req, res, next)
     })
 })
 
+//Delete Tour - this post operation can be used to remove existing tours from the tours collection 
 router.post('/removeTour', function(req, res, next)
 {
     client.connect(function(err)
     {
         const db = client.db(dbName)
         const collection = db.collection(toursCollection)
-        var oldTourID = req.body.tourToDelete;
-        //check if number exists
-        collection.find({tourID: oldTourID}).toArray(function(err, docs)
+        var tourID = req.body.tourToDelete;
+        
+        
+        collection.find({tourID: tourID}).toArray(function(err, docs)
         {      
-            if(docs.length >= 1){
-                //delete Document
-                collection.deleteOne({tourID: oldTourID}, function(err, results){
+            if(docs.length >= 1){ //check if tour exists
+                collection.deleteOne({tourID: tourID}, function(err, results){ //delte the tour from the tours collection
                 })
-                res.sendFile(__dirname + "/done.html")
+                res.sendFile(__dirname + "/done.html") //send positive response -> the post operation war successful
             }
-            else {
-                res.sendFile(__dirname + "/error_nonexistent_number.html")
+            else { //if the tour does not exist
+                res.sendFile(__dirname + "/error_nonexistent_number.html") //send nonexistent tour error
             }
             
         })

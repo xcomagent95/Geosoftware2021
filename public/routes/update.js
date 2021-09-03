@@ -1,20 +1,18 @@
-var express = require('express'); //get express
-const app = express(); //use express
-var router = express.Router(); //get router
-const assert = require('assert'); 
+var express = require('express'); //require express
+const app = express(); //initialize express app
+var router = express.Router(); //initialize express-router
 
 //Here we are configuring express to use body-parser as middle-ware
 app.use(express.json());
 app.use(express.urlencoded());
 
-//MongoConnect
-//-------------->>>>Hier muss die passende Datenbank und die passende Collection angegeben werden!!!!!<<<<--------------
+//MongoClient and DB
 const url = 'mongodb://localhost:27017' // connection URL
 const dbName = 'tourguidedb' // database name
-const locationsCollection = 'locations' // collection name
-const toursCollection = 'tours' // collection name
-//----------------------------------------------------------------------------------------------------------------------
-const MongoClient = require('mongodb').MongoClient
+const locationsCollection = 'locations' // collection containing the locations
+const toursCollection = 'tours' // collection containing the tours
+const MongoClient = require('mongodb').MongoClient;
+const { stringify } = require('querystring'); 
 const client = new MongoClient(url) // mongodb client
 
 //Post Router
