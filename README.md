@@ -6,6 +6,9 @@ Authors: Alexander Pilz & Josefina Balzer
 The Tourguide employs the Express Node.js web application framework. The application run on port 3000.
 
 # Routers:
+
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/router_overview.jpg?raw=true)
+
 ## Search-Router:
 The Search-Router can be used to retrieve data from the mongoDB in various formats. These Functions can accessed via "http://localhost:3000/search/".
 The following actions are provided:
