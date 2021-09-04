@@ -91,34 +91,42 @@ router.post('/updateLocation', function(req, res, next)
 
 router.post('/updateTour', function(req, res, next) 
 {
-  var oldtourID = req.body.oldTour;
-  var newtourID = req.body.newTour;
-  var newLocations = req.body.newLocations.split(',');
+  console.log(">update tours payload: ", req.body); //log the request body on the server console
+  if(req.body.existingTourID == "" || req.body.newLocations == "" || req.body.newTourID == "") {
+    res.sendFile(__dirname + "/error_empty_input.html")
+    return;
+  }
+
+  var existingTourID = req.body.existingTourID;
+  var newTourID = req.body.newTourID;
+  var newLocationsRaw = req.body.newLocations.split(',');
+  var newLocations = [];
+  for(var i = 0; i < newLocationsRaw.length; i++) {
+    if(newLocationsRaw[i] != "") {
+      newLocations.push(newLocationsRaw[i]);
+    }
+  }
+
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 
   {
     const db = client.db(dbName) //database
     const collection = db.collection(toursCollection) //collection
 
-    if(oldtourID == "" || newLocations == "" || newtourID == "") {
-      res.sendFile(__dirname + "/error_empty_input.html")
-      return;
-    }
-
     //check if exists
-    collection.find({tourID: oldtourID}).toArray(function(err, docs) 
+    collection.find({tourID: existingTourID}).toArray(function(err, docs) 
     {
       if(docs.length >= 1) {
           //Update the document in the database
-          collection.find({tourID: newtourID}).toArray(function(err, docs) 
+          collection.find({tourID: newTourID}).toArray(function(err, docs) 
           {
-            if(docs.length >= 1 && oldtourID != newtourID) {
+            if(docs.length >= 1 && existingTourID != newTourID) {
                 //Update the document in the database
                 res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
                 return;
             }
             else {
-              collection.updateOne({tourID: oldtourID}, {$set:{tourID: newtourID, locations: newLocations}}, function(err, result) 
+              collection.updateOne({tourID: existingTourID}, {$set:{tourID: newTourID, locations: newLocations}}, function(err, result) 
               {
               })
               res.sendFile(__dirname + "/done.html") //redirect after Post

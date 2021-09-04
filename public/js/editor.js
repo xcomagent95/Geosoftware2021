@@ -266,8 +266,8 @@ function selectTourForUpdate() {
     var value = document.getElementById("selectTourToUpdate").value;
     for(var i = 0; i < tours.length; i++) {
         if(tours[i].tourID == value) {
-            document.getElementById('oldTour').value = tours[i].tourID;
-            document.getElementById('newTour').value = tours[i].tourID;
+            document.getElementById('existingTourID').value = tours[i].tourID;
+            document.getElementById('newTourID').value = tours[i].tourID;
             locationsInTour = tours[i].locations;
         }
     }

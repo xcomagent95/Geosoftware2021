@@ -75,7 +75,7 @@ Notwendiges Format:
                 <h>Sehenswürdigkeit, welche geändert werden soll: </h><select class="custom-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"><option selected>Auswählen...</option></select>
                 <form action="/update/updateLocation" method="post">
                   <input type="hidden" id="existingLocationID" name="existingLocationID" style="font-size:0px;"><br>
-                  <label for="newName">Name der Sehenswürdigkeit: </label><br>
+                  <label for="newLocationID">Name der Sehenswürdigkeit: </label><br>
                   <input type="text" id="newLocationID" name="newLocationID" placeholder="Neuer Name"><br><br>
                   <label for="newURL">URL der Sehenswürdigkeit: </label><br>
                   <input type="text" id="newURL" name="newURL" placeholder="Neue URL" onchange="getDescription('newURL', 'newDescription')"><br>
@@ -120,8 +120,8 @@ Notwendiges Format:
                 <form action="/update/updateTour" method="post">
                     <div style="height: 5px;"></div>
                     <label for="name">Neuer Name:</label>
-                    <input type="hidden" id="oldTour" name="oldTour"><br>
-                    <input type="text" id="newTour" name="newTour"><br> 
+                    <input type="hidden" id="existingTourID" name="existingTourID"><br>
+                    <input type="text" id="newTourID" name="newTourID"><br> 
                     <div style="height: 5px;"></div>
                     <input type="submit" value="Updaten der Tour">
                     <input type="hidden" id="newLocations" name="newLocations"><br>
