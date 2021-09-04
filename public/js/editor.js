@@ -85,14 +85,14 @@ let tours; //Array to store Tours
 var locationsInTour = [];
 
 function passLocationToAddForm() {
-    document.getElementById("name").value = document.getElementById("pname").value;
+    document.getElementById("locationID").value = document.getElementById("pname").value;
     document.getElementById("url").value = document.getElementById("purl").value;
     getDescription('url', 'description');
     document.getElementById("addLocationForm").submit();
 }
 
 function passLocationToDeleteForm() {
-    document.getElementById("oldName").value = document.getElementById("locationToDelete").value;
+    document.getElementById("locationIDToDelete").value = document.getElementById("selectedLocationID").value;
     document.getElementById("deleteLocationForm").submit();
 }
 
@@ -110,9 +110,9 @@ function getAllfromDB() {
                 var layer = L.geoJSON(locations[i].GeoJson);
                 locationLayer.addLayer(layer);
                 layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].locationID + '<br><br>' 
-                                + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + '<br><br>' 
-                                + '<b>' +  "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description
-                + '<input type="hidden" id="locationToDelete" name="locationToDelete" value= "' + locations[i].locationID + '">' 
+                                + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' 
+                                + '<b>' +  "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.Description
+                + '<input type="hidden" id="selectedLocationID" name="selectedLocationID" value= "' + locations[i].locationID + '">' 
                 + '<br></br><button onclick="passLocationToDeleteForm()">Location löschen</button>');
             }
             //Fit Bounds to the Objects
@@ -132,8 +132,8 @@ function getAllfromDB() {
                 var value = document.getElementById("selectLocationToUpdate").value;
                 //add Information to the Update-Location-Form
                 if(locations[i].locationID == value) {
-                    document.getElementById('oldNameID').value = locations[i].locationID;
-                    document.getElementById('newName').value = locations[i].locationID;
+                    document.getElementById('existingLocationID').value = locations[i].locationID;
+                    document.getElementById('newLocationID').value = locations[i].locationID;
                     document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.URL;
                     document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.Description;
                     document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry);
@@ -148,7 +148,7 @@ function getAllfromDB() {
                 elem.setAttribute("value", tours[i].tourID) 
                 elem.appendChild(elemText);
                 togglerTourDelete.appendChild(elem);
-                document.getElementById('tourToDelete').value = tours[i].tourID;
+                document.getElementById('tourIDToDelete').value = tours[i].tourID;
             } 
 
             const togglerTourUpdate = document.getElementById("selectTourToUpdate");
@@ -159,7 +159,7 @@ function getAllfromDB() {
                 elem.setAttribute("value", tours[i].tourID) 
                 elem.appendChild(elemText);
                 togglerTourUpdate.appendChild(elem);
-                document.getElementById('tourToDelete').value = tours[i].tourID;
+                document.getElementById('tourIDToDelete').value = tours[i].tourID;
             }
             //Fill Forms
             selectLocationForUpdate();
@@ -218,10 +218,10 @@ function selectLocationForUpdate() {
     var value = document.getElementById("selectLocationToUpdate").value;
     for(var i = 0; i < locations.length; i++) {
         if(locations[i].locationID == value) {
-            document.getElementById('oldNameID').value = locations[i].locationID;
-            document.getElementById('newName').value = locations[i].locationID;
-            document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.url;
-            document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.description;
+            document.getElementById('existingLocationID').value = locations[i].locationID;
+            document.getElementById('newLocationID').value = locations[i].locationID;
+            document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.URL;
+            document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.Description;
             document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry);
         }
     }
@@ -253,7 +253,7 @@ function selectTourForDelete() {
     var value = document.getElementById("selectTourToDelete").value;
     for(var i = 0; i < tours.length; i++) {
         if(tours[i].tourID == value) {
-            document.getElementById('tourToDelete').value = tours[i].tourID;
+            document.getElementById('tourIDToDelete').value = tours[i].tourID;
         }
     }
 }

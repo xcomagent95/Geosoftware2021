@@ -21,19 +21,19 @@ router.post('/newLocation', function(req, res, next)
   console.log(">add location payload: ", req.body); //log the request body on the server console
 
   //Check Request
-  if(req.body.name == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') { //if some information is missing
+  if(req.body.locationID == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') { //if some information is missing
     res.sendFile(__dirname + "/error_empty_input.html"); //send a missing information error   
     return;
   }
 
   //Create Payload to Store
   var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
-        '"properties":' +  '{' + '"name":' + '"' + req.body.name + '"' + ',' 
+        '"properties":' +  '{' + '"name":' + '"' + req.body.locationID + '"' + ',' 
                                + '"url":' + '"' + req.body.url + '"' + ',' 
                                + '"description":' + '"' + req.body.description + '"' + '}' + ',' 
                                + '"geometry":' + req.body.geometry + '}' + ']' + '}';
 
-  var locationID = req.body.name; 
+  var locationID = req.body.locationID; 
   var GeoJson = JSON.parse(GeoJsonString);
 
   //connect to the mongodb database and insert one new element
@@ -65,13 +65,13 @@ router.post('/newTour', function(req, res, next)
 {
   console.log(">add tour payload: ", req.body);
   //Check Request
-  if(req.body.tour == '' || req.body.locations == '') { //if some information is missing
+  if(req.body.tourID == '' || req.body.locations == '') { //if some information is missing
     res.sendFile(__dirname + "/error_empty_input.html") //send a missing information error
     return;
   }
 
   //Create Payload to Store
-  var tourID = req.body.tour;
+  var tourID = req.body.tourID;
   var trimmedLocations = req.body.locations.substring(0, req.body.locations.length);
   var locations = trimmedLocations.split(',');
 

@@ -129,8 +129,8 @@ function populateMap() {
         mapObject.addTo(locationsLayer);
         mapObject.addTo(map).bindPopup(
             '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locations[i].locationID + "</p>" +
-            '<br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.url + 
-            '<br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.description +
+            '<br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + 
+            '<br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.Description +
             '<br>' + '<b>' + "Koordinaten: " + '</b>' + position[1] + ", " + position[0] + "<br><br>" + 
             '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
@@ -213,8 +213,8 @@ function zoomToTour(name) {
     mapObject.addTo(toursLayer);
     mapObject.addTo(map).bindPopup(
         '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locationsInTour[i].locationID + 
-        '<br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.url + 
-        '<br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.description +
+        '<br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.URL + 
+        '<br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.Description +
         '<br>' + '<b>' + "Koordinaten: " + '</b></p>' + position + 
         '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
     );

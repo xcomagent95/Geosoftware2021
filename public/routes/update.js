@@ -18,20 +18,25 @@ const client = new MongoClient(url) // mongodb client
 //Post Router
 router.post('/updateLocation', function(req, res, next) 
 {
-  //console.log(req.body);
+  console.log(">update location payload: ", req.body); //log the request body on the server console
   //Check Request
-  if(req.body.newName == '' || req.body.newURL == '' || req.body.newDescription == '' || req.body.newGeometry == '') {
+  if(req.body.newLocationID == '' || req.body.newURL == '' || req.body.newDescription == '' || req.body.newGeometry == '') {
     res.sendFile(__dirname + "/error_empty_input.html")
     return;
   }
+
+  var newLocationID = req.body.newLocationID;
+  var existingLocationID = req.body.existingLocationID;
+  var newURL = req.body.newURL;
+  var newDescription = req.body.newDescription;
+  var newGeometry = req.body.newGeometry;
+
   var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
-        '"properties":' +  '{' + '"Name":' + '"' + req.body.newName + '"' + ',' 
-                               + '"URL":' + '"' + req.body.newURL + '"' + ',' 
-                               + '"Description":' + '"' + req.body.newDescription + '"' + '}' + ',' 
-                               + '"geometry":' + req.body.newGeometry + '}' + ']' + '}';
-  //console.log(req);
-  var newlocationID = req.body.newName;
-  var oldlocationID = req.body.oldNameID;
+        '"properties":' +  '{' + '"Name":' + '"' + newLocationID + '"' + ',' 
+                               + '"URL":' + '"' + newURL + '"' + ',' 
+                               + '"Description":' + '"' + newDescription + '"' + '}' + ',' 
+                               + '"geometry":' + newGeometry + '}' + ']' + '}';
+
   var newGeoJson = JSON.parse(GeoJsonString);
 
   //connect to the mongodb database and insert one new element
@@ -41,20 +46,34 @@ router.post('/updateLocation', function(req, res, next)
     const collection = db.collection(locationsCollection) //collection
 
     //check if exists
-    collection.find({locationID: oldlocationID}).toArray(function(err, docs) 
+    collection.find({locationID: existingLocationID}).toArray(function(err, docs) 
     {
       if(docs.length >= 1) {
           //Update the document in the database
-          collection.find({locationID: newlocationID}).toArray(function(err, docs) 
+          collection.find({locationID: newLocationID}).toArray(function(err, docs) 
           {
-            if(docs.length >= 1 && oldlocationID != newlocationID) {
+            if(docs.length >= 1 && existingLocationID != newLocationID) {
                 //Update the document in the database
                 res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
                 return;
             }
             else {
-              collection.updateOne({locationID: oldlocationID}, {$set:{locationID: newlocationID, GeoJson: newGeoJson}}, function(err, result) 
+              collection.updateOne({locationID: existingLocationID}, {$set:{locationID: newLocationID, GeoJson: newGeoJson}}, function(err, result) 
               {
+                //check if Location is part of a stored tour
+                db.collection(toursCollection).find({}).toArray(function(err, docs) 
+                {
+                  for(var i = 0; i < docs.length; i++) { //check all tours
+                    for(var j = 0; j < docs[i].locations.length; j++) { //check all locations in tours
+                      if(existingLocationID == docs[i].locations[j]) { //if the location to be updated is still part of a tour
+                        docs[i].locations[j] = newLocationID; //update locationID in tour
+                        var updatedLocations =  docs[i].locations;
+                        db.collection(toursCollection).updateOne({tourID: docs[i].tourID}, {$set:{tourID: docs[i].tourID, locations: updatedLocations}}, function(err, result) 
+                        {})
+                      }
+                    }
+                  }
+                });
               })
               res.sendFile(__dirname + "/done.html") //redirect after Post
               return;

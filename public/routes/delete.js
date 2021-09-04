@@ -24,7 +24,7 @@ router.post('/removeLocation', function(req, res, next)
     {
         const db = client.db(dbName)
         const collection = db.collection(locationsCollection)
-        var locationID = req.body.oldName;
+        var locationID = req.body.locationIDToDelete;
         var inUse = false;
         //check if Location is part of a stored tour
         db.collection(toursCollection).find({}).toArray(function(err, docs) 
@@ -65,7 +65,7 @@ router.post('/removeTour', function(req, res, next)
     {
         const db = client.db(dbName)
         const collection = db.collection(toursCollection)
-        var tourID = req.body.tourToDelete;
+        var tourID = req.body.tourIDToDelete;
         
         
         collection.find({tourID: tourID}).toArray(function(err, docs)
