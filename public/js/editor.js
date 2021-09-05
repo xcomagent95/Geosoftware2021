@@ -43,13 +43,13 @@ map.on('draw:created', function(e) {
     if (e.layer._latlngs instanceof Array) { //Object is a Polygon
     //add object to map
     locationLayer.addLayer(e.layer); //add new Object to the locationLayer
-    e.layer.bindPopup(
+    e.layer.bindPopup( //bind a popup to the newly created "location"
             '<label for="pname">Name</label><br>'
-            + '<input type="text" id="pname" name="pname"><br>'
+            + '<input type="text" id="pname" name="pname"><br>' 
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl">'
             + '<button onclick="passLocationToAddForm()">Location hinzufügen</button> '
-        ).openPopup([e.layer._latlngs[0][0].lat, e.layer._latlngs[0][0].lng]);
+        ).openPopup([e.layer._latlngs[0][0].lat, e.layer._latlngs[0][0].lng]); //open the popup
 
         var geometry = []; //initinalize Array for the Verticies of the Polygon
         //get the Verticies
@@ -66,13 +66,13 @@ map.on('draw:created', function(e) {
     else { //Object is a Point
         //add object to map
         locationLayer.addLayer(e.layer); //add new Object to the locationLayer
-        e.layer.bindPopup(
+        e.layer.bindPopup( //bind a popup to the newly created "location"
             '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>'
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl">'
             + '<button onclick="passLocationToAddForm()">Location hinzufügen</button> '
-        ).openPopup([e.layer._latlng.lat, e.layer._latlng.lng]);
+        ).openPopup([e.layer._latlng.lat, e.layer._latlng.lng]); //open the popup
         var geometry; //initinalize Point
         //get the Point
         geometry = [e.layer._latlng.lat, e.layer._latlng.lng];
@@ -85,28 +85,28 @@ map.on('draw:created', function(e) {
 
 let locations; //Array to store Locations
 let tours; //Array to store Tours
-var locationsInTour = [];
+var locationsInTour; //Array to store the location in a specific tour
 
 /**
- * @function {passLocationToAddForm} - 
+ * @function {passLocationToAddForm} - pass the information of a location to the corresponding form
  */
 function passLocationToAddForm() {
-    document.getElementById("locationID").value = document.getElementById("pname").value;
-    document.getElementById("url").value = document.getElementById("purl").value;
-    getDescription('url', 'description');
-    document.getElementById("addLocationForm").submit();
+    document.getElementById("locationID").value = document.getElementById("pname").value; //get locationID
+    document.getElementById("url").value = document.getElementById("purl").value; //get URL
+    getDescription('url', 'description'); //retrive the article snippet
+    document.getElementById("addLocationForm").submit(); //submit the form
 }
 
 /**
- * @function {passLocationToDeleteForm} - 
+ * @function {passLocationToDeleteForm} - pass the information of a location to the corresponding form
  */
 function passLocationToDeleteForm() {
-    document.getElementById("locationIDToDelete").value = document.getElementById("selectedLocationID").value;
-    document.getElementById("deleteLocationForm").submit();
+    document.getElementById("locationIDToDelete").value = document.getElementById("selectedLocationID").value; //get locationID
+    document.getElementById("deleteLocationForm").submit(); //submit the form
 }
 
 /**
- * @function {getAllfromDB} - 
+ * @function {getAllfromDB} - retrieve all data (locations and tours) from mongoDB
  */
 function getAllfromDB() { 
     {$.ajax({ //handle request via ajax
@@ -356,7 +356,7 @@ function addLocationsToTour() {
  */
 function deleteLocationsFromTour() {
     //Delete a Location from an existing Tour
-    var locationToDelete = document.getElementById("selectLocationsToDeleteFromTour").value;
+    var locationToDelete = document.getElementById("selectLocationsToDeleteFromTour").value; 
     var newlocationsInTour = [];
     for(var i = 0; i < locationsInTour.length; i++) {
         if(locationsInTour[i] != locationToDelete) {
@@ -376,53 +376,55 @@ function deleteLocationsFromTour() {
 }
 
 /**
- * @function {getDescription} - 
- * @param {String} sourceID
- * @param {String} targetID
+ * @function {getDescription} - Get a snippet from a wikipaedia article for a specified object
+ * @param {String} sourceID - gets the id from which the wikipaedia link can be obtained
+ * @param {String} targetID - gets the id of the object in which to store the snipped
  */
 function getDescription(sourceID, targetID) {
     //get Wikipaedia Snippets for valid Article-URL
-    var url = document.getElementById(sourceID).value;
-    var keyword = getTitle(url);
-    if(url.includes("wikipedia.org")) {
+    var url = document.getElementById(sourceID).value; //get the url from sourceID
+    var keyword = getTitle(url); //get keyword via getTitle()
+    if(url.includes("wikipedia.org")) { //if the url is a wikipaedia article
         $.getJSON('http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=3&explaintext=true&titles=' + keyword + '&origin=*', function(data) {
-            var key = Object.keys(data.query.pages)[0];
-            var article = JSON.stringify(data.query.pages.valueOf(key));
-            if (key == -1) {
-                document.getElementById(targetID).value = "keine Information vorhanden";
+            //get the article as json
+            var key = Object.keys(data.query.pages)[0]; //get articleID 
+            var article = JSON.stringify(data.query.pages.valueOf(key)); //get the article
+            if (key == -1) { //if no matching artcile is found
+                document.getElementById(targetID).value = "keine Information vorhanden"; //store a short info in the target-object
             }
-            else {
-                article = article.substring(article.indexOf('"extract":"'));
+            else { //if a matching article is found
+                //cut the artcile to length
+                article = article.substring(article.indexOf('"extract":"')); 
                 article = article.replace('extract":"', "");
                 article = article.substring(0, article.length - 3);
                 article = article.substring(1);
-                document.getElementById(targetID).value = article;
+                document.getElementById(targetID).value = article; //store the cut article in the target-object
             }
         });
     }
-    else{
-        document.getElementById(targetID).value = "keine Information vorhanden";
+    else{ //if the url is not a wikipaedia article
+        document.getElementById(targetID).value = "keine Information vorhanden"; //store a short info in the target-object
     }
 }
 
 /**
  * @function {getTitle} - Get title of article from wikipaedia-URL
- * @param {String} url - The function gets an url in form of a string 
- * @returns {String} keyword
+ * @param {String} url - gets an url in form of a string 
+ * @returns {String} - returns the keyword with which an wikipaedia article can be found
  */
 function getTitle(url) {
-    var chars = Array.from(url);
-    var counter = 0;
-    var keyword = '';
-    for(var i = 0; i < chars.length; i++) {
-        if(chars[i] == '/') {
-            counter ++;
+    var chars = Array.from(url); //transform the url into an array of chars
+    var counter = 0; //counter which stores the numer of / in chars array
+    var keyword = ''; //initialize keyword
+    for(var i = 0; i < chars.length; i++) { //iterate over the chars
+        if(chars[i] == '/') { //if char is a /
+            counter ++; //increment counter
         }
-        if(counter == 4) {
-            keyword = keyword + chars[i];
+        if(counter == 4) { //if four / are registered
+            keyword = keyword + chars[i]; //the keyword is reached an written in to keyword variable
         }
     }
-    return keyword.substring(1);
+    return keyword.substring(1); //return the keyword
 }
 
 /**
