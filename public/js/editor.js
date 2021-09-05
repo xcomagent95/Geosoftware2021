@@ -1,4 +1,7 @@
+//run javaScript in strict mode
 "use strict"
+
+//set ajax to run in asychronous mode only
 $.ajaxSetup({
     async: false
 });
@@ -84,6 +87,9 @@ let locations; //Array to store Locations
 let tours; //Array to store Tours
 var locationsInTour = [];
 
+/**
+ * @function {passLocationToAddForm} - 
+ */
 function passLocationToAddForm() {
     document.getElementById("locationID").value = document.getElementById("pname").value;
     document.getElementById("url").value = document.getElementById("purl").value;
@@ -91,12 +97,17 @@ function passLocationToAddForm() {
     document.getElementById("addLocationForm").submit();
 }
 
+/**
+ * @function {passLocationToDeleteForm} - 
+ */
 function passLocationToDeleteForm() {
     document.getElementById("locationIDToDelete").value = document.getElementById("selectedLocationID").value;
     document.getElementById("deleteLocationForm").submit();
 }
 
-
+/**
+ * @function {getAllfromDB} - 
+ */
 function getAllfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getCollections", //request url is the prebuild request
@@ -178,9 +189,12 @@ function getAllfromDB() {
 }  
 getAllfromDB();
 
-// Dynamische Checkbox:
 
+/**
+ * @function {buildCheckboxDynamically} - 
+ */
 function buildCheckboxDynamically(listOfLocations){
+    // Dynamische Checkbox:
     for(var i=0; i<listOfLocations.length; i++){
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -200,7 +214,9 @@ function buildCheckboxDynamically(listOfLocations){
     }
 }
 
-
+/**
+ * @function {getAllChecked} - 
+ */
 function getAllChecked(){
     var checked = [];
     var counter = 0;
@@ -213,8 +229,11 @@ function getAllChecked(){
     return checked;
 }
 
-//Function for populating the Form which is used to select the Location to be Updated
+/**
+ * @function {selectLocationForUpdate} - 
+ */
 function selectLocationForUpdate() {
+    //Function for populating the Form which is used to select the Location to be Updated
     var value = document.getElementById("selectLocationToUpdate").value;
     for(var i = 0; i < locations.length; i++) {
         if(locations[i].locationID == value) {
@@ -227,8 +246,11 @@ function selectLocationForUpdate() {
     }
 }
 
-//clear Input-Field when creating a new Tour
+/**
+ * @function {clearLocations} - 
+ */
 function clearLocations() {
+    //clear Input-Field when creating a new Tour
     document.getElementById("selectLocationToAddToTour").options.length = 0;
     const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
             for(i = 0; i < locations.length; i++) {
@@ -242,14 +264,20 @@ function clearLocations() {
     document.getElementById('locations').value = "";
 }
 
+/**
+ * @function {addTour} - 
+ */
 function addTour() {
     var locations = getAllChecked();
     document.getElementById("locations").value = locations;
     document.getElementById("addTourForm").submit();
 }
 
-//Selector for the deletion of a Tour
+/**
+ * @function {selectTourForDelete} - 
+ */
 function selectTourForDelete() {
+    //Selector for the deletion of a Tour
     var value = document.getElementById("selectTourToDelete").value;
     for(var i = 0; i < tours.length; i++) {
         if(tours[i].tourID == value) {
@@ -258,8 +286,11 @@ function selectTourForDelete() {
     }
 }
 
-//Selector for updating an existing Tour
+/**
+ * @function {selectTourForUpdate} - 
+ */
 function selectTourForUpdate() {
+    //Selector for updating an existing Tour
     document.getElementById("newLocations").value = "";
     document.getElementById("selectLocationsToDeleteFromTour").options.length = 0;
     document.getElementById("selectLocationsToAddToTour").options.length = 0;
@@ -300,8 +331,11 @@ function selectTourForUpdate() {
     } 
 }
 
-//Add a Location to an existing Tour
+/**
+ * @function {addLocationsToTour} - 
+ */
 function addLocationsToTour() {
+    //Add a Location to an existing Tour
     var locationToAdd = document.getElementById("selectLocationsToAddToTour").value;
     var newlocationsInTour = locationsInTour;
     newlocationsInTour.push(locationToAdd);
@@ -317,8 +351,11 @@ function addLocationsToTour() {
     document.getElementById("selectLocationsToDeleteFromTour").appendChild(elem);
 }
 
-//Delete a Location from an existing Tour
+/**
+ * @function {deleteLocationsFromTour} - 
+ */
 function deleteLocationsFromTour() {
+    //Delete a Location from an existing Tour
     var locationToDelete = document.getElementById("selectLocationsToDeleteFromTour").value;
     var newlocationsInTour = [];
     for(var i = 0; i < locationsInTour.length; i++) {
@@ -338,8 +375,13 @@ function deleteLocationsFromTour() {
     document.getElementById("selectLocationsToAddToTour").appendChild(elem);
 }
 
-//get Wikipaedia Snippets for valid Article-URL
+/**
+ * @function {getDescription} - 
+ * @param {String} sourceID
+ * @param {String} targetID
+ */
 function getDescription(sourceID, targetID) {
+    //get Wikipaedia Snippets for valid Article-URL
     var url = document.getElementById(sourceID).value;
     var keyword = getTitle(url);
     if(url.includes("wikipedia.org")) {
@@ -366,7 +408,7 @@ function getDescription(sourceID, targetID) {
 /**
  * @function {getTitle} - Get title of article from wikipaedia-URL
  * @param {String} url - The function gets an url in form of a string 
- * @returns 
+ * @returns {String} keyword
  */
 function getTitle(url) {
     var chars = Array.from(url);

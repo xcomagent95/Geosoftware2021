@@ -67,7 +67,7 @@ router.post('/updateLocation', function(req, res, next)
                     for(var j = 0; j < docs[i].locations.length; j++) { //check all locations in tours
                       if(existingLocationID == docs[i].locations[j]) { //if the location to be updated is still part of a tour
                         docs[i].locations[j] = newLocationID; //update locationID in tour
-                        var updatedLocations =  docs[i].locations;
+                        var updatedLocations =  docs[i].locations;  
                         db.collection(toursCollection).updateOne({tourID: docs[i].tourID}, {$set:{tourID: docs[i].tourID, locations: updatedLocations}}, function(err, result) 
                         {})
                       }
