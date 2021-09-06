@@ -85,7 +85,7 @@ map.on('draw:created', function(e) {
 
 let locations; //Array to store Locations
 let tours; //Array to store Tours
-var locationsInTour; //Array to store the location in a specific tour
+var locationsInTour = []; //Array to store the location in a specific tour
 
 /**
  * @function {passLocationToAddForm} - pass the information of a location to the corresponding form
@@ -117,7 +117,7 @@ function getAllfromDB() {
         .done(function(res) { //if the request is done -> successful
             locations = res[0]; //store locations in locations array
             tours = res[1]; //store tours in tours array
-            for(i = 0; i < locations.length; i++) { //iterate over the locations
+            for(var i = 0; i < locations.length; i++) { //iterate over the locations
                 var layer = L.geoJSON(locations[i].GeoJson); //create a layer
                 locationLayer.addLayer(layer); //add the layer to the locationLayer group
                 layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].locationID + '<br><br>' 
@@ -130,16 +130,16 @@ function getAllfromDB() {
 
             buildCheckboxDynamically(locations); //build checkboxes for the addLocationToTour form
 
-            
-            const togglerLocationUpdate = document.getElementById("selectLocationToUpdate");
+            //fill the toggler for the selection of the location to be updated with data
+            const togglerLocationUpdate = document.getElementById("selectLocationToUpdate"); //define the toggler
             for(i = 0; i < locations.length; i++) { //iterate over the Locations
-                const elem = document.createElement("option");
+                const elem = document.createElement("option"); //create options
                 elem.href = "#";
                 const elemText = document.createTextNode(locations[i].locationID); 
                 elem.setAttribute("value", locations[i].locationID) 
                 elem.appendChild(elemText);
-                togglerLocationUpdate.appendChild(elem);
-                var value = document.getElementById("selectLocationToUpdate").value;
+                togglerLocationUpdate.appendChild(elem); //append the options
+                var value = document.getElementById("selectLocationToUpdate").value; 
                 //add Information to the Update-Location-Form
                 if(locations[i].locationID == value) {
                     document.getElementById('existingLocationID').value = locations[i].locationID;
@@ -150,6 +150,7 @@ function getAllfromDB() {
                 }
             } 
 
+            //fill the toggler for the selection of tours to be deleted with data
             const togglerTourDelete = document.getElementById("selectTourToDelete");
             for(var i = 0; i < tours.length; i++) {
                 const elem = document.createElement("option");
@@ -161,6 +162,7 @@ function getAllfromDB() {
                 document.getElementById('tourIDToDelete').value = tours[i].tourID;
             } 
 
+            //fill the toggler for the selection of tours to be updated with data
             const togglerTourUpdate = document.getElementById("selectTourToUpdate");
             for(var i = 0; i < tours.length; i++) {
                 const elem = document.createElement("option");
@@ -171,17 +173,18 @@ function getAllfromDB() {
                 togglerTourUpdate.appendChild(elem);
                 document.getElementById('tourIDToDelete').value = tours[i].tourID;
             }
+
             //Fill Forms
             selectLocationForUpdate();
             selectTourForDelete();
             selectTourForUpdate();   
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
-            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
+            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //a message si logged on the console
             return;
         })
         .always(function(xhr, status) { //if the request is "closed", either successful or not 
-            console.log("Request completed"); //a short message is logged
+            console.log("Request completed - Data retrieved from DB..."); //a short message is logged
             return; 
         })
     }
@@ -190,7 +193,8 @@ getAllfromDB();
 
 
 /**
- * @function {buildCheckboxDynamically} - 
+ * @function {buildCheckboxDynamically} - function which builds the chekcboxes for the updateLocationForm from the given data
+ * @param {location[]} listOfLocations
  */
 function buildCheckboxDynamically(listOfLocations){
     // Dynamische Checkbox:
@@ -214,15 +218,15 @@ function buildCheckboxDynamically(listOfLocations){
 }
 
 /**
- * @function {getAllChecked} - 
+ * @function {getAllChecked} - function retrieves all checked locations from the checkboxes
  */
 function getAllChecked(){
-    var checked = [];
-    var counter = 0;
-    for(var i=0; i<locations.length; i++){
-        if(document.getElementById(locations[i].locationID).checked == true){
-            checked[counter] = locations[i].locationID;
-            counter++;
+    var checked = []; //initialize result array
+    var counter = 0; //initialize counter
+    for(var i=0; i < locations.length; i++){ //iterate over locations
+        if(document.getElementById(locations[i].locationID).checked == true){ //if the corresponding checkbox is checked
+            checked[counter] = locations[i].locationID; //fill the result array
+            counter++; //
         }
     }
     return checked;
@@ -232,7 +236,6 @@ function getAllChecked(){
  * @function {selectLocationForUpdate} - 
  */
 function selectLocationForUpdate() {
-    //Function for populating the Form which is used to select the Location to be Updated
     var value = document.getElementById("selectLocationToUpdate").value;
     for(var i = 0; i < locations.length; i++) {
         if(locations[i].locationID == value) {
@@ -249,8 +252,8 @@ function selectLocationForUpdate() {
  * @function {clearLocations} - 
  */
 function clearLocations() {
-    //clear Input-Field when creating a new Tour
-    document.getElementById("selectLocationToAddToTour").options.length = 0;
+    //clear the input field when creating updating a tour and an error occured
+    document.getElementById("selectLocationToAddToTour").options.length = 0; //reset the toggler
     const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
             for(i = 0; i < locations.length; i++) {
                 const elem = document.createElement("option");
@@ -260,23 +263,22 @@ function clearLocations() {
                 elem.appendChild(elemText);
                 togglerAddToTour.appendChild(elem);
     }   
-    document.getElementById('locations').value = "";
+    document.getElementById('locations').value = ""; //rest locations in form
 }
 
 /**
- * @function {addTour} - 
+ * @function {addTour} - function adds a location to a locations array of a tour
  */
 function addTour() {
-    var locations = getAllChecked();
-    document.getElementById("locations").value = locations;
-    document.getElementById("addTourForm").submit();
+    var locations = getAllChecked(); //get all checkd locations
+    document.getElementById("locations").value = locations; //store locations in form
+    document.getElementById("addTourForm").submit(); //submit the form
 }
 
 /**
  * @function {selectTourForDelete} - 
  */
 function selectTourForDelete() {
-    //Selector for the deletion of a Tour
     var value = document.getElementById("selectTourToDelete").value;
     for(var i = 0; i < tours.length; i++) {
         if(tours[i].tourID == value) {
@@ -289,7 +291,6 @@ function selectTourForDelete() {
  * @function {selectTourForUpdate} - 
  */
 function selectTourForUpdate() {
-    //Selector for updating an existing Tour
     document.getElementById("newLocations").value = "";
     document.getElementById("selectLocationsToDeleteFromTour").options.length = 0;
     document.getElementById("selectLocationsToAddToTour").options.length = 0;
@@ -334,7 +335,6 @@ function selectTourForUpdate() {
  * @function {addLocationsToTour} - 
  */
 function addLocationsToTour() {
-    //Add a Location to an existing Tour
     var locationToAdd = document.getElementById("selectLocationsToAddToTour").value;
     var newlocationsInTour = locationsInTour;
     newlocationsInTour.push(locationToAdd);

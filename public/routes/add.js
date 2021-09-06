@@ -28,9 +28,9 @@ router.post('/newLocation', function(req, res, next)
 
   //Create Payload to Store
   var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
-        '"properties":' +  '{' + '"name":' + '"' + req.body.locationID + '"' + ',' 
-                               + '"url":' + '"' + req.body.url + '"' + ',' 
-                               + '"description":' + '"' + req.body.description + '"' + '}' + ',' 
+        '"properties":' +  '{' + '"Name":' + '"' + req.body.locationID + '"' + ',' 
+                               + '"URL":' + '"' + req.body.url + '"' + ',' 
+                               + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
                                + '"geometry":' + req.body.geometry + '}' + ']' + '}';
 
   var locationID = req.body.locationID; 

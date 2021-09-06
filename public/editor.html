@@ -72,7 +72,7 @@ Notwendiges Format:
               <div>
                 <!--Updating Locations-->
                 <br><h5><b>Ändern einer Sehenswürdigkeit</b></h5>
-                <h>Sehenswürdigkeit, welche geändert werden soll: </h><select class="custom-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"><option selected>Auswählen...</option></select>
+                <h>Sehenswürdigkeit, welche geändert werden soll: </h><select class="custom-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"></select>
                 <form action="/update/updateLocation" method="post">
                   <input type="hidden" id="existingLocationID" name="existingLocationID" style="font-size:0px;"><br>
                   <label for="newLocationID">Name der Sehenswürdigkeit: </label><br>
@@ -108,8 +108,8 @@ Notwendiges Format:
               </div><br><br>
               <div>
                 <!--Updating Tours-->
-                <h5><b>Ändern einer Route</b></h5>
-                <h>Route, welche geändert werden soll: </h><select class="custom-select" id="selectTourToUpdate" onchange="selectTourForUpdate()"><option selected>Auswählen...</option></select><br>
+                <h5><b>Ändern einer Tour</b></h5>
+                <h>Route, welche geändert werden soll: </h><select class="custom-select" id="selectTourToUpdate" onchange="selectTourForUpdate()"></select><br>
                 <div style="height: 10px;"></div>
                 <select class="custom-select" id="selectLocationsToDeleteFromTour"></select>
                 <button onclick="deleteLocationsFromTour()">Diese Sehenswürdigkeit aus der Tour löschen</button><br>
