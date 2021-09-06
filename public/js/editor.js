@@ -44,10 +44,11 @@ map.on('draw:created', function(e) {
     //add object to map
     locationLayer.addLayer(e.layer); //add new Object to the locationLayer
     e.layer.bindPopup( //bind a popup to the newly created "location"
-            '<label for="pname">Name</label><br>'
+            '<b>Hinzufügen einer neuen Location</b><br><br>'
+            + '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>' 
             + '<label for="purl">URL</label><br>'
-            + '<input type="text" id="purl" name="purl">'
+            + '<input type="text" id="purl" name="purl"><br><br>'
             + '<button onclick="passLocationToAddForm()">Location hinzufügen</button> '
         ).openPopup([e.layer._latlngs[0][0].lat, e.layer._latlngs[0][0].lng]); //open the popup
 
@@ -67,10 +68,11 @@ map.on('draw:created', function(e) {
         //add object to map
         locationLayer.addLayer(e.layer); //add new Object to the locationLayer
         e.layer.bindPopup( //bind a popup to the newly created "location"
-            '<label for="pname">Name</label><br>'
+            '<b>Hinzufügen einer neuen Location</b><br><br>'
+            + '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>'
             + '<label for="purl">URL</label><br>'
-            + '<input type="text" id="purl" name="purl">'
+            + '<input type="text" id="purl" name="purl"><br><br>'
             + '<button onclick="passLocationToAddForm()">Location hinzufügen</button> '
         ).openPopup([e.layer._latlng.lat, e.layer._latlng.lng]); //open the popup
         var geometry; //initinalize Point
