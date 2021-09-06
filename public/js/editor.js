@@ -46,7 +46,8 @@ map.on('draw:created', function(e) {
     currentLayer = e.layer;
     locationLayer.addLayer(e.layer); //add new Object to the locationLayer
     e.layer.bindPopup( //bind a popup to the newly created "location"
-            '<label for="pname">Name</label><br>'
+            '<b>Hinzufügen einer neuen Location</b><br><br>'
+            + '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>' 
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl">'
@@ -70,7 +71,8 @@ map.on('draw:created', function(e) {
         currentLayer = e.layer;
         locationLayer.addLayer(e.layer); //add new Object to the locationLayer
         e.layer.bindPopup( //bind a popup to the newly created "location"
-            '<label for="pname">Name</label><br>'
+            '<b>Hinzufügen einer neuen Location</b><br><br>'
+            + '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>'
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl">'

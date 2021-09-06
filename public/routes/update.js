@@ -31,13 +31,19 @@ router.post('/updateLocation', function(req, res, next)
   var newDescription = req.body.newDescription;
   var newGeometry = req.body.newGeometry;
 
-  var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
-        '"properties":' +  '{' + '"Name":' + '"' + newLocationID + '"' + ',' 
-                               + '"URL":' + '"' + newURL + '"' + ',' 
-                               + '"Description":' + '"' + newDescription + '"' + '}' + ',' 
-                               + '"geometry":' + newGeometry + '}' + ']' + '}';
-
-  var newGeoJson = JSON.parse(GeoJsonString);
+  var GeoJson = {};
+  GeoJson.type = "FeatureCollection";
+  GeoJson.features = [];
+  GeoJson.features[0] = {};
+  GeoJson.features[0].type = "Feature";
+  GeoJson.features[0].properties = {};
+  GeoJson.features[0].properties.Name = newLocationID;
+  GeoJson.features[0].properties.URL = newURL;
+  GeoJson.features[0].properties.Description = newDescription;
+  GeoJson.features[0].geometry = {};
+  GeoJson.features[0].geometry = JSON.parse(newGeometry);
+  
+  var newGeoJson = GeoJson;
 
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 
