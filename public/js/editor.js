@@ -193,7 +193,7 @@ getAllfromDB();
 
 
 /**
- * @function {buildCheckboxDynamically} - function which builds the chekcboxes for the updateLocationForm from the given data
+ * @function {buildCheckboxDynamically} - This function creates an element and appends children of children to it so as a result we get a checkbox
  * @param {location[]} listOfLocations
  */
 function buildCheckboxDynamically(listOfLocations){
@@ -218,7 +218,7 @@ function buildCheckboxDynamically(listOfLocations){
 }
 
 /**
- * @function {getAllChecked} - function retrieves all checked locations from the checkboxes
+ * @function {getAllChecked} - This function return an array of all checked elements in the checkbox.
  */
 function getAllChecked(){
     var checked = []; //initialize result array
