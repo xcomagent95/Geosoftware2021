@@ -88,7 +88,7 @@ let tours; //Array to store Tours
 var locationsInTour = []; //Array to store the location in a specific tour
 
 /**
- * @function {passLocationToAddForm} - pass the information of a location to the corresponding form
+ * @function passLocationToAddForm - pass the information of a location to the corresponding form
  */
 function passLocationToAddForm() {
     document.getElementById("locationID").value = document.getElementById("pname").value; //get locationID
@@ -98,7 +98,7 @@ function passLocationToAddForm() {
 }
 
 /**
- * @function {passLocationToDeleteForm} - pass the information of a location to the corresponding form
+ * @function passLocationToDeleteForm - pass the information of a location to the corresponding form
  */
 function passLocationToDeleteForm() {
     document.getElementById("locationIDToDelete").value = document.getElementById("selectedLocationID").value; //get locationID
@@ -106,7 +106,7 @@ function passLocationToDeleteForm() {
 }
 
 /**
- * @function {getAllfromDB} - retrieve all data (locations and tours) from mongoDB
+ * @function getAllfromDB - retrieve all data (locations and tours) from mongoDB
  */
 function getAllfromDB() { 
     {$.ajax({ //handle request via ajax
@@ -193,7 +193,7 @@ getAllfromDB();
 
 
 /**
- * @function {buildCheckboxDynamically} - function which builds the chekcboxes for the updateLocationForm from the given data
+ * @function buildCheckboxDynamically - function which builds the chekcboxes for the updateLocationForm from the given data
  * @param {location[]} listOfLocations
  */
 function buildCheckboxDynamically(listOfLocations){
@@ -218,7 +218,7 @@ function buildCheckboxDynamically(listOfLocations){
 }
 
 /**
- * @function {getAllChecked} - function retrieves all checked locations from the checkboxes
+ * @function getAllChecked - function retrieves all checked locations from the checkboxes
  */
 function getAllChecked(){
     var checked = []; //initialize result array
@@ -226,48 +226,48 @@ function getAllChecked(){
     for(var i=0; i < locations.length; i++){ //iterate over locations
         if(document.getElementById(locations[i].locationID).checked == true){ //if the corresponding checkbox is checked
             checked[counter] = locations[i].locationID; //fill the result array
-            counter++; //
+            counter++; //increment counter
         }
     }
-    return checked;
+    return checked; //return the result
 }
 
 /**
- * @function {selectLocationForUpdate} - 
+ * @function selectLocationForUpdate - function pupulates the selectLocationToUpdate toggler
  */
 function selectLocationForUpdate() {
-    var value = document.getElementById("selectLocationToUpdate").value;
-    for(var i = 0; i < locations.length; i++) {
-        if(locations[i].locationID == value) {
-            document.getElementById('existingLocationID').value = locations[i].locationID;
-            document.getElementById('newLocationID').value = locations[i].locationID;
-            document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.URL;
-            document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.Description;
-            document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry);
+    var value = document.getElementById("selectLocationToUpdate").value; //define toggler
+    for(var i = 0; i < locations.length; i++) { //iterate over the locations
+        if(locations[i].locationID == value) { //fill form if criteria are met
+            document.getElementById('existingLocationID').value = locations[i].locationID; //"old" locationID
+            document.getElementById('newLocationID').value = locations[i].locationID; //"new" locationID
+            document.getElementById('newURL').value = locations[i].GeoJson.features[0].properties.URL; //new URL
+            document.getElementById('newDescription').value = locations[i].GeoJson.features[0].properties.Description; //new Description
+            document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry); //newGeometry
         }
     }
 }
 
 /**
- * @function {clearLocations} - 
+ * @function clearLocations - function resets the update loactions in tours form
  */
 function clearLocations() {
     //clear the input field when creating updating a tour and an error occured
     document.getElementById("selectLocationToAddToTour").options.length = 0; //reset the toggler
-    const togglerAddToTour = document.getElementById("selectLocationToAddToTour");
-            for(i = 0; i < locations.length; i++) {
-                const elem = document.createElement("option");
+    const togglerAddToTour = document.getElementById("selectLocationToAddToTour"); //define toggler
+            for(i = 0; i < locations.length; i++) { //iterate over the locations
+                const elem = document.createElement("option"); //create options
                 elem.href = "#";
                 const elemText = document.createTextNode(locations[i].locationID);
                 elem.setAttribute("value", locations[i].locationID) 
                 elem.appendChild(elemText);
-                togglerAddToTour.appendChild(elem);
+                togglerAddToTour.appendChild(elem); //append options
     }   
-    document.getElementById('locations').value = ""; //rest locations in form
+    document.getElementById('locations').value = ""; //reset locations in form
 }
 
 /**
- * @function {addTour} - function adds a location to a locations array of a tour
+ * @function addTour - function adds a location to a locations array of a tour
  */
 function addTour() {
     var locations = getAllChecked(); //get all checkd locations
@@ -276,63 +276,66 @@ function addTour() {
 }
 
 /**
- * @function {selectTourForDelete} - 
+ * @function selectTourForDelete - function adds a tour to be deleted to the the deleteTour form
  */
 function selectTourForDelete() {
-    var value = document.getElementById("selectTourToDelete").value;
-    for(var i = 0; i < tours.length; i++) {
-        if(tours[i].tourID == value) {
-            document.getElementById('tourIDToDelete').value = tours[i].tourID;
+    var value = document.getElementById("selectTourToDelete").value; //get value from toggler
+    for(var i = 0; i < tours.length; i++) { //iterate over forms 
+        if(tours[i].tourID == value) { //if criteria are met
+            document.getElementById('tourIDToDelete').value = tours[i].tourID; //add tourID to form
         }
     }
 }
 
 /**
- * @function {selectTourForUpdate} - 
+ * @function selectTourForUpdate - function pupulates the updateTour form 
  */
 function selectTourForUpdate() {
-    document.getElementById("newLocations").value = "";
-    document.getElementById("selectLocationsToDeleteFromTour").options.length = 0;
-    document.getElementById("selectLocationsToAddToTour").options.length = 0;
-    var value = document.getElementById("selectTourToUpdate").value;
-    for(var i = 0; i < tours.length; i++) {
-        if(tours[i].tourID == value) {
-            document.getElementById('existingTourID').value = tours[i].tourID;
-            document.getElementById('newTourID').value = tours[i].tourID;
-            locationsInTour = tours[i].locations;
+    document.getElementById("newLocations").value = ""; //reset locations
+    document.getElementById("selectLocationsToDeleteFromTour").options.length = 0; //reset options in selectLocationsToDeleteFromTour
+    document.getElementById("selectLocationsToAddToTour").options.length = 0; //reset options in selectLocationsToAddToTour
+    var value = document.getElementById("selectTourToUpdate").value; //get tour to be updated
+    for(var i = 0; i < tours.length; i++) { //iterate over tours
+        if(tours[i].tourID == value) { //if criteria are met
+            document.getElementById('existingTourID').value = tours[i].tourID; //"old" tourID
+            document.getElementById('newTourID').value = tours[i].tourID; //"new" tourID
+            locationsInTour = tours[i].locations; //new location
         }
     }
 
+    //fill new locations
     for(var i = 0; i < locationsInTour.length; i++) {
         document.getElementById("newLocations").value = document.getElementById("newLocations").value + locationsInTour[i] + ',';
     }
 
-    const togglerAddLocation = document.getElementById("selectLocationsToAddToTour");
-    for(var i = 0; i < locations.length; i++) {
-        var location = locations[i].locationID;
-        if (locationsInTour.includes(location) == false) {
-            const elem = document.createElement("option");
+    //add location toggler
+    const togglerAddLocation = document.getElementById("selectLocationsToAddToTour"); //define toggler
+    for(var i = 0; i < locations.length; i++) { //iterate over locations
+        var location = locations[i].locationID; 
+        if (locationsInTour.includes(location) == false) { //if criteria are met
+            const elem = document.createElement("option"); //create option
             elem.href = "#";
             const elemText = document.createTextNode(location);
             elem.setAttribute("value", location) 
             elem.appendChild(elemText);
-            togglerAddLocation.appendChild(elem);
+            togglerAddLocation.appendChild(elem); //append option
         }
     }
 
-    const togglerDeleteLocation = document.getElementById("selectLocationsToDeleteFromTour");
-    for(var i = 0; i < locationsInTour.length; i++) {
-        const elem = document.createElement("option");
+    //delete location toggler
+    const togglerDeleteLocation = document.getElementById("selectLocationsToDeleteFromTour"); //define toggler
+    for(var i = 0; i < locationsInTour.length; i++) { //iterate over locations
+        const elem = document.createElement("option"); //create option
         elem.href = "#";
         const elemText = document.createTextNode(locationsInTour[i]);
         elem.setAttribute("value", locationsInTour[i]) 
         elem.appendChild(elemText);
-        togglerDeleteLocation.appendChild(elem);
+        togglerDeleteLocation.appendChild(elem); //append option
     } 
 }
 
 /**
- * @function {addLocationsToTour} - 
+ * @function addLocationsToTour - function is responseable for adding 
  */
 function addLocationsToTour() {
     var locationToAdd = document.getElementById("selectLocationsToAddToTour").value;
