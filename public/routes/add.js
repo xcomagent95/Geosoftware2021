@@ -35,6 +35,16 @@ router.post('/newLocation', function(req, res, next)
                                + '"geometry":' + req.body.geometry + '}' + ']' + '}';
   */
   var GeoJson = {};
+  /*var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
+        '"properties":' +  '{' + '"Name":' + '"' + req.body.locationID + '"' + ',' 
+                               + '"URL":' + '"' + req.body.url + '"' + ',' 
+                               + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
+                               + '"geometry":' + req.body.geometry + '}' + ']' + '}';*/
+
+  var GeoJson = {};
+  GeoJson.type = "FeatureCollection";
+  GeoJson.features = [];
+  GeoJson.features[0] = {};
   GeoJson.features[0].type = "FeatureCollection";
   GeoJson.features[0].properties = {};
   GeoJson.features[0].properties.name = req.body.locationID;
