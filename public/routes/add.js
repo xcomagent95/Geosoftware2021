@@ -39,9 +39,9 @@ router.post('/newLocation', function(req, res, next)
   GeoJson.features[0] = {};
   GeoJson.features[0].type = "FeatureCollection";
   GeoJson.features[0].properties = {};
-  GeoJson.features[0].properties.name = req.body.locationID;
-  GeoJson.features[0].properties.url = req.body.url;
-  GeoJson.features[0].properties.description = req.body.description;
+  GeoJson.features[0].properties.Name = req.body.locationID;
+  GeoJson.features[0].properties.URL = req.body.url;
+  GeoJson.features[0].properties.Description = req.body.description;
   GeoJson.features[0].geometry = {};
   GeoJson.features[0].geometry = JSON.parse(req.body.geometry);
 
