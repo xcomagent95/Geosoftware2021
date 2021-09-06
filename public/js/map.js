@@ -59,7 +59,7 @@ function fillTables() {
     var locationsTableData = []; //initialise tabledata as array
     var toursTableData = []; //initialise tabledata as array
     for(var i = 0; i < locations.length; i++) { //iterate over the paths
-        locationsTableData.push([locations[i].locationID, locations[i].GeoJson.features[0].properties.url]); //push aggregated paths into table data array
+        locationsTableData.push([locations[i].locationID, locations[i].GeoJson.features[0].properties.URL]); //push aggregated paths into table data array
     }
     for(var i = 0; i < tours.length; i++) { //iterate over the paths
         toursTableData.push(tours[i].tourID); //push aggregated paths into table data array
