@@ -37,11 +37,11 @@ router.post('/updateLocation', function(req, res, next)
   GeoJson.features[0] = {};
   GeoJson.features[0].type = "Feature";
   GeoJson.features[0].properties = {};
-  GeoJson.features[0].properties.Name = req.body.locationID;
-  GeoJson.features[0].properties.URL = req.body.url;
-  GeoJson.features[0].properties.Description = req.body.description;
+  GeoJson.features[0].properties.Name = newLocationID;
+  GeoJson.features[0].properties.URL = newURL;
+  GeoJson.features[0].properties.Description = newDescription;
   GeoJson.features[0].geometry = {};
-  GeoJson.features[0].geometry = JSON.parse(req.body.geometry);
+  GeoJson.features[0].geometry = JSON.parse(newGeometry);
   
   var newGeoJson = GeoJson;
 
