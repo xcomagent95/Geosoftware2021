@@ -27,12 +27,6 @@ router.post('/newLocation', function(req, res, next)
   }
 
   //Create Payload to Store
-  /*var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
-        '"properties":' +  '{' + '"Name":' + '"' + req.body.locationID + '"' + ',' 
-                               + '"URL":' + '"' + req.body.url + '"' + ',' 
-                               + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
-                               + '"geometry":' + req.body.geometry + '}' + ']' + '}';*/
-
   var GeoJson = {};
   GeoJson.type = "FeatureCollection";
   GeoJson.features = [];
@@ -45,10 +39,7 @@ router.post('/newLocation', function(req, res, next)
   GeoJson.features[0].geometry = {};
   GeoJson.features[0].geometry = JSON.parse(req.body.geometry);
 
-  // TRY
-
   var locationID = req.body.locationID; 
-  //var GeoJson = JSON.parse(GeoJsonString);
 
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 

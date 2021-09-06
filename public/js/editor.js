@@ -37,18 +37,21 @@ var drawControl = new L.Control.Draw({
 map.addControl(drawControl); //add the control to the map
 
 var newGeoJSON; //initialize new GeoJson for new Locations
+var currentLayer;
 
 map.on('draw:created', function(e) {
     //check if input is Array or Object
     if (e.layer._latlngs instanceof Array) { //Object is a Polygon
     //add object to map
+    currentLayer = e.layer;
     locationLayer.addLayer(e.layer); //add new Object to the locationLayer
     e.layer.bindPopup( //bind a popup to the newly created "location"
             '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>' 
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl">'
-            + '<button onclick="passLocationToAddForm()">Location hinzufügen</button> '
+            + '<button type="button" class="btn btn-dark" onclick="passLocationToAddForm()">Location hinzufügen</button> ' 
+            + '<button type="button" class="btn btn-dark" onclick="useGeometryForUpdate(newGeoJSON)">Geometrie für Update nutzen</button> '
         ).openPopup([e.layer._latlngs[0][0].lat, e.layer._latlngs[0][0].lng]); //open the popup
 
         var geometry = []; //initinalize Array for the Verticies of the Polygon
@@ -61,17 +64,18 @@ map.on('draw:created', function(e) {
         //parse the GeoJson as String
         newGeoJSON = '{' + '"type": "Polygon"' + ',' + '"coordinates":'  + '[' + JSON.stringify(geometry) + ']' + '}';
         document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
-        document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
     } 
     else { //Object is a Point
         //add object to map
+        currentLayer = e.layer;
         locationLayer.addLayer(e.layer); //add new Object to the locationLayer
         e.layer.bindPopup( //bind a popup to the newly created "location"
             '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>'
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl">'
-            + '<button onclick="passLocationToAddForm()">Location hinzufügen</button> '
+            + '<button type="button" class="btn btn-dark" onclick="passLocationToAddForm()">Location hinzufügen</button> '
+            + '<button type="button" class="btn btn-dark" onclick="useGeometryForUpdate(newGeoJSON)">Geometrie für Update nutzen</button> '
         ).openPopup([e.layer._latlng.lat, e.layer._latlng.lng]); //open the popup
         var geometry; //initinalize Point
         //get the Point
@@ -79,13 +83,23 @@ map.on('draw:created', function(e) {
         //parse the GeoJson as String
         newGeoJSON = '{' + '"type": "Point"' + ',' + '"coordinates":' +  '[' + geometry[1] + ',' + geometry[0] + ']' + '}';
         document.getElementById("geometry").value = newGeoJSON; //set Geometry-String when creating new Object
-        document.getElementById("newGeometry").value = newGeoJSON; //set Geometry-String when updating existing Object
     }
 });
 
 let locations; //Array to store Locations
 let tours; //Array to store Tours
 var locationsInTour = []; //Array to store the location in a specific tour
+
+/**
+ * @function useGeometryForUpdate - instrucs the webpage to use the geometry for an update instead of a new location
+ */
+ function useGeometryForUpdate(geoJson, layer) {
+    document.getElementById("newGeometry").value = geoJson; //set Geometry-String when updating existing Object
+    map.closePopup(); //close popup
+    locationLayer.removeLayer(currentLayer);
+    document.getElementById("newGeometryInfo").className = "alert alert-primary";
+    document.getElementById("geometryInfo").innerHTML = "Neue Geometrie erzeugt!"
+ }
 
 /**
  * @function passLocationToAddForm - pass the information of a location to the corresponding form
@@ -335,11 +349,11 @@ function selectTourForUpdate() {
 }
 
 /**
- * @function addLocationsToTour - function is responseable for adding 
+ * @function addLocationsToTour - function is responseable for adding locations to a tour
  */
 function addLocationsToTour() {
-    var locationToAdd = document.getElementById("selectLocationsToAddToTour").value;
-    var newlocationsInTour = locationsInTour;
+    var locationToAdd = document.getElementById("selectLocationsToAddToTour").value; //get the location to add
+    var newlocationsInTour = locationsInTour; 
     newlocationsInTour.push(locationToAdd);
     document.getElementById("newLocations").value = newlocationsInTour;
     locationsInTour = newlocationsInTour;
@@ -350,15 +364,14 @@ function addLocationsToTour() {
     const elemText = document.createTextNode(locationToAdd);
     elem.setAttribute("value", locationToAdd) 
     elem.appendChild(elemText);
-    document.getElementById("selectLocationsToDeleteFromTour").appendChild(elem);
+    document.getElementById("selectLocationsToDeleteFromTour").appendChild(elem); //add added location to selectLocationsToDeleteFromTour toggler
 }
 
 /**
- * @function {deleteLocationsFromTour} - 
+ * @function deleteLocationsFromTour - function is responseable for deleting a location from a tour
  */
 function deleteLocationsFromTour() {
-    //Delete a Location from an existing Tour
-    var locationToDelete = document.getElementById("selectLocationsToDeleteFromTour").value; 
+    var locationToDelete = document.getElementById("selectLocationsToDeleteFromTour").value; //get the location to delete
     var newlocationsInTour = [];
     for(var i = 0; i < locationsInTour.length; i++) {
         if(locationsInTour[i] != locationToDelete) {
@@ -374,11 +387,11 @@ function deleteLocationsFromTour() {
     const elemText = document.createTextNode(locationToDelete);
     elem.setAttribute("value", locationToDelete) 
     elem.appendChild(elemText);
-    document.getElementById("selectLocationsToAddToTour").appendChild(elem);
+    document.getElementById("selectLocationsToAddToTour").appendChild(elem); //add deleted location to selectLocationsToAddToTour toggler
 }
 
 /**
- * @function {getDescription} - Get a snippet from a wikipaedia article for a specified object
+ * @function getDescription - Get a snippet from a wikipaedia article for a specified object
  * @param {String} sourceID - gets the id from which the wikipaedia link can be obtained
  * @param {String} targetID - gets the id of the object in which to store the snipped
  */
@@ -445,7 +458,7 @@ function getTitle(url) {
 
 var jsonInput;
 /**
- * @function {getInputValue} - Reads the inpute from textarea and saves it as "linestring".
+ * @function getInputValue - Reads the inpute from textarea and saves it as "linestring".
  * Then it the main-method gets called with the new route.
  */
  function getInputValue(){

@@ -73,6 +73,9 @@ Notwendiges Format:
                 <!--Updating Locations-->
                 <br><h5><b>Ändern einer Sehenswürdigkeit</b></h5>
                 <h>Sehenswürdigkeit, welche geändert werden soll: </h><select class="custom-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"></select>
+                <div class="alert alert-warning" role="alert" id="newGeometryInfo">
+                  <p id="geometryInfo">Keine neue Geometrie erzeugt!</p>
+                </div>
                 <form action="/update/updateLocation" method="post">
                   <input type="hidden" id="existingLocationID" name="existingLocationID" style="font-size:0px;"><br>
                   <label for="newLocationID">Name der Sehenswürdigkeit: </label><br>
