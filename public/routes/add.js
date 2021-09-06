@@ -27,11 +27,14 @@ router.post('/newLocation', function(req, res, next)
   }
 
   //Create Payload to Store
+  /*
   var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
         '"properties":' +  '{' + '"Name":' + '"' + req.body.locationID + '"' + ',' 
                                + '"URL":' + '"' + req.body.url + '"' + ',' 
                                + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
                                + '"geometry":' + req.body.geometry + '}' + ']' + '}';
+  */
+  var GeoJson = {};
   GeoJson.features[0].type = "FeatureCollection";
   GeoJson.features[0].properties = {};
   GeoJson.features[0].properties.name = req.body.locationID;
