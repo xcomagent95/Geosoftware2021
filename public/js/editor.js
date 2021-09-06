@@ -115,21 +115,20 @@ function getAllfromDB() {
         async: false
         })
         .done(function(res) { //if the request is done -> successful
-            locations = res[0];
-            tours = res[1];
-            for(i = 0; i < locations.length; i++) {
-                var layer = L.geoJSON(locations[i].GeoJson);
-                locationLayer.addLayer(layer);
+            locations = res[0]; //store locations in locations array
+            tours = res[1]; //store tours in tours array
+            for(i = 0; i < locations.length; i++) { //iterate over the locations
+                var layer = L.geoJSON(locations[i].GeoJson); //create a layer
+                locationLayer.addLayer(layer); //add the layer to the locationLayer group
                 layer.bindPopup('<b>' + "Name: " + '</b>' + locations[i].locationID + '<br><br>' 
                                 + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' 
                                 + '<b>' +  "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.Description
                 + '<input type="hidden" id="selectedLocationID" name="selectedLocationID" value= "' + locations[i].locationID + '">' 
                 + '<br></br><button onclick="passLocationToDeleteForm()">Location löschen</button>');
             }
-            //Fit Bounds to the Objects
-            map.fitBounds(locationLayer.getBounds());  
+            map.fitBounds(locationLayer.getBounds()); //fit bounds to locations layer
 
-            buildCheckboxDynamically(locations);
+            buildCheckboxDynamically(locations); //build checkboxes for the addLocationToTour form
 
             
             const togglerLocationUpdate = document.getElementById("selectLocationToUpdate");
