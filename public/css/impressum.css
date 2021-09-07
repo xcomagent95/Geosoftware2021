@@ -23,6 +23,10 @@ h1, p, table, div, a{
 
 #title{
     padding: 20px;
-    padding-top: 20px;
 
+#impressum{
+    padding-left: 20px;
+}
+#personalDataPilz,#personalDataBalzer{
+    width: 50%;
 }
