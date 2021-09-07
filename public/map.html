@@ -43,6 +43,13 @@
             <div class="row">
                 <!--Menu-->
                 <div id="menu" class="column"> 
+                    <br><h5><b>Suchfunktion:</b></h5>
+                    <div>
+                        <label for="suche">Nach Sehenswürdigkeit oder Route suchen: </label> <br>
+                        <input class="autocomplete" autocomplete="off" type="search" id="suche" placeholder="Suche...">
+                        <button class="btn btn-secondary" onclick="searchFunction()">Suchen</button>
+                        <div id="searchError"></div>
+                    </div>
                     <br><h5><b>Eingetragene Sehenswürdigkeiten:</b></h5>
                     <table id="locations" class="table table-bordered">
                         <thead>
