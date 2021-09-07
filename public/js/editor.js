@@ -46,13 +46,13 @@ map.on('draw:created', function(e) {
     currentLayer = e.layer;
     locationLayer.addLayer(e.layer); //add new Object to the locationLayer
     e.layer.bindPopup( //bind a popup to the newly created "location"
-            '<b>Hinzufügen einer neuen Location</b><br><br>'
+            '<h5><b>Hinzufügen einer neuen Location</b></h5>'
             + '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>' 
             + '<label for="purl">URL</label><br>'
-            + '<input type="text" id="purl" name="purl">'
-            + '<button type="button" class="btn btn-dark" onclick="passLocationToAddForm()">Location hinzufügen</button> ' 
-            + '<button type="button" class="btn btn-dark" onclick="useGeometryForUpdate(newGeoJSON)">Geometrie für Update nutzen</button> '
+            + '<input type="text" id="purl" name="purl"><br><br>'
+            + '<button type="button" class="btn btn-secondary" onclick="passLocationToAddForm()">Location hinzufügen</button><br><br>' 
+            + '<button type="button" class="btn btn-secondary" onclick="useGeometryForUpdate(newGeoJSON)">Geometrie für Update nutzen</button> '
         ).openPopup([e.layer._latlngs[0][0].lat, e.layer._latlngs[0][0].lng]); //open the popup
 
         var geometry = []; //initinalize Array for the Verticies of the Polygon
@@ -71,13 +71,13 @@ map.on('draw:created', function(e) {
         currentLayer = e.layer;
         locationLayer.addLayer(e.layer); //add new Object to the locationLayer
         e.layer.bindPopup( //bind a popup to the newly created "location"
-            '<b>Hinzufügen einer neuen Location</b><br><br>'
+            '<h5><b>Hinzufügen einer neuen Location</b></h5>'
             + '<label for="pname">Name</label><br>'
             + '<input type="text" id="pname" name="pname"><br>'
             + '<label for="purl">URL</label><br>'
-            + '<input type="text" id="purl" name="purl">'
-            + '<button type="button" class="btn btn-dark" onclick="passLocationToAddForm()">Location hinzufügen</button> '
-            + '<button type="button" class="btn btn-dark" onclick="useGeometryForUpdate(newGeoJSON)">Geometrie für Update nutzen</button> '
+            + '<input type="text" id="purl" name="purl"><br><br>'
+            + '<button type="button" class="btn btn-secondary" onclick="passLocationToAddForm()">Location hinzufügen</button><br><br>'
+            + '<button type="button" class="btn btn-secondary" onclick="useGeometryForUpdate(newGeoJSON)">Geometrie für Update nutzen</button> '
         ).openPopup([e.layer._latlng.lat, e.layer._latlng.lng]); //open the popup
         var geometry; //initinalize Point
         //get the Point
@@ -140,7 +140,7 @@ function getAllfromDB() {
                                 + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + '<br><br>' 
                                 + '<b>' +  "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.Description
                 + '<input type="hidden" id="selectedLocationID" name="selectedLocationID" value= "' + locations[i].locationID + '">' 
-                + '<br></br><button onclick="passLocationToDeleteForm()">Location löschen</button>');
+                + '<br></br><button class="btn btn-secondary" onclick="passLocationToDeleteForm()">Location löschen</button>');
             }
             map.fitBounds(locationLayer.getBounds()); //fit bounds to locations layer
 
