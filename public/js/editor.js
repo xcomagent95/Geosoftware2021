@@ -99,8 +99,8 @@ var locationsInTour = []; //Array to store the location in a specific tour
     document.getElementById("newGeometry").value = geoJson; //set Geometry-String when updating existing Object
     map.closePopup(); //close popup
     locationLayer.removeLayer(currentLayer);
-    document.getElementById("newGeometryInfo").className = "alert alert-primary";
-    document.getElementById("geometryInfo").innerHTML = "Neue Geometrie erzeugt!"
+    document.getElementById("newGeometryInfo").className = "alert alert-success";
+    document.getElementById("geometryInfo").innerHTML = "Neue Geometrie erzeugt! <br><b>Bestätigung über 'Location aktualisieren'</b>"
  }
 
 /**

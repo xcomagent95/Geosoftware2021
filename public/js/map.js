@@ -71,7 +71,7 @@ function fillTables() {
         var row =  `<tr scope="row">
                         <td>${locationsTableData[i][0]}</td>
                         <td><a href="${locationsTableData[i][1]}">Link</a></td>
-                        <td><button type="button" class="btn btn-dark" onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button></td>
                     </tr>`
         locationsTable.innerHTML += row; //pass row into given table
     }
@@ -88,7 +88,7 @@ function fillTables() {
         //initialise table row as variable
         var row =  `<tr>
                         <td>${toursTableData[i]}</td>
-                        <td><button type="button" class="btn btn-dark" onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button></td>
                         <td>${locationsInTour}</td>
                     </tr>`
         toursTable.innerHTML += row; //pass row to given table
@@ -132,7 +132,7 @@ function populateMap() {
             '<br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + 
             '<br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.Description +
             '<br>' + '<b>' + "Koordinaten: " + '</b>' + position[1] + ", " + position[0] + "<br><br>" + 
-            '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
+            '<br><button type="button" class="btn btn-secondary" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
         positions.push({
             leafletObject: location,
