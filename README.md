@@ -39,18 +39,20 @@ The Add-Router can be used to add data from the mongoDB. These Functions can acc
 The following actions are provided:
 
 **newLocation:**
-The newLocation function add a new location to the locations collection in the mongoDB. A location needs to have a nameID, an URL, a description, and a                   geometry.
-It can be called with "http://localhost:3000/add/newLocation".
+The newLocation function adds a new location to the locations collection in the mongoDB. A location needs to have a locationID, an URL and a geometry.
+The locationID must be unique. It can be called with "http://localhost:3000/add/newLocation".
 
 **newTour:**
-The newTour function add a new tour to the tours collection in the mongoDB. A tour needs to have a tourID, and a list of locations comprising the tour.
-It can be called with "http://localhost:3000/add/newTour".
+The newTour function adds a new tour to the tours collection in the mongoDB. A tour needs to have a tourID, and a list of locations comprising the tour.
+The tourID must be unique. It can be called with "http://localhost:3000/add/newTour".
 
 ## Update-Router:
 
 **updateLocation:**
+the updateLocation function updates an existing location in the locations collection in the mongoDB. To update an existing location the "old" locationID is needed. The locationID, the URL and the geometry can be redefined. The "new" locationID must be unique. It can be called with http://localhost:3000/add/updateLocation
 
 **updateTour:**
+the updateTour function updates an existing tour in the tours collection in the mongoDB. To update an existing tour the "old" tourID is needed. The tourID and the loactions comprising the tour can be redefined. The "new" tourID must be unique. It can be called with http://localhost:3000/add/updateTour
 
 ## Delete-Router:
 
