@@ -15,6 +15,13 @@ const MongoClient = require('mongodb').MongoClient;
 const { stringify } = require('querystring'); 
 const client = new MongoClient(url) // mongodb client
 
+/* !!!IMPORTANT NOTE!!!: The task states that the full location should be stored in the tour.locations array as well. 
+this creates some unwanted redandancy and makes it easy to inconsitencies when deleting or updating a location.
+Cause of this we just store the locationID (a pseudo primary key) in the tour.lcations array, thus avoiding redundancy
+and a lot of possible errors which can cause inconsistency on the database. */
+
+//Hierrachie in der Stadttour
+
 //Post Location - this post operation can be used to store new locations in the locations collection
 router.post('/newLocation', function(req, res, next) 
 {
