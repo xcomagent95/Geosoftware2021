@@ -55,6 +55,7 @@ h1, p, table, div, a{
 @media only screen and (max-width: 991px) {
     #mapdiv {
         height: 450px;
+        margin: auto;
     }
     #menu {
         width: 100%;
@@ -66,7 +67,8 @@ h1, p, table, div, a{
 
 @media only screen and (min-width: 992px) {
     #mapdiv {
-        height: 1500px;;
+        height: 1500px;
+        margin: auto;
     }
     #menu{
         width: 40%;

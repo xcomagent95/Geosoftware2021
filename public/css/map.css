@@ -27,6 +27,8 @@ h1, p, table, div, a{
 #columnContainer {
     padding-top: 10px;
     padding-left: 40px;
+    padding-right: 40px;
+    width: 100vw;
 }
 #footerReplacement{
     height: 40px;

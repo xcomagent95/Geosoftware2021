@@ -416,3 +416,12 @@ function getNearestBusstopp(locationsPosition){
 
 }
 
+/*function connectTheDots(data){
+    var c = [];
+    for(i in data._layers) {
+        var x = data._layers[i]._latlng.lat;
+        var y = data._layers[i]._latlng.lng;
+        c.push([x, y]);
+    }
+    return c;
+}*/
