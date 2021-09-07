@@ -12,7 +12,11 @@ h1, p, table, div, a{
 #subtitle{
     font-size: 20px;
 }
-
+#content{
+    padding-top: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
 #footer{
     position: absolute;
     bottom: 0;
@@ -20,16 +24,12 @@ h1, p, table, div, a{
     height: 60px;
     z-index: 5;
 }
-
 #title{
-    padding: 20px;
+    padding-top: 20px;
 
-}
-#impressum{
-    padding-left: 20px;
 }
 #sourceData{
-    padding: 20px;
+    padding-top: 20px;
     padding-bottom: 65px;
 }
 @media only screen and (min-width: 800px) {
