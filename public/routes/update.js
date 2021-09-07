@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 //MongoClient and DB
-const url = 'mongodb://localhost:27017' // connection URL
+const url = 'mongodb://mongo:27017' // connection URL
 const dbName = 'tourguidedb' // database name
 const locationsCollection = 'locations' // collection containing the locations
 const toursCollection = 'tours' // collection containing the tours
