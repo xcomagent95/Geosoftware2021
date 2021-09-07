@@ -49,16 +49,19 @@ The tourID must be unique. It can be called with "http://localhost:3000/add/newT
 ## Update-Router:
 
 **updateLocation:**
-the updateLocation function updates an existing location in the locations collection in the mongoDB. To update an existing location the "old" locationID is needed. The locationID, the URL and the geometry can be redefined. The "new" locationID must be unique. It can be called with http://localhost:3000/add/updateLocation
+The updateLocation function updates an existing location in the locations collection in the mongoDB. To update an existing location the "old" locationID is needed. The locationID, the URL and the geometry can be redefined. The "new" locationID must be unique. If a loactionID is changed it ist also changed in all tours in which the location is used ("on update cascade"). It can be called with http://localhost:3000/add/updateLocation.
 
 **updateTour:**
-the updateTour function updates an existing tour in the tours collection in the mongoDB. To update an existing tour the "old" tourID is needed. The tourID and the loactions comprising the tour can be redefined. The "new" tourID must be unique. It can be called with http://localhost:3000/add/updateTour
+The updateTour function updates an existing tour in the tours collection in the mongoDB. To update an existing tour the "old" tourID is needed. The tourID and the loactions comprising the tour can be redefined. The "new" tourID must be unique. It can be called with http://localhost:3000/add/updateTour.
 
 ## Delete-Router:
 
 **removeLocation:**
+The removeLocation function removes an existing location from the locations collection in the mongoDB. To delete an existing location the locationID is needed. If the locatin is still part of a tour it can not be removed from the collection ("on delete restrict"). It can be called with http://localhost:3000/add/removeLocation.
 
 **removeTour:**
+The removeTour function removes an existing tour from the tours collection in the mongoDB. To delete an existing tour the tourID is needed. 
+It can be called with http://localhost:3000/add/removeTour.
 
 # Webpages
 ## Landingpage
