@@ -262,6 +262,8 @@ function selectLocationForUpdate() {
             document.getElementById('newGeometry').value = JSON.stringify(locations[i].GeoJson.features[0].geometry); //newGeometry
         }
     }
+    document.getElementById("newGeometryInfo").className = "alert alert-warning";
+    document.getElementById("geometryInfo").innerHTML = "Keine neue Geometrie erzeugt!"
 }
 
 /**
