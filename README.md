@@ -57,7 +57,7 @@ The updateTour function updates an existing tour in the tours collection in the 
 ## Delete-Router:
 
 **removeLocation:**
-The removeLocation function removes an existing location from the locations collection in the mongoDB. To delete an existing location the locationID is needed. If the locatin is still part of a tour it can not be removed from the collection ("on delete restrict"). It can be called with http://localhost:3000/add/removeLocation.
+The removeLocation function removes an existing location from the locations collection in the mongoDB. To delete an existing location the locationID is needed. If the location is still part of a tour it can not be removed from the collection ("on delete restrict"). It can be called with http://localhost:3000/add/removeLocation.
 
 **removeTour:**
 The removeTour function removes an existing tour from the tours collection in the mongoDB. To delete an existing tour the tourID is needed. 
@@ -96,7 +96,7 @@ The point locations are formatted like:
         "properties": {
          "Name": "name of the location (indentical to nameID)",
          "URL": "some URL",
-         "Description": "some description"
+         "Description": "some description (filled automatically)"
          },
         "geometry": {
          "type": "Point",
@@ -114,7 +114,7 @@ The polygon locations are formatted like:
         "properties": {
          "Name": "name of the location (indentical to nameID)",
          "URL": "some URL",
-         "Description": "some description"
+         "Description": "some description (filled automatically)"
          },
         "geometry": {
          "type": "Polygon",
