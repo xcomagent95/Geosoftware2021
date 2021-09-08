@@ -294,7 +294,7 @@ function switchCoords(coords){
 var weatherApi;
 
 /**
- * @function {initializeAPI} - This funtion builds up the whole api to use it afterwards.
+ * @function initializeAPI - This funtion builds up the whole api to use it afterwards.
  * @param {String} key - This key is user-dependent and has to be entered by the user himself.
  * @param {[double, double]} coordinates - These are the requested coordinates. Either the
  * browser location or the standard coordinates (GEO1).
@@ -307,7 +307,7 @@ function iniatializeAPI(coordinates,key){
 //variable to store the API-Key
 var clientAPIKey;
 /**
-* @function {} - reads the API-Key from Input-Field
+* @function getAPIKey - reads the API-Key from Input-Field
 * and the geolocatization is not possible.
 */
 function getAPIKey(){
@@ -320,8 +320,7 @@ var busAPI = "https://rest.busradar.conterra.de/prod/haltestellen";
 var stopps = [];
 
 /**
- * This function sends a request to the api server and calculates the distances of the current marker to all responded busstopps
- * 
+ * @function getAllBusstopps - This function sends a request to the api server and calculates the distances of the current marker to all responded busstopps
  */
 function getAllBusstopps(){
     {$.ajax({
@@ -342,24 +341,28 @@ function getAllBusstopps(){
     }
 } 
 
-var output;
+var output; // This variable gets filled with the answer of the weather request
+/**
+ * @function getWeather - This function sends a request for the weather data at a given location and 
+ * @param {float} lon 
+ * @param {float} lat 
+ * @param {String} name - The name gets used later on
+ * @returns nothing but a popup with weather data in case the request succeeds.
+ */
 function getWeather(lon, lat, name){
-    getAPIKey();
-    console.log('l.316: lon: '+lon);
-    console.log('lat: '+lat);
-    if(clientAPIKey == ''){
+    getAPIKey(); // The api key is needed for the api request and has to be entered on the website by a user
+    if(clientAPIKey == ''){ // In case there is no entered api key...
         console.log('You have to enter an api key!');
         alert('You have to enter an api key!');
         return;
     } else {
-        //console.log("'coords:' "+coordinates);
-        iniatializeAPI([lon,lat], clientAPIKey);
+        iniatializeAPI([lon,lat], clientAPIKey); // Now the api has the be constructed with the given data about coordinates and apikey
         {$.ajax({
             url: weatherApi,
             method: "GET",
             })
             .done(function(res){
-                output = res;
+                output = res; // Here the output variable gets filled with the answer.
                 markerNearestStopp.bindPopup( 
                     '<p></p>' + 
                     '<p  style="font-size: 18px;"><b>Wetter an der Haltestelle ' + name + '</p></b>' +
@@ -370,7 +373,7 @@ function getWeather(lon, lat, name){
                     'Luftdruck: <em>' + res.current.pressure + ' hPa</em><br>' + //pressure
                     'Wolkenbedeckung: <em>' + res.current.clouds + '%</em><br>' + //cloud cover
                     'Wetter: <em>' + res.current.weather[0].description + '</em></p>' //openWeather short classification
-                    ).openPopup();
+                    ).openPopup(); // a popup gets configurated
             })
             .fail(function(xhr, status, errorThrown){
                 console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
@@ -383,22 +386,18 @@ function getWeather(lon, lat, name){
         }
     }
 }
- /**
-  * Ergänzt werden muss noch, dass beim klicken von mehr als 1 mal auf 'mächste haltestelle' nicht die darauffolgend nächste kommt'
-  * mittelpunkt von polygon funktionert nicht.
-  */
-
-//var nearestStoppLayer = L.featureGroup().addTo(map);
-
 getAllBusstopps();
+
+// Used variables in the following function 
 var sortedStopps = [];
-var test;
 var nearestStopp = {};
 var markerNearestStopp;
-
+ 
+/**
+ * @function getNearestBusstopp - This function uses the data from the getAllBusstopps() function in the stopps array the find the nearest busstopp and bind a popup at this position.
+ * @param {[lat,lon]]} locationsPosition - This method needs the position of the location which gets analyzed as a parameter
+ */
 function getNearestBusstopp(locationsPosition){ 
-    console.log(locationsPosition);
-    console.log("stopps.features.length: "+stopps.features.length);
     for(var i=0; i<stopps.features.length; i++){
         var name = stopps.features[i].properties.lbez;
         var busStopp = switchCoords(stopps.features[i].geometry.coordinates); // [lat, lon]
@@ -420,7 +419,6 @@ function getNearestBusstopp(locationsPosition){
         '<b>Koordinaten: </b>' + nearestStopp.lat + ', ' + nearestStopp.lon + '<br><br><br>' +
         '<button class="btn btn-dark" onclick="getWeather(' + nearestStopp.lon + ', ' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
         ).openPopup();
-
 }
 
 /**
