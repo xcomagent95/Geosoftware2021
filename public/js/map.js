@@ -51,7 +51,7 @@ getAllfromDB();
 var featureLayer;
 
 /**
- * @function {fillTables} - 
+ * @function fillTables - This function fills the tables to present the locations and the tours on the website
  */
 function fillTables() {
     var locationsTable = document.getElementById('locationsTableBody'); //get the the table containing the locations
@@ -67,7 +67,7 @@ function fillTables() {
 
     //fill the table with the paths
     for(var i = 0; i < locationsTableData.length; i++) { //iterate over table data
-        //initialise table row as variable
+        //initialize table row as variable
         var row =  `<tr scope="row">
                         <td>${locationsTableData[i][0]}</td>
                         <td><a href="${locationsTableData[i][1]}">Link</a></td>
@@ -85,7 +85,7 @@ function fillTables() {
         }
         locationsInTour += "</ul>";
         
-        //initialise table row as variable
+        //initialize table row as variable
         var row =  `<tr>
                         <td>${toursTableData[i]}</td>
                         <td><button type="button" class="btn btn-secondary" onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button></td>
@@ -97,7 +97,7 @@ function fillTables() {
 
 //----------------->Map & and Map related Functions<-----------------
 /**
- * @function {populateMap} - 
+ * @function populateMap - 
  */
 function populateMap() {
     //Map Object
@@ -156,6 +156,10 @@ function populateMap() {
 }
 
 var currentMarker;
+/**
+ * @function zoomToFeature - This function changes the bounds of the window of the map the way that a given feature gets focussed.
+ * @param {String} name - The name of the feature which should be focussed
+ */
 function zoomToFeature(name) {
     toursLayer.clearLayers()
     map.removeLayer(toursLayer);
@@ -168,7 +172,10 @@ function zoomToFeature(name) {
         }
     }
 }
-
+/**
+ * @function zoomToTour - The function changes the shown part of the map the way that a specific and given tour gets focussed.
+ * @param {String} name - The name of the tour which should be focussed
+ */
 function zoomToTour(name) {
     toursLayer.clearLayers()
     map.removeLayer(locationsLayer);
