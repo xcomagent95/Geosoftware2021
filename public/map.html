@@ -1,7 +1,98 @@
 <!DOCTYPE html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <!--Bootstrap-->
+        <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
+        <script src="/bootstrap/dist/js/bootstrap.js"></script>
+        <!--CSS-->
+        <link rel="stylesheet" type="text/css" href="./css/map.css"/>
+        <!--Leaflet-->
+        <link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
+        <script type="text/javascript" src="/leaflet/dist/leaflet.js"></script>
+        <!--Leaflet Draw-->
+        <link rel="stylesheet" href='/leaflet-draw/dist/leaflet.draw.css'/>
+        <script src='/leaflet-draw/dist/leaflet.draw.js'></script>
+        <!--turf-->
+        <script src="/turf/turf.min.js"></script>  
+        <!--jQuery-->
+        <script src="/jquery/dist/jquery.js"></script>        
     <body>
-        <p>This is the map</p>
+        <!--Header-->
+        <div id="bg-head">
+            <h1 id="title" class="d-block p-2 bg-dark text-white">Geosoftware 1 - Abschlussprojekt 2021</h1>
+            <p id="subtitle" class="d-block p-2 bg-dark text-white">Abgabe von: A. Pilz / J. Balzer</p> 
+        </div>
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="./landing.html">Übersicht</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="./editor.html">Managen der Sehenswürdigkeiten und Routen</a>
+                        <a class="nav-link active" aria-current="page" href="./map.html"><b>Karte</b></a>
+                        <a class="nav-link active" aria-current="page" href="./impressum.html">Impressum</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!--Navbar Ende-->
+        <div id="columnContainer" class="container-fluid"> 
+            <div class="row">
+                <!--Menu-->
+                <div id="menu" class="column"> 
+                    <br><h5><b>Suchfunktion:</b></h5>
+                    <div>
+                        <label for="suche">Nach Sehenswürdigkeit oder Route suchen: </label> <br>
+                        <input class="autocomplete" autocomplete="off" type="search" id="suche" placeholder="Suche...">
+                        <button class="btn btn-secondary" onclick="searchFunction()">Suchen</button>
+                        <div id="searchError"></div>
+                    </div>
+                    <br><h5><b>Eingetragene Sehenswürdigkeiten:</b></h5>
+                    <table id="locations" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">URL</th>
+                                <th scope="col">Auswahl</th>
+                            </tr>
+                        </thead>
+                        <tBody id="locationsTableBody"></tBody>
+                    </table>
+                    <br><h5><b>Eingetragene Touren:</b></h5>
+                    <table id="tours" class="table table-bordered">
+                        <thead> 
+                            <tr>
+                                <th>Name</th>
+                                <th>Auswahl</th>
+                                <th>Enthaltene Sehenswürdigkeiten</th>
+                            </tr>
+                        </thead>
+                        <tBody id="toursTableBody"> </tBody>
+                    </table><br>
+                    <p>Geben Sie hier ihren persönlichen API-Key für die OpenWeather-API ein:</p>
+                    <p><a id="generateAPI" href="https://home.openweathermap.org/api_keys">Persönlichen API-Key generieren</a></p>
+                    <input id="apiField" placeholder="Hier OpenWeather API-Key eingeben"/><br><br>
+                    <div><br></div>
+                </div><br>
+                
+                <!--Map-->
+                <div id="columnMap" class="column">
+                    <br><div id="mapdiv"></div><br>
+                </div> 
+                <div id="footerReplacement"></div>
+            </div>
+        </div>
     </body>
+    <!-- Footer -->
+    <footer id="footer" class="bg-dark text-center text-lg-start text-white sticky-bottom">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2021 Copyright: A. Pilz / J. Balzer 
+        </div>
+    </footer>
+    <!--Utilities-->
+    <script src="./js/map.js"></script>
 </html> 

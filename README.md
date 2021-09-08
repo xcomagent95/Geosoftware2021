@@ -1,11 +1,14 @@
 # Geosoftware_2021_Abschlussprojekt
-Abschlussprojekt für den Kurs Geosoftware I 2021 <br>
-Authoren: Alexander Pilz & Josefina Balzer
+Abschlussprojekt für den Kurs Geosoftware I 2021
+Authors: Alexander Pilz & Josefina Balzer
 
 # Server
 The Tourguide employs the Express Node.js web application framework. The application run on port 3000.
 
 # Routers:
+
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/router_overview.jpg?raw=true)
+
 ## Search-Router:
 The Search-Router can be used to retrieve data from the mongoDB in various formats. These Functions can accessed via "http://localhost:3000/search/".
 The following actions are provided:
@@ -36,24 +39,29 @@ The Add-Router can be used to add data from the mongoDB. These Functions can acc
 The following actions are provided:
 
 **newLocation:**
-The newLocation function add a new location to the locations collection in the mongoDB. A location needs to have a nameID, an URL, a description, and a                   geometry.
-It can be called with "http://localhost:3000/add/newLocation".
+The newLocation function adds a new location to the locations collection in the mongoDB. A location needs to have a locationID, an URL and a geometry.
+The locationID must be unique. It can be called with "http://localhost:3000/add/newLocation".
 
 **newTour:**
-The newTour function add a new tour to the tours collection in the mongoDB. A tour needs to have a tourID, and a list of locations comprising the tour.
-It can be called with "http://localhost:3000/add/newTour".
+The newTour function adds a new tour to the tours collection in the mongoDB. A tour needs to have a tourID, and a list of locations comprising the tour.
+The tourID must be unique. It can be called with "http://localhost:3000/add/newTour".
 
 ## Update-Router:
 
 **updateLocation:**
+The updateLocation function updates an existing location in the locations collection in the mongoDB. To update an existing location the "old" locationID is needed. The locationID, the URL and the geometry can be redefined. The "new" locationID must be unique. If a loactionID is changed it ist also changed in all tours in which the location is used ("on update cascade"). It can be called with http://localhost:3000/add/updateLocation.
 
 **updateTour:**
+The updateTour function updates an existing tour in the tours collection in the mongoDB. To update an existing tour the "old" tourID is needed. The tourID and the loactions comprising the tour can be redefined. The "new" tourID must be unique. It can be called with http://localhost:3000/add/updateTour.
 
 ## Delete-Router:
 
 **removeLocation:**
+The removeLocation function removes an existing location from the locations collection in the mongoDB. To delete an existing location the locationID is needed. If the location is still part of a tour it can not be removed from the collection ("on delete restrict"). It can be called with http://localhost:3000/add/removeLocation.
 
 **removeTour:**
+The removeTour function removes an existing tour from the tours collection in the mongoDB. To delete an existing tour the tourID is needed. 
+It can be called with http://localhost:3000/add/removeTour.
 
 # Webpages
 ## Landingpage
@@ -81,14 +89,14 @@ Each location is comprised of
 
 The point locations are formatted like:
 
-    "GeoJson": {
+    {
      "type": "FeatureCollection",
       "features": [{
        "type": "Feature",
         "properties": {
          "Name": "name of the location (indentical to nameID)",
          "URL": "some URL",
-         "Description": "some description"
+         "Description": "some description (filled automatically)"
          },
         "geometry": {
          "type": "Point",
@@ -99,14 +107,14 @@ The point locations are formatted like:
      
 The polygon locations are formatted like: 
 
-    "GeoJson": {
+    {
      "type": "FeatureCollection",
       "features": [{
        "type": "Feature",
         "properties": {
          "Name": "name of the location (indentical to nameID)",
          "URL": "some URL",
-         "Description": "some description"
+         "Description": "some description (filled automatically)"
          },
         "geometry": {
          "type": "Polygon",

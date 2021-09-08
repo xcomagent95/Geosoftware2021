@@ -1,60 +1,70 @@
-var express = require('express');
-const app = express();
-var router = express.Router();
-const assert = require('assert');
+var express = require('express'); //require express
+const app = express(); //initialize express app
+var router = express.Router(); //initialize express-router
 
 //Here we are configuring express to use body-parser as middle-ware
 app.use(express.json());
 app.use(express.urlencoded());
 
-//MongoConnect
-//-------------->>>>Hier muss die passende Datenbank und die passende Collection angegeben werden!!!!!<<<<--------------
+//MongoClient and DB
 const url = 'mongodb://localhost:27017' // connection URL
 const dbName = 'tourguidedb' // database name
-const locationsCollection = 'locations' // collection name
-const toursCollection = 'tours' // collection name
-//----------------------------------------------------------------------------------------------------------------------
-const MongoClient = require('mongodb').MongoClient
+const locationsCollection = 'locations' // collection containing the locations
+const toursCollection = 'tours' // collection containing the tours
+const MongoClient = require('mongodb').MongoClient;
+const { stringify } = require('querystring'); 
 const client = new MongoClient(url) // mongodb client
 
-//Post Location
+/* !!!IMPORTANT NOTE!!!: The task states that the full location should be stored in the tour.locations array as well. 
+this creates some unwanted redandancy and makes it easy to inconsitencies when deleting or updating a location.
+Cause of this we just store the locationID (a pseudo primary key) in the tour.lcations array, thus avoiding redundancy
+and a lot of possible errors which can cause inconsistency on the database. */
+
+//Hierrachie in der Stadttour
+
+//Post Location - this post operation can be used to store new locations in the locations collection
 router.post('/newLocation', function(req, res, next) 
 {
+  console.log(">add location payload: ", req.body); //log the request body on the server console
+
   //Check Request
-  if(req.body.name == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') {
-    res.sendFile(__dirname + "/error_empty_input.html")
+  if(req.body.locationID == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') { //if some information is missing
+    res.sendFile(__dirname + "/error_empty_input.html"); //send a missing information error   
     return;
   }
 
-  //Crete Payload to Store
-  var GeoJsonString = '{' + '"type": "FeatureCollection"' + ',' + '"features":' + '[' + '{' + '"type": "Feature"' + ',' +
-        '"properties":' +  '{' + '"Name":' + '"' + req.body.name + '"' + ',' 
-                               + '"URL":' + '"' + req.body.url + '"' + ',' 
-                               + '"Description":' + '"' + req.body.description + '"' + '}' + ',' 
-                               + '"geometry":' + req.body.geometry + '}' + ']' + '}';
-  var nameID = req.body.name;
-  var GeoJson = JSON.parse(GeoJsonString);
+  //Create Payload to Store
+  var GeoJson = {};
+  GeoJson.type = "FeatureCollection";
+  GeoJson.features = [];
+  GeoJson.features[0] = {};
+  GeoJson.features[0].type = "Feature";
+  GeoJson.features[0].properties = {};
+  GeoJson.features[0].properties.Name = req.body.locationID;
+  GeoJson.features[0].properties.URL = req.body.url;
+  GeoJson.features[0].properties.Description = req.body.description;
+  GeoJson.features[0].geometry = {};
+  GeoJson.features[0].geometry = JSON.parse(req.body.geometry);
+
+  var locationID = req.body.locationID; 
 
   //connect to the mongodb database and insert one new element
   client.connect(function(err) 
   {
     const db = client.db(dbName) //database
-    const collection = db.collection(locationsCollection) //collection
-    collection.find({nameID: req.body.name}).toArray(function(err, docs)
+    const collection = db.collection(locationsCollection) //locations collection
+    collection.find({locationID: locationID}).toArray(function(err, docs)
     {
-        //assert.strictEqual(err, null)
         //check if name already exists
-        if(docs.length >= 1){
-          res.sendFile(__dirname + "/error_redundant_number.html");
+        if(docs.length >= 1) { //if a location with the same locationID already exists
+          res.sendFile(__dirname + "/error_redundant_number.html"); //send a redundant key error
           return;
         } 
         else {
           //Insert the document in the database
-          collection.insertOne({GeoJson, nameID}, function(err, result) 
+          collection.insertOne({GeoJson, locationID}, function(err, result) //insert new location into collection
           {
-            //assert.strictEqual(err, null)
-            //assert.strictEqual(1, result.result.ok)
-            res.sendFile(__dirname + "/done.html");
+            res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
             return;
            })
         }
@@ -62,18 +72,19 @@ router.post('/newLocation', function(req, res, next)
   })
 });
 
-//Post Tours
+//Post Tour - this post operation can be used to store new tours in the tours collection
 router.post('/newTour', function(req, res, next) 
 {
+  console.log(">add tour payload: ", req.body);
   //Check Request
-  if(req.body.tour == '' || req.body.locations == '') {
-    res.sendFile(__dirname + "/error_empty_input.html")
+  if(req.body.tourID == '' || req.body.locations == '') { //if some information is missing
+    res.sendFile(__dirname + "/error_empty_input.html") //send a missing information error
     return;
   }
 
   //Create Payload to Store
-  var tourName = req.body.tour;
-  var trimmedLocations = req.body.locations.substring(0, req.body.locations.length - 1);
+  var tourID = req.body.tourID;
+  var trimmedLocations = req.body.locations.substring(0, req.body.locations.length);
   var locations = trimmedLocations.split(',');
 
   //connect to the mongodb database and insert one new element
@@ -81,18 +92,18 @@ router.post('/newTour', function(req, res, next)
   {
     const db = client.db(dbName) //database
     const collection = db.collection(toursCollection) //collection
-    collection.find({tourName: req.body.tour}).toArray(function(err, docs)
+    collection.find({tourID: tourID}).toArray(function(err, docs)
     {
         //check if name already exists
-        if(docs.length >= 1){
-          res.sendFile(__dirname + "/error_redundant_number.html");
+        if(docs.length >= 1){ //if a tour with the same tourID already exists
+          res.sendFile(__dirname + "/error_redundant_number.html"); //send a redundant key error
           return;
         } 
         else {
           //Insert the document in the database
-          collection.insertOne({tourName,locations}, function(err, result) 
+          collection.insertOne({tourID, locations}, function(err, result) //insert new tour into collection
           {
-            res.sendFile(__dirname + "/done.html");
+            res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
             return;
            })
         }

@@ -1,7 +1,90 @@
 <!DOCTYPE html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <!--Bootstrap-->
+        <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
+        <script src="/bootstrap/dist/js/bootstrap.js"></script>
+        <!--jQuery-->
+        <script src="/jquery/dist/jquery.js"></script>
+        <!--Leaflet-->
+        <link rel="stylesheet" href="/leaflet/dist/leaflet.css"/>
+        <script type="text/javascript" src="/leaflet/dist/leaflet.js"></script>
+        <!--Leaflet Draw-->
+        <link rel="stylesheet" href='/leaflet-draw/dist/leaflet.draw.css'/>
+        <script src='/leaflet-draw/dist/leaflet.draw.js'></script>
+        <!--Style-->
+        <link rel="stylesheet" type="text/css" href="/css/impressum.css">
+    </head>
     <body>
-        <p>This is the impressum</p>
+        <!--Header-->
+        <div id="bg-head">
+            <h1 id="title" class="d-block p-2 bg-dark text-white">Geosoftware 1 - Abschlussprojekt 2021</h1>
+            <p id="subtitle" class="d-block p-2 bg-dark text-white">Abgabe von: A. Pilz / J. Balzer</p> 
+        </div>
+        <!------>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="./landing.html">Übersicht</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="./editor.html">Managen der Sehenswürdigkeiten und Routen</a>
+                        <a class="nav-link active" aria-current="page" href="./map.html">Karte</a>
+                        <a class="nav-link active" aria-current="page" href="./impressum.html"><b>Impressum</b></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!------>
+        <div id="content">
+            <div id="title">
+                <h2>Impressum</h2><br>
+                <h4>Angaben gem&auml;&szlig; &sect; 5 TMG</h4><br>
+            </div>
+            <div id="impressum" class="container-fluid">
+                <div class="row">
+                    <div id="personalDataPilz" class="column">
+                        <p>Alexander Pilz<br />
+                        Mecklenburgerstra&szlig;e 9<br />
+                        48174 Münster</p>
+                        <br>
+                        <h4>Kontakt</h4>
+                        E-Mail: apilz@uni-muenster.de</p>
+                    </div>
+                    <div id="personalDataBalzer" class="column">
+                        <p>Josefina Balzer<br />
+                        Augustastra&szlig;e 39<br />
+                        58153 Münster</p>
+                        <br>
+                        <h4>Kontakt</h4>
+                        E-Mail: jbalzer@uni-muenster.de</p>
+                    </div>
+                </div>
+            </div>
+            <div id="sourceData" class=container-fluid>
+                <div class="row">
+                    <div class="column">
+                        <p><b>Tourguide auf Github: </b>
+                        <a href="https://hub.docker.com/r/lexal95/tourguide"><u>https://hub.docker.com/r/tourguide</u></a></p>
+                    </div>
+                    <div class="column">
+                        <p><b>Tourguide auf DockerHub: </b>
+                        <a href="https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt"><u>https://github.com/Geosoftware_2021_Abschlussprojekt</u></a></p>
+                    </div>
+                </div>
+                <br><p style="font-size: 15px;">Quelle:<a href="https://www.e-recht24.de"> https://www.e-recht24.de</a></p>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer id="footer" class="bg-dark text-center text-lg-start text-white sticky-bottom">
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2021 Copyright: A. Pilz / J. Balzer
+            </div>
+        </footer>
+        <!------>
     </body>
 </html> 
