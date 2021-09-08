@@ -94,8 +94,8 @@ var locationsInTour = []; //Array to store the location in a specific tour
 
 /** // MISSING CCOMENT
  * @function useGeometryForUpdate - instructs the webpage to use the geometry for an update instead of a new location
- * @param {json} geoJson - 
- * @param {layer} layer 
+ * @param {json} geoJson - the newly created geometry to be used for updating the selected location
+ * @param {layer} layer - the "event"-layer which can be deleted from the canvas if the geometry is used to update a location
  */
  function useGeometryForUpdate(geoJson, layer) {
     document.getElementById("newGeometry").value = geoJson; //set Geometry-String when updating existing Object
