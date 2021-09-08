@@ -429,7 +429,7 @@ function getDescription(sourceID, targetID) {
 }
 
 /**
- * @function {getTitle} - Get title of article from wikipaedia-URL
+ * @function getTitle - Get title of article from wikipaedia-URL
  * @param {String} url - gets an url in form of a string 
  * @returns {String} - returns the keyword with which an wikipaedia article can be found
  */
@@ -449,7 +449,7 @@ function getTitle(url) {
 }
 
 /**
- *@function {isvalid} - Function checks whether the given string is a valid stringified JSON
+ *@function isvalid - Function checks whether the given string is a valid stringified JSON
  *@param {string} str - stringified JSON
  *@throws Will throw an error if the entered string is not a stringified JSON
  */
@@ -468,41 +468,55 @@ var jsonInput;
  * Then it the main-method gets called with the new route.
  */
  function getInputValue(){
-    document.getElementById("errorMessage").className = ""
+    document.getElementById("errorMessage").className = "" // First the error message gets cleared and the colour reseted
     document.getElementById("errorMessage").innerHTML = ""
-    if(document.getElementById("geoJsonInput").value[0] != "\"" || document.getElementById("geoJsonInput").value[document.getElementById("geoJsonInput").value.length - 1] != "\""){
+    if(document.getElementById("geoJsonInput").value[0] == "\"" || document.getElementById("geoJsonInput").value[document.getElementById("geoJsonInput").value.length - 1] == "\""){ // Checks whether the input is not a stringified json.
         document.getElementById("errorMessage").className = "alert alert-warning";
         document.getElementById("errorMessage").innerHTML = 'ERROR: Der Input ist kein JSON.';
     } else {
         if(isValid(document.getElementById("geoJsonInput").value) == true) { // Checks whether the input is valid
             jsonInput = JSON.parse(document.getElementById("geoJsonInput").value);
-            if(jsonInput.type != "FeatureCollection") {
+            if(jsonInput.type != "FeatureCollection") { // Checks whether the type is a FeatureCollection
                 document.getElementById("errorMessage").className = "alert alert-warning"
                 document.getElementById("errorMessage").innerHTML = 'ERROR: Dies ist keine FeatureCollection. Die erwartete Form sieht folgendermaßen aus: {"type":"FeatureCollection","features":[...]}'
             } else {
-                if(jsonInput.features.length != 1) {
+                if(jsonInput.features.length != 1) { // Checks whether the type includes only one feature
                     document.getElementById("errorMessage").className = "alert alert-warning"
                     document.getElementById("errorMessage").innerHTML = 'ERROR: Die FeatureCollection darf nur ein einzelnes Feature enthalten.'
                 } else {
-                    if(jsonInput.features[0].type != "Feature") {
+                    if(jsonInput.features[0].type != "Feature") { // // Checks whether the of the only Feature is a feature
                         document.getElementById("errorMessage").className = "alert alert-warning"
                         document.getElementById("errorMessage").innerHTML = 'ERROR: Die FeatureCollection muss ein Feature enthalten.'
                     } else {
-                        if(jsonInput.features[0].geometry.type != "Point") {
+                        if(jsonInput.features[0].geometry.type != "Point" && jsonInput.features[0].geometry.type != "Polygon") {// 
                             document.getElementById("errorMessage").className = "alert alert-warning"
-                            document.getElementById("errorMessage").innerHTML = 'ERROR: Das Feature in der FeatureCollection muss einen einzelnen Punkt als Geometrie enthalten.'
+                            document.getElementById("errorMessage").innerHTML = 'ERROR: Das Feature in der FeatureCollection muss einen einzelnen Punkt oder ein Polygon als Geometrie enthalten.'
                         } else {
-                            if(jsonInput.features[0].geometry.coordinates.length != 2) {
-                                document.getElementById("errorMessage").className = "alert alert-warning"
-                                document.getElementById("errorMessage").innerHTML = 'ERROR: Das Feature in der FeatureCollection muss ein Paar an Koordinaten enthalten.'
-                            } else {
-                                document.getElementById("name").value = jsonInput.features[0].properties.name;
-                                document.getElementById("url").value = jsonInput.features[0].properties.url;
-                                document.getElementById("description").value = jsonInput.features[0].properties.description; 
-                                document.getElementById("geometry").value = JSON.stringify(jsonInput.features[0].geometry); 
-                                getDescription('url', 'description');
-                                document.getElementById("addLocationForm").submit();
-                            }
+                            if(jsonInput.features[0].geometry.type == "Point") {
+                                if(jsonInput.features[0].geometry.coordinates.length != 2){
+                                    document.getElementById("errorMessage").className = "alert alert-warning"
+                                    document.getElementById("errorMessage").innerHTML = 'ERROR: Das Punkt-Feature in der FeatureCollection muss ein Paar an Koordinaten enthalten.'
+                                } else {
+                                    document.getElementById("locationID").value = jsonInput.features[0].properties.Name;
+                                    document.getElementById("url").value = jsonInput.features[0].properties.URL;
+                                    document.getElementById("description").value = jsonInput.features[0].properties.description; 
+                                    document.getElementById("geometry").value = JSON.stringify(jsonInput.features[0].geometry); 
+                                    getDescription('url', 'description');
+                                    document.getElementById("addLocationForm").submit();
+                                }
+                            } else if(jsonInput.features[0].geometry.type == "Polygon") {
+                                if(jsonInput.features[0].geometry.coordinates.length != 1) {
+                                    document.getElementById("errorMessage").className = "alert alert-warning"
+                                    document.getElementById("errorMessage").innerHTML = 'ERROR: Das Polygon-Feature in der FeatureCollection muss ein Array an Koordinaten enthalten.'
+                                } else {
+                                    document.getElementById("locationID").value = jsonInput.features[0].properties.Name;
+                                    document.getElementById("url").value = jsonInput.features[0].properties.URL;
+                                    document.getElementById("description").value = jsonInput.features[0].properties.description; 
+                                    document.getElementById("geometry").value = JSON.stringify(jsonInput.features[0].geometry); 
+                                    getDescription('url', 'description');
+                                    document.getElementById("addLocationForm").submit();
+                                }
+                            } 
                         }
                     }
                 }
