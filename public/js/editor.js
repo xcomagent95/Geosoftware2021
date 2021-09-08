@@ -488,15 +488,15 @@ var jsonInput;
                         document.getElementById("errorMessage").className = "alert alert-warning"
                         document.getElementById("errorMessage").innerHTML = 'ERROR: Die FeatureCollection muss ein Feature enthalten.'
                     } else {
-                        if(jsonInput.features[0].geometry.type != "Point" && jsonInput.features[0].geometry.type != "Polygon") {// 
+                        if(jsonInput.features[0].geometry.type != "Point" && jsonInput.features[0].geometry.type != "Polygon") {// Checks whether the input is a Point or a Polygon
                             document.getElementById("errorMessage").className = "alert alert-warning"
                             document.getElementById("errorMessage").innerHTML = 'ERROR: Das Feature in der FeatureCollection muss einen einzelnen Punkt oder ein Polygon als Geometrie enthalten.'
                         } else {
-                            if(jsonInput.features[0].geometry.type == "Point") {
+                            if(jsonInput.features[0].geometry.type == "Point") { // If the given input is a point the function checks whether it contains a pari of coordinates
                                 if(jsonInput.features[0].geometry.coordinates.length != 2){
                                     document.getElementById("errorMessage").className = "alert alert-warning"
                                     document.getElementById("errorMessage").innerHTML = 'ERROR: Das Punkt-Feature in der FeatureCollection muss ein Paar an Koordinaten enthalten.'
-                                } else {
+                                } else { // If it is a point and contains a pair of coordinates the given input gets pushed into the db
                                     document.getElementById("locationID").value = jsonInput.features[0].properties.Name;
                                     document.getElementById("url").value = jsonInput.features[0].properties.URL;
                                     document.getElementById("description").value = jsonInput.features[0].properties.description; 
@@ -504,11 +504,11 @@ var jsonInput;
                                     getDescription('url', 'description');
                                     document.getElementById("addLocationForm").submit();
                                 }
-                            } else if(jsonInput.features[0].geometry.type == "Polygon") {
-                                if(jsonInput.features[0].geometry.coordinates.length != 1) {
+                            } else if(jsonInput.features[0].geometry.type == "Polygon") { // If the given input is a polygon ... 
+                                if(jsonInput.features[0].geometry.coordinates.length != 1) { // and contains an array of arrays with the length of 1. The one array of coordinates can be arbitrarily long, but it can be only of of the arrays... Otherwise it's not a polygon.
                                     document.getElementById("errorMessage").className = "alert alert-warning"
                                     document.getElementById("errorMessage").innerHTML = 'ERROR: Das Polygon-Feature in der FeatureCollection muss ein Array an Koordinaten enthalten.'
-                                } else {
+                                } else { // If everything got checked and the input gets classified as valid is gets pushed into the db 
                                     document.getElementById("locationID").value = jsonInput.features[0].properties.Name;
                                     document.getElementById("url").value = jsonInput.features[0].properties.URL;
                                     document.getElementById("description").value = jsonInput.features[0].properties.description; 
