@@ -398,7 +398,7 @@ var markerNearestStopp;
  * @param {[lat,lon]]} locationsPosition - This method needs the position of the location which gets analyzed as a parameter
  */
 function getNearestBusstopp(locationsPosition){ 
-    for(var i=0; i<stopps.features.length; i++){
+    for(var i=0; i<stopps.features.length; i++){ // This loop will calculate the distance between the current position and all bus stopps
         var name = stopps.features[i].properties.lbez;
         var busStopp = switchCoords(stopps.features[i].geometry.coordinates); // [lat, lon]
         var location = switchCoords(locationsPosition);
@@ -407,14 +407,12 @@ function getNearestBusstopp(locationsPosition){
     }
     sortedStopps.sort(function([a,b,c],[d,e,f]){ return b-e }); // Sorts the stopps ascending by the distance to the current location
     nearestStopp.name = sortedStopps[0][0]; // GeoJson filled up with information about the name,
-    console.log("nearestStopp.name: "+nearestStopp.name);
     nearestStopp.distance = sortedStopps[0][1]; // the distance between current location and busstopp,
     nearestStopp.lat = sortedStopps[0][2][0]; // latitude and
     nearestStopp.lon = sortedStopps[0][2][1]; // longitude
-    console.log(nearestStopp.lat + ', ' + nearestStopp.lon);
-    markerNearestStopp = L.marker([nearestStopp.lat, nearestStopp.lon], {icon: busstoppIcon}).addTo(map);
+    markerNearestStopp = L.marker([nearestStopp.lat, nearestStopp.lon], {icon: busstoppIcon}).addTo(map); // A marker gets added to the map at the coordinates of the nearest busstopp
 
-    markerNearestStopp.bindPopup(
+    markerNearestStopp.bindPopup( // A popup gets constructed and filled with data 
         '<p style="font-size: 18px;"><b>Name der nächsten Haltestelle: </b>' + nearestStopp.name + '<br></p>' + 
         '<b>Koordinaten: </b>' + nearestStopp.lat + ', ' + nearestStopp.lon + '<br><br><br>' +
         '<button class="btn btn-dark" onclick="getWeather(' + nearestStopp.lon + ', ' + nearestStopp.lat + ',' + '\'' + nearestStopp.name + '\')">Wetter</button>'
@@ -422,7 +420,7 @@ function getNearestBusstopp(locationsPosition){
 }
 
 /**
- * 
+ * @function autocomplete - This function is the autofunction for the search function. 
  * @param {*} inp 
  * @param {*} arr
  * source: https://www.w3schools.com/howto/howto_js_autocomplete.asp
