@@ -92,8 +92,10 @@ let locations; //Array to store Locations
 let tours; //Array to store Tours
 var locationsInTour = []; //Array to store the location in a specific tour
 
-/**
- * @function useGeometryForUpdate - instrucs the webpage to use the geometry for an update instead of a new location
+/** // MISSING CCOMENT
+ * @function useGeometryForUpdate - instructs the webpage to use the geometry for an update instead of a new location
+ * @param {json} geoJson - 
+ * @param {layer} layer 
  */
  function useGeometryForUpdate(geoJson, layer) {
     document.getElementById("newGeometry").value = geoJson; //set Geometry-String when updating existing Object
@@ -210,7 +212,7 @@ getAllfromDB();
 
 /**
  * @function buildCheckboxDynamically - function which builds the chekcboxes for the updateLocationForm from the given data
- * @param {location[]} listOfLocations
+ * @param {location[]} listOfLocations - The list of locations is needed to build the content 
  */
 function buildCheckboxDynamically(listOfLocations){
     // Dynamische Checkbox:
