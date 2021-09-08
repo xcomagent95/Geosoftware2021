@@ -68,7 +68,7 @@ It can be called with http://localhost:3000/add/removeTour.
 
 ## Map
 
-The map page provides access the the actual application. locations and tours can be viewed here. Additionaly nearest busstops from a location and weather information at these busstops can be requested here. It can be accessed via "http://localhost:3000/map".
+The map page provides access the the actual application. Locations and tours can be viewed here. Additionaly nearest busstops from a location and weather information at these busstops can also be requested. It can be accessed via "http://localhost:3000/map".
 
 ## Editor
 
