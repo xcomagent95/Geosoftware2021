@@ -201,10 +201,10 @@ function zoomToTour(name) {
     var location = L.geoJson(locations[i].GeoJson);
     var position;
     if(locationsInTour[i].GeoJson.features[0].geometry.type == "Polygon") {
-        location.addTo(toursLayer);
+        location.addTo(locationsLayer);
         var polygon = [];
         var coordinates = [];
-        for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
+        for(var j = 0; j < locationsInTour[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
             coordinates.push([
                 locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][0],
                 locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
@@ -215,6 +215,7 @@ function zoomToTour(name) {
     }
     else {
         position = locationsInTour[i].GeoJson.features[0].geometry.coordinates;
+        console.log(locationsInTour[i].locationID, position);
     }
     var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
     mapObject.addTo(toursLayer);
