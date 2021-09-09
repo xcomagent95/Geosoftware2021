@@ -198,34 +198,33 @@ function zoomToTour(name) {
 
     map.removeLayer(locationsLayer);
     for(var i = 0; i < locationsInTour.length; i++) {
-    var location = L.geoJson(locations[i].GeoJson);
-    var position;
-    if(locationsInTour[i].GeoJson.features[0].geometry.type == "Polygon") {
-        location.addTo(locationsLayer);
-        var polygon = [];
-        var coordinates = [];
-        for(var j = 0; j < locationsInTour[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
-            coordinates.push([
-                locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][0],
-                locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
-            ]);
+        var position;
+        if(locationsInTour[i].GeoJson.features[0].geometry.type == "Polygon") {
+            var location = L.geoJson(locationsInTour[i].GeoJson);
+            location.addTo(toursLayer);
+            var polygon = [];
+            var coordinates = [];
+            for(var j = 0; j < locationsInTour[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
+                coordinates.push([
+                    locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][0],
+                    locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
+                ]);
+            }
+            polygon.push(coordinates);
+            position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
         }
-        polygon.push(coordinates);
-        position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
-    }
-    else {
-        position = locationsInTour[i].GeoJson.features[0].geometry.coordinates;
-        console.log(locationsInTour[i].locationID, position);
-    }
-    var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
-    mapObject.addTo(toursLayer);
-    mapObject.addTo(map).bindPopup(
-        '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locationsInTour[i].locationID + 
-        '<br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.URL + 
-        '<br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.Description +
-        '<br>' + '<b>' + "Koordinaten: " + '</b></p>' + position + 
-        '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
-    );
+        else {
+            position = locationsInTour[i].GeoJson.features[0].geometry.coordinates;
+        }
+        var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
+        mapObject.addTo(toursLayer);
+        mapObject.addTo(map).bindPopup(
+            '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locationsInTour[i].locationID + 
+            '<br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.URL + 
+            '<br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.Description +
+            '<br>' + '<b>' + "Koordinaten: " + '</b></p>' + position + 
+            '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
+        );
     }
     map.fitBounds(toursLayer.getBounds());
 }
