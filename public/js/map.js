@@ -1,5 +1,6 @@
 "use strict"
 
+//global variables 
 var locations;
 var tours;
 var positions;
@@ -19,9 +20,11 @@ var busstoppIcon = L.icon({
     popupAnchor:  [0, -28] // point from which the popup should open relative to the iconAnchor
 });
 
-var map = L.map('mapdiv'); 
+var map = L.map('mapdiv'); //create the map
 var locationsLayer = L.featureGroup().addTo(map); //layerGroup for the locations
 var toursLayer = L.featureGroup().addTo(map); //layerGroup for the tours
+var featureLayer; //"layer" for minsc objects
+
 function getAllfromDB() { 
     {$.ajax({ //handle request via ajax
         url: "/search/getCollections", //request url is the prebuilt request
@@ -46,9 +49,7 @@ function getAllfromDB() {
         })
     }
 }  
-getAllfromDB();
-
-var featureLayer;
+getAllfromDB(); //retrieve data
 
 /**
  * @function fillTables - This function fills the tables to present the locations and the tours on the website
@@ -144,12 +145,12 @@ function populateMap() {
 
     //Layer Control
     var baseLayer = {
-        "Open Street Map": osm,
+        "Open Street Map": osm, //OpenStreetMap
     };
     
     featureLayer = {
-        "Sehenwürdigkeiten": locationsLayer,
-        "Touren": toursLayer
+        "Sehenwürdigkeiten": locationsLayer, //locations
+        "Touren": toursLayer //tours
     };
 
     L.control.layers(baseLayer, featureLayer).addTo(map); //add layer control to map
@@ -161,14 +162,14 @@ var currentMarker;
  * @param {String} name - The name of the feature which should be focussed
  */
 function zoomToFeature(name) {
-    toursLayer.clearLayers()
-    map.removeLayer(toursLayer);
-    map.addLayer(locationsLayer);
-    for(var i = 0; i < positions.length; i++) {
-        if(positions[i].name == name) {
-            map.fitBounds(positions[i].leafletObject.getBounds());
-            positions[i].popup.openPopup();
-            currentMarker = positions[i];
+    toursLayer.clearLayers(); //clear the tours
+    map.removeLayer(toursLayer); //remove the tours (deactivate the layer)
+    map.addLayer(locationsLayer); //add the locations (aktivate the layer)
+    for(var i = 0; i < positions.length; i++) { //iterate over positions
+        if(positions[i].name == name) { //if the correspondig locationID is found
+            map.fitBounds(positions[i].leafletObject.getBounds()); //get bounds of correcponding object
+            positions[i].popup.openPopup(); //open the popup
+            currentMarker = positions[i]; //set curret marker
         }
     }
 }
