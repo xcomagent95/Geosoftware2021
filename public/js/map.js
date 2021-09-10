@@ -422,94 +422,90 @@ function getNearestBusstopp(locationsPosition){
 
 /**
  * @function autocomplete - This function is the autofunction for the search function. 
- * @param {*} inp 
- * @param {*} arr
+ * @param {String} inp - This parameter is the input entered to the input field which should be autocompleted.
+ * @param {[String]} arr - This parameter is a String-array which includes all possible option for autocompletion. 
  * source: https://www.w3schools.com/howto/howto_js_autocomplete.asp
  */
 function autocomplete(inp, arr) {
-    /*the autocomplete function takes two arguments,
-    the text field element and an array of possible autocompleted values:*/
+    // The autocomplete function takes two arguments,
+    // the text field element and an array of possible autocompleted values:
     var currentFocus;
-    /*execute a function when someone writes in the text field:*/
+    // execute a function when someone writes in the text field:
     inp.addEventListener("input", function(e) {
         var a, b, i, val = this.value;
-        /*close any already open lists of autocompleted values*/
+        // close any already open lists of autocompleted values
         closeAllLists();
         if (!val) { return false;}
         currentFocus = -1;
-        /*create a DIV element that will contain the items (values):*/
+        // create a DIV element that will contain the items (values):
         a = document.createElement("DIV");
         a.setAttribute("id", this.id + "autocomplete-list");
         a.setAttribute("class", "autocomplete-items");
-        /*append the DIV element as a child of the autocomplete container:*/
+        // append the DIV element as a child of the autocomplete container:
         this.parentNode.appendChild(a);
-        /*for each item in the array...*/
+        // for each item in the array...
         for (i = 0; i < arr.length; i++) {
-          /*check if the item starts with the same letters as the text field value:*/
+          // check if the item starts with the same letters as the text field value:
           if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-            /*create a DIV element for each matching element:*/
+            // create a DIV element for each matching element:
             b = document.createElement("DIV");
-            /*make the matching letters bold:*/
+            // make the matching letters bold:
             b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
             b.innerHTML += arr[i].substr(val.length);
-            /*insert a input field that will hold the current array item's value:*/
+            // insert a input field that will hold the current array item's value:
             b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-            /*execute a function when someone clicks on the item value (DIV element):*/
+            // execute a function when someone clicks on the item value (DIV element):
                 b.addEventListener("click", function(e) {
-                /*insert the value for the autocomplete text field:*/
+                // insert the value for the autocomplete text field:
                 inp.value = this.getElementsByTagName("input")[0].value;
-                /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
+                // close the list of autocompleted values, or any other open lists of autocompleted values:
                 closeAllLists();
             });
             a.appendChild(b);
           }
         }
     });
-    /*execute a function presses a key on the keyboard:*/
+    // execute a function presses a key on the keyboard:
     inp.addEventListener("keydown", function(e) {
         var x = document.getElementById(this.id + "autocomplete-list");
         if (x) x = x.getElementsByTagName("div");
         if (e.keyCode == 40) {
-          /*If the arrow DOWN key is pressed,
-          increase the currentFocus variable:*/
+          // If the arrow DOWN key is pressed, increase the currentFocus variable:
           currentFocus++;
-          /*and and make the current item more visible:*/
+          // and and make the current item more visible:
           addActive(x);
         } else if (e.keyCode == 38) { //up
-          /*If the arrow UP key is pressed,
-          decrease the currentFocus variable:*/
+          // If the arrow UP key is pressed, decrease the currentFocus variable:
           currentFocus--;
-          /*and and make the current item more visible:*/
+          // and and make the current item more visible:
           addActive(x);
         } else if (e.keyCode == 13) {
-          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          // If the ENTER key is pressed, prevent the form from being submitted,
           e.preventDefault();
           if (currentFocus > -1) {
-            /*and simulate a click on the "active" item:*/
+            // and simulate a click on the "active" item:
             if (x) x[currentFocus].click();
           }
         }
     });
     function addActive(x) {
-      /*a function to classify an item as "active":*/
+      // a function to classify an item as "active":
       if (!x) return false;
-      /*start by removing the "active" class on all items:*/
+      // start by removing the "active" class on all items:
       removeActive(x);
       if (currentFocus >= x.length) currentFocus = 0;
       if (currentFocus < 0) currentFocus = (x.length - 1);
-      /*add class "autocomplete-active":*/
+      // add class "autocomplete-active":
       x[currentFocus].classList.add("autocomplete-active");
     }
     function removeActive(x) {
-      /*a function to remove the "active" class from all autocomplete items:*/
+      // a function to remove the "active" class from all autocomplete items:
       for (var i = 0; i < x.length; i++) {
         x[i].classList.remove("autocomplete-active");
       }
     }
     function closeAllLists(elmnt) {
-      /*close all autocomplete lists in the document,
-      except the one passed as an argument:*/
+      // close all autocomplete lists in the document, except the one passed as an argument:
       var x = document.getElementsByClassName("autocomplete-items");
       for (var i = 0; i < x.length; i++) {
         if (elmnt != x[i] && elmnt != inp) {
@@ -517,12 +513,14 @@ function autocomplete(inp, arr) {
       }
     }
   }
-  /*execute a function when someone clicks in the document:*/
+  // execute a function when someone clicks in the document:
   document.addEventListener("click", function (e) {
       closeAllLists(e.target);
   });
 }
 
+// These variables and the two for-loops build up the String-array which is needed for he autocomplete function. It contains 
+// all possible input values.
 var searchElem;
 var found;
 var searchResults = [];
@@ -538,18 +536,21 @@ for(var i=0; i<tours.length; i++){
 
 autocomplete(document.getElementById("suche"), searchResults);
 
+/**
+ * @function searchFunction - This function is responsible for the search function on the webpage. It also contains an error message for ipnut values, which are not found.
+ */
 function searchFunction(){
-    found = "false";
-    document.getElementById("searchError").className = "";
+    found = "false"; // The default-value of the variable "found" is false. It will change to "true", in case the entered value is a known location or route
+    document.getElementById("searchError").className = ""; // Initially the error message is not existant and includes no value.
     document.getElementById("searchError").innerHTML = "";
     searchElem = document.getElementById("suche").value;
-    for(var i=0; i<locations.length; i++){
+    for(var i=0; i<locations.length; i++){ // The first for-loop of two checks, whether the given input is identical to one of the known locations.
         if(locations[i].locationID == searchElem){
             zoomToFeature(searchElem);
             found = "true";
         }
     }
-    if(found == "false"){
+    if(found == "false"){ // The second for loop will check, whether it is one of the tours.
         for(var i=0; i<tours.length; i++){
             if(tours[i].tourID == searchElem){
                 zoomToTour(searchElem);
@@ -557,19 +558,8 @@ function searchFunction(){
             }
         }
     }
-    if(found == "false"){
+    if(found == "false"){ // In case the inout is not conform to any of the known possibilities an error gets printed.
         document.getElementById("searchError").className = "alert alert-danger";
         document.getElementById("searchError").innerHTML = "Das Element <b>" + searchElem + '</b> ist weder eine eingetragene Route noch eine Sehenswürdigkeit!';
     }
 }
-
-
-/*function connectTheDots(data){
-    var c = [];
-    for(i in data._layers) {
-        var x = data._layers[i]._latlng.lat;
-        var y = data._layers[i]._latlng.lng;
-        c.push([x, y]);
-    }
-    return c;
-}*/
