@@ -72,7 +72,7 @@ h1, p, table, div, a{
     #mapdiv {
         width: 100%;
         margin: auto;
-        height: 900px;
+        height: 700px;
         bottom: 0;
         /*overflow: hidden;*/
     }
