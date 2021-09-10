@@ -48,8 +48,8 @@
                   <input type="hidden" id="geometry" name="geometry"><br><br>
                 </form> 
               </div>
-              <div>
-                <br><h5><b>Hinzufügen einer Sehenswürdigkeit als GeoJSON</b></h5>
+              <div id="addLocationAsJson" class="border rounded">
+                <h5><b>Hinzufügen einer Sehenswürdigkeit als GeoJSON</b></h5><br>
                 <textarea type="text" id="geoJsonInput" 
                   placeholder='Sehenswürdigkeit als GeoJSON
 Notwendiges Format:
@@ -69,17 +69,17 @@ Notwendiges Format:
                 '></textarea><br>
                 <div id="errorMessage" class=""></div><br>
                 <button type="button" class="btn btn-secondary" onclick="getInputValue()">Verwendung der GeoJSON</button>
-              </div>
-              <div>
+              </div><br>
+              <div id="updateLocation" class="border rounded">
                 <!--Updating Locations-->
-                <br><h5><b>Ändern einer Sehenswürdigkeit</b></h5>
+                <h5><b>Ändern einer Sehenswürdigkeit</b></h5>
                 <h>Sehenswürdigkeit, welche geändert werden soll: </h>
-                <select class="form-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"></select><br><br>
+                <select class="form-select" id="selectLocationToUpdate" onchange="selectLocationForUpdate()"></select><br>
                 <div class="alert alert-warning" role="alert" id="newGeometryInfo">
                   <p id="geometryInfo">Keine neue Geometrie erzeugt!</p>
                 </div>
                 <form action="/update/updateLocation" method="post">
-                  <input type="hidden" id="existingLocationID" name="existingLocationID" style="font-size:0px;"><br>
+                  <input type="hidden" id="existingLocationID" name="existingLocationID" style="font-size:0px;">
                   <label for="newLocationID">Name der Sehenswürdigkeit: </label><br>
                   <input type="text" id="newLocationID" name="newLocationID" placeholder="Neuer Name"><br><br>
                   <label for="newURL">URL der Sehenswürdigkeit: </label><br>
@@ -88,15 +88,14 @@ Notwendiges Format:
                   <input type="hidden" id="newGeometry" name="newGeometry" style="font-size:0px;">
                   <input type="submit" class="btn btn-secondary" value="Location aktualisieren"><br>
                 </form> 
-                <br><br>
-              </div>       
+              </div><br>       
               <div>
                 <!--Deleting Locations-->
                 <form id="deleteLocationForm" action="/delete/removeLocation" method="post" id="deleteLocationForm">
                     <input type="hidden" id="locationIDToDelete" name="locationIDToDelete"><br>
                 </form>
               </div>
-              <div>
+              <div id="addingTours" class="border rounded">
                 <!--Adding Tours-->
                 <h5><b>Hinzufügen einer Tour</b></h5>
                 <form action="/add/newTour" method="post" id="addTourForm">
@@ -110,8 +109,8 @@ Notwendiges Format:
                 <!--<select class="custom-select" id="selectLocationToAddToTour"><option selected>Auswählen...</option></select>-->
                 <!--<button onclick="addLocationToTour()">Hinzufügen der Sehenswürdigkeiten</button>-->
                 <!--<button onclick="clearLocations()">Zurücksetzen</button>-->
-              </div><br><br>
-              <div>
+              </div><br>
+              <div id="updateTours" class="border rounded">
                 <!--Updating Tours-->
                 <h5><b>Ändern einer Tour</b></h5>
                 <h>Tour, welche geändert werden soll: </h>
@@ -130,11 +129,11 @@ Notwendiges Format:
                     <input type="text" id="newTourID" name="newTourID"><br> 
                     <div style="height: 5px;"></div>
                     <input type="submit" class="btn btn-secondary" value="Updaten der Tour">
-                    <input type="hidden" id="newLocations" name="newLocations"><br>
+                    <input type="hidden" id="newLocations" name="newLocations">
                 </form>
                 <p id="locationsList"></p>
               </div><br>
-              <div>
+              <div id="deleteTours" class="border rounded">
                 <!--Deleting Tours-->
                 <h5><b>Löschen einer Tour
                 </b></h5>
@@ -142,7 +141,7 @@ Notwendiges Format:
                 <form action="/delete/removeTour" method="post">
                     <input type="hidden" id="tourIDToDelete" name="tourIDToDelete"></input>
                     <input type="submit" class="btn btn-secondary" value="Löschen der Tour"></input>
-                </form><br><br>
+                </form>
               </div>
             </div>
             <!--map container-->  
