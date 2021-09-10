@@ -28,7 +28,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="./editor.html"><b>Managen der Sehenswürdigkeiten und Routen</b></a>
+                        <a class="nav-link active" aria-current="page" href="./editor.html"><b>Managen der Sehenswürdigkeiten und Touren</b></a>
                         <a class="nav-link active" aria-current="page" href="./map.html">Karte</a>
                         <a class="nav-link active" aria-current="page" href="./impressum.html">Impressum</a>
                     </div>
@@ -104,7 +104,7 @@ Notwendiges Format:
                     <input type="text" placeholder="Name" id="tourID" name="tourID"><br>
                     <input type="hidden" id="locations" name="locations"><br>
                 </form>
-                <h>Auswählen der Sehenswürdigkeiten auf der Route: </h><br>
+                <h>Auswählen der Sehenswürdigkeiten auf der Tour: </h><br>
                 <div id="checkboxContainer"></div>
                 <button onclick="addTour()" class="btn btn-secondary">Hinzufügen der Tour</button>
                 <!--<select class="custom-select" id="selectLocationToAddToTour"><option selected>Auswählen...</option></select>-->
@@ -114,14 +114,14 @@ Notwendiges Format:
               <div>
                 <!--Updating Tours-->
                 <h5><b>Ändern einer Tour</b></h5>
-                <h>Route, welche geändert werden soll: </h>
+                <h>Tour, welche geändert werden soll: </h>
                 <select class="form-select"  id="selectTourToUpdate" onchange="selectTourForUpdate()"></select><br>
                 <div style="height: 10px;"></div>
                 <select class="form-select"  id="selectLocationsToDeleteFromTour"></select>
                 <button onclick="deleteLocationsFromTour()" class="btn btn-secondary">Diese Sehenswürdigkeit aus der Tour löschen</button><br>
                 <div style="height: 5px;"></div><br>
                 <select class="form-select"  id="selectLocationsToAddToTour"></select>
-                <button onclick="addLocationsToTour()" class="btn btn-secondary">Hinzufügen einer Sehenswürdigkeit zu einer Route</button> <br>
+                <button onclick="addLocationsToTour()" class="btn btn-secondary">Hinzufügen einer Sehenswürdigkeit zu einer Tour</button> <br>
                 <div style="height: 5px;"></div>
                 <form action="/update/updateTour" method="post">
                     <div style="height: 5px;"></div>
@@ -136,7 +136,8 @@ Notwendiges Format:
               </div><br>
               <div>
                 <!--Deleting Tours-->
-                <h5><b>Löschen einer Route</b></h5>
+                <h5><b>Löschen einer Tour
+                </b></h5>
                 <select class="form-select" id="selectTourToDelete" onchange="selectTourForDelete()"></select><br>
                 <form action="/delete/removeTour" method="post">
                     <input type="hidden" id="tourIDToDelete" name="tourIDToDelete"></input>

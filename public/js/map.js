@@ -81,8 +81,8 @@ function fillTables() {
     for(var i = 0; i < toursTableData.length; i++) { //iterate over table data
         //get all locations from a tour
         var locationsInTour = "<ul>";
-        for(var j = 0; j < tours[i].locations.length; j++){
-            locationsInTour += "<li>" + tours[i].locations[j];
+        for(var j = 0; j < tours[i].locations.length; j++){ //iterate over locations
+            locationsInTour += "<li>" + tours[i].locations[j]; //add locations to list
         }
         locationsInTour += "</ul>";
         
@@ -107,27 +107,27 @@ function populateMap() {
     //Basemap Layer
     var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {}).addTo(map); //OpenStreetMap
 
-    for(var i = 0; i < locations.length; i++) {
-        var location = L.geoJson(locations[i].GeoJson);
-        var position;
-        if(locations[i].GeoJson.features[0].geometry.type == "Polygon") {
-            location.addTo(locationsLayer);
-            var polygon = [];
-            var coordinates = [];
-            for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
-                coordinates.push([
+    for(var i = 0; i < locations.length; i++) { //iterate over locations
+        var location = L.geoJson(locations[i].GeoJson); //build geoJson leaflet object
+        var position; //initialize variable for the position
+        if(locations[i].GeoJson.features[0].geometry.type == "Polygon") { //if the location is a polygon
+            location.addTo(locationsLayer); //add the polygon to the locationsLayer
+            var polygon = []; //array for the "polygon"
+            var coordinates = []; //array for the coordinates
+            for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) { //iterate over the coordinates
+                coordinates.push([ //push the cordinates into the coordinates array
                     locations[i].GeoJson.features[0].geometry.coordinates[0][j][0],
                     locations[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
                 ]);
             }
-            polygon.push(coordinates);
-            position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
+            polygon.push(coordinates); //push the coordinates array into the polygon array
+            position = turf.centroid(turf.polygon(polygon)).geometry.coordinates; //build a turf polygon and calculate its centroid
         }
         else {
-            position = locations[i].GeoJson.features[0].geometry.coordinates;
+            position = locations[i].GeoJson.features[0].geometry.coordinates; //store the position when the location is point
         }
-        var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
-        mapObject.addTo(locationsLayer);
+        var mapObject = L.marker([position[1], position[0]], {icon: locationIcon}); //create marker from current position
+        mapObject.addTo(locationsLayer); //add the marker to the map 
         mapObject.addTo(map).bindPopup(
             '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locations[i].locationID + "</p>" +
             '<br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + 
