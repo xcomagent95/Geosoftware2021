@@ -43,44 +43,57 @@
             <div class="row">
                 <!--Menu-->
                 <div id="menu" class="column"> 
-                    <br><h5><b>Suchfunktion:</b></h5>
-                    <div>
-                        <label for="suche">Nach Sehenswürdigkeit oder Route suchen: </label> <br>
-                        <input class="autocomplete" autocomplete="off" type="search" id="suche" placeholder="Suche...">
-                        <button class="btn btn-secondary" onclick="searchFunction()">Suchen</button>
-                        <div id="searchError"></div>
+                    <div id="searchField" class="border rounded">
+                       <h5><b>Suchfunktion:</b></h5>
+                        <div>
+                            <label for="suche">Nach Sehenswürdigkeit oder Route suchen: </label> <br>
+                            <input class="autocomplete" autocomplete="off" type="search" id="suche" placeholder="Suche...">
+                            <button class="btn btn-secondary" onclick="searchFunction()">Suchen</button>
+                            <div id="searchError"></div>
+                        </div> 
                     </div>
+                    
                     <br><h5><b>Eingetragene Sehenswürdigkeiten:</b></h5>
-                    <table id="locations" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">URL</th>
-                                <th scope="col">Auswahl</th>
-                            </tr>
-                        </thead>
-                        <tBody id="locationsTableBody"></tBody>
-                    </table>
+                    <div class="border rounded">
+                        <table id="locations" class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">URL</th>
+                                    <th scope="col">Auswahl</th>
+                                </tr>
+                            </thead>
+                            <tBody id="locationsTableBody"></tBody>
+                        </table>    
+                    </div>
+                    
                     <br><h5><b>Eingetragene Touren:</b></h5>
-                    <table id="tours" class="table table-bordered">
-                        <thead> 
-                            <tr>
-                                <th>Name</th>
-                                <th>Auswahl</th>
-                                <th>Enthaltene Sehenswürdigkeiten</th>
-                            </tr>
-                        </thead>
-                        <tBody id="toursTableBody"> </tBody>
-                    </table><br>
-                    <p>Geben Sie hier ihren persönlichen API-Key für die OpenWeather-API ein:</p>
-                    <p><a id="generateAPI" href="https://home.openweathermap.org/api_keys">Persönlichen API-Key generieren</a></p>
-                    <input id="apiField" placeholder="Hier OpenWeather API-Key eingeben"/><br><br>
+                    <div class="border rounded">
+                        <table id="tours" class="table">
+                            <thead> 
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Auswahl</th>
+                                    <th>Enthaltene Sehenswürdigkeiten</th>
+                                </tr>
+                            </thead>
+                            <tBody id="toursTableBody"> </tBody>
+                        </table> 
+                    </div><br>
+                    
+                    
                     <div><br></div>
                 </div><br>
                 
                 <!--Map-->
                 <div id="columnMap" class="column">
-                    <br><div id="mapdiv"></div><br>
+                    <div id="weatherApi" class="border rounded">
+                        <p>Geben Sie hier ihren persönlichen API-Key für die OpenWeather-API ein:</p>
+                        <input id="apiField" placeholder="Hier OpenWeather API-Key eingeben"/>
+                        <p><a id="generateAPI" href="https://home.openweathermap.org/api_keys">Persönlichen API-Key generieren</a></p>
+                    </div>
+                    <div id="mapPuffer"></div>
+                    <div id="mapdiv"></div><br>
                 </div> 
                 <div id="footerReplacement"></div>
             </div>
