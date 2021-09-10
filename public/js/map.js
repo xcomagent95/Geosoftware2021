@@ -115,7 +115,7 @@ function populateMap() {
             var polygon = []; //array for the "polygon"
             var coordinates = []; //array for the coordinates
             for(var j = 0; j < locations[i].GeoJson.features[0].geometry.coordinates[0].length; j++) { //iterate over the coordinates
-                coordinates.push([ //push the cordinates into the coordinates array
+                coordinates.push([ //push the coordinates into the coordinates array
                     locations[i].GeoJson.features[0].geometry.coordinates[0][j][0],
                     locations[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
                 ]);
@@ -128,18 +128,18 @@ function populateMap() {
         }
         var mapObject = L.marker([position[1], position[0]], {icon: locationIcon}); //create marker from current position
         mapObject.addTo(locationsLayer); //add the marker to the map 
-        mapObject.addTo(map).bindPopup(
+        mapObject.addTo(map).bindPopup( //bind a popup
             '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locations[i].locationID + "</p>" +
             '<br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + 
             '<br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.Description +
             '<br>' + '<b>' + "Koordinaten: " + '</b>' + position[1] + ", " + position[0] + "<br><br>" + 
             '<br><button type="button" class="btn btn-secondary" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
-        positions.push({
-            leafletObject: location,
-            name: locations[i].locationID,
-            coords: locations[i].GeoJson.features[0].geometry.coordinates,
-            popup: mapObject
+        positions.push({ //push an object into positions
+            leafletObject: location, //location
+            name: locations[i].locationID, //locationID
+            coords: locations[i].GeoJson.features[0].geometry.coordinates, //geometry
+            popup: mapObject //map object -> a marker
         });
     }
 
@@ -178,48 +178,48 @@ function zoomToFeature(name) {
  * @param {String} name - The name of the tour which should be focussed
  */
 function zoomToTour(name) {
-    toursLayer.clearLayers()
-    map.removeLayer(locationsLayer);
-    map.addLayer(toursLayer);
-    var tour;
-    for(var l = 0; l < tours.length; l++) {
-        if(name == tours[l].tourID) {
-            tour = tours[l];
+    toursLayer.clearLayers(); //clear the toursLayer
+    map.removeLayer(locationsLayer); //deactivate locationsLayer
+    map.addLayer(toursLayer); //activate toursLayer
+    var tour; //initialize tour
+    for(var l = 0; l < tours.length; l++) { //iterate over the tours
+        if(name == tours[l].tourID) { //if the coreect tour is found
+            tour = tours[l]; //store in teh tour variable
         }
     }
 
-    var locationsInTour = [];
-    for(var i = 0; i < tour.locations.length; i++) {
-        for(var j = 0; j < locations.length; j ++) {
-            if(locations[j].locationID == tour.locations[i]) {
-                locationsInTour.push(locations[j]);
+    var locationsInTour = []; //initialize locationsInTour array
+    for(var i = 0; i < tour.locations.length; i++) { //iterate over tours
+        for(var j = 0; j < locations.length; j ++) { //iterate over locations in tour
+            if(locations[j].locationID == tour.locations[i]) { //if contained location is found
+                locationsInTour.push(locations[j]); //push the location into the locationsInTour array
             }
         }
     }
 
-    map.removeLayer(locationsLayer);
-    for(var i = 0; i < locationsInTour.length; i++) {
-        var position;
-        if(locationsInTour[i].GeoJson.features[0].geometry.type == "Polygon") {
-            var location = L.geoJson(locationsInTour[i].GeoJson);
-            location.addTo(toursLayer);
-            var polygon = [];
-            var coordinates = [];
-            for(var j = 0; j < locationsInTour[i].GeoJson.features[0].geometry.coordinates[0].length; j++) {
-                coordinates.push([
+    map.removeLayer(locationsLayer); //deactivate locations layer
+    for(var i = 0; i < locationsInTour.length; i++) { //iterate over locationsInTour
+        var position; //initialize position
+        if(locationsInTour[i].GeoJson.features[0].geometry.type == "Polygon") { //if the location is a polygon
+            var location = L.geoJson(locationsInTour[i].GeoJson); //build geoJson leaflet object
+            location.addTo(toursLayer); //add the polygon to the locationsLayer
+            var polygon = []; //array for the "polygon"
+            var coordinates = []; //array for the coordinates
+            for(var j = 0; j < locationsInTour[i].GeoJson.features[0].geometry.coordinates[0].length; j++) { //iterate over the coordinates
+                coordinates.push([ //push the coordinates into the coordinates array
                     locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][0],
                     locationsInTour[i].GeoJson.features[0].geometry.coordinates[0][j][1] 
                 ]);
             }
-            polygon.push(coordinates);
-            position = turf.centroid(turf.polygon(polygon)).geometry.coordinates;
+            polygon.push(coordinates); //push the coordinates array into the polygon array
+            position = turf.centroid(turf.polygon(polygon)).geometry.coordinates; //build a turf polygon and calculate its centroid
         }
-        else {
-            position = locationsInTour[i].GeoJson.features[0].geometry.coordinates;
+        else { 
+            position = locationsInTour[i].GeoJson.features[0].geometry.coordinates; //store the position when the location is point
         }
-        var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});
-        mapObject.addTo(toursLayer);
-        mapObject.addTo(map).bindPopup(
+        var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});  //create marker from current position
+        mapObject.addTo(toursLayer); //add the amrker to the tours layer
+        mapObject.addTo(map).bindPopup( //bind a popup to the marker
             '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locationsInTour[i].locationID + 
             '<br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.URL + 
             '<br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.Description +
@@ -227,7 +227,7 @@ function zoomToTour(name) {
             '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
     }
-    map.fitBounds(toursLayer.getBounds());
+    map.fitBounds(toursLayer.getBounds()); //zoom to bounds of the selected tour
 }
 
 
@@ -560,6 +560,6 @@ function searchFunction(){
     }
     if(found == "false"){ // In case the inout is not conform to any of the known possibilities an error gets printed.
         document.getElementById("searchError").className = "alert alert-danger";
-        document.getElementById("searchError").innerHTML = "Das Element <b>" + searchElem + '</b> ist weder eine eingetragene Route noch eine Sehenswürdigkeit!';
+        document.getElementById("searchError").innerHTML = "Das Element <b>" + searchElem + '</b> ist weder eine eingetragene Tour noch eine Sehenswürdigkeit!';
     }
 }
