@@ -79,23 +79,23 @@ router.get('/getCollections', function(req, res, next)
   client.connect(function(err) 
   {
     const db = client.db(dbName); //Database
-    const tcollection = db.collection(toursCollection); //Collection
-    const lcollection = db.collection(locationsCollection); //Collection
+    const tcollection = db.collection(toursCollection); //tours collection
+    const lcollection = db.collection(locationsCollection); //locations collection
 
     // Find all documents
-    var tresult = [];
-    var lresult = [];
+    var tresult = []; //tour result
+    var lresult = []; //location result
     tcollection.find({}).toArray(function(err, docs) 
     {
-      tresult = docs;
+      tresult = docs; //store tours
 
       lcollection.find({}).toArray(function(err, docs2) 
       {
-        lresult = docs2;
+        lresult = docs2; //store locations
         var result = [];
         result[0] = lresult;
         result[1] = tresult; 
-        res.json(result); //return documents from Database
+        res.json(result); //return combines result
       })
     })
   })
@@ -108,31 +108,31 @@ router.get('/getAll', function(req, res, next)
   {
   
     const db = client.db(dbName); //Database
-    const tcollection = db.collection(toursCollection); //Collection
-    const lcollection = db.collection(locationsCollection); //Collection
+    const tcollection = db.collection(toursCollection); //tours collection
+    const lcollection = db.collection(locationsCollection); //locations collection
 
     // Find all documents
-    var tresult = [];
-    var lresult = [];
+    var tresult = []; //tour result
+    var lresult = []; //location result
     tcollection.find({}).toArray(function(err, docs) 
     {
-      tresult = docs;
+      tresult = docs; //store tours
 
       lcollection.find({}).toArray(function(err, docs2) 
       {
-        lresult = docs2;
-        var result = [];
+        lresult = docs2; //store locations
+        var result = []; //initialize result
         
-        for(var i = 0; i < tresult.length; i++) {
-          var obj = {tour: tresult[i].tourID , locations: []};
-          for(var j = 0; j < tresult[i].locations.length; j++) {
-            for(var k = 0; k < lresult.length; k++) {
-              if (tresult[i].locations[j] == lresult[k].locationID) {
-                obj.locations.push(lresult[k]);
+        for(var i = 0; i < tresult.length; i++) {  //iterate over tours
+          var obj = {tour: tresult[i].tourID , locations: []}; //build combines object
+          for(var j = 0; j < tresult[i].locations.length; j++) { //iterate over locations in tour
+            for(var k = 0; k < lresult.length; k++) { //iterate over locations
+              if (tresult[i].locations[j] == lresult[k].locationID) { //if location is in tour
+                obj.locations.push(lresult[k]); //push location into combined object
               }
             }
           }
-          result.push(obj);
+          result.push(obj); //push result into result
         }
         //console.log(result);
         res.json(result); //return documents from Database
