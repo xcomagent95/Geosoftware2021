@@ -3,7 +3,8 @@ Abschlussprojekt für den Kurs Geosoftware I 2021
 Authors: Alexander Pilz & Josefina Balzer
 
 # Server
-The Tourguide employs the Express Node.js web application framework. The application run on port 3000.
+The Tourguide employs the Express Node.js web application framework. This frameword provides a robust set of features for web and mobile applications. The application runs on port 3000.
+The server provides diffent endpoints called routers for different operations. The routers can be used to add, chnage, delete and retrieve data from the database.
 
 # Routers:
 
@@ -66,6 +67,8 @@ It can be called with http://localhost:3000/add/removeTour.
 # Webpages
 ## Landingpage
 
+The landding page provides access to the other pages and serves as a sort of hub page.
+
 ## Map
 
 The map page provides access the the actual application. Locations and tours can be viewed here. Additionaly nearest busstops from a location and weather information at these busstops can also be requested. It can be accessed via "http://localhost:3000/map".
@@ -79,6 +82,7 @@ The editor page provides the user with all necessary fucntions to manage the loc
 The impressum page contains all legal information regarding the application and links to additional material. It can be accessed via "http://localhost:3000/impressum".
 
 # Database
+Data (locations and tours) are stored in a dedicated database. A application employs a MongoDB for this purpose. MongoDB is a document-oriented, noSQL database which can store JSON-like documents. 
 ## Collections
 **locations:**
 The locations collection contains the locations.
