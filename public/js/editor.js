@@ -363,7 +363,7 @@ function addLocationsToTour() {
     newlocationsInTour.push(locationToAdd);
     document.getElementById("newLocations").value = newlocationsInTour;
     locationsInTour = newlocationsInTour;
-    document.getElementById("selectLocationsToAddToTour").remove(document.getElementById("selectLocationsToAddToTour").selectedIndex); 
+    document.getElementById("selectLocationsToAddToTour").remove(document.getElementById("selectLocationsToAddToTour").selectedIndex); //remove added location from selectLocationsToAddToTour toggler
 
     const elem = document.createElement("option");
     elem.href = "#";
@@ -378,15 +378,15 @@ function addLocationsToTour() {
  */
 function deleteLocationsFromTour() {
     var locationToDelete = document.getElementById("selectLocationsToDeleteFromTour").value; //get the location to delete
-    var newlocationsInTour = [];
-    for(var i = 0; i < locationsInTour.length; i++) {
-        if(locationsInTour[i] != locationToDelete) {
-            newlocationsInTour.push(locationsInTour[i]);
+    var newlocationsInTour = []; //initialize new locations
+    for(var i = 0; i < locationsInTour.length; i++) { //iterate over locationsInTour
+        if(locationsInTour[i] != locationToDelete) { //if current location is not in locationToDelete
+            newlocationsInTour.push(locationsInTour[i]); //push to the newlocationsInTour array
         }
     }
-    document.getElementById("newLocations").value = newlocationsInTour;
-    locationsInTour = newlocationsInTour;
-    document.getElementById("selectLocationsToDeleteFromTour").remove(document.getElementById("selectLocationsToDeleteFromTour").selectedIndex);
+    document.getElementById("newLocations").value = newlocationsInTour; //pass the new locations to the element
+    locationsInTour = newlocationsInTour; //set the locationsInTour to the new array
+    document.getElementById("selectLocationsToDeleteFromTour").remove(document.getElementById("selectLocationsToDeleteFromTour").selectedIndex); //remove deleted location from selectLocationsToDeleteFromTour toggler
     
     const elem = document.createElement("option");
     elem.href = "#";

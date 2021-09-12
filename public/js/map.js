@@ -533,7 +533,6 @@ for(var i=0; i<tours.length; i++){
     searchResults[counter] = tours[i].tourID;
     counter++;
 }
-
 autocomplete(document.getElementById("suche"), searchResults);
 
 /**
