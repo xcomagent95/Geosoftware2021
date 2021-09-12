@@ -142,3 +142,40 @@ Each tour is comprised of
 - an __id_ which is an object created by mongoDB and acts as an internal primary key
 - a _tourID_ which is a user defined string which acts as the identifier for the tour in athe application
 - _locations_ which contain the _locationID_ of the locations which are part of the tour
+
+# Docker Image
+The application be retrieved as an docker image from docker hub. 
+
+    docker pull lexal95/tourguide
+    
+To run the application two additional images are needed. 
+The mongo image provides a MongoDB document database with high availability and easy scalability.
+
+            docker pull mongo
+
+The mongo-express image provides a web-based MongoDB admin interface, written with Node.js and express.
+
+            docker pull mongo-express
+            
+A docker-compose file can be used the deploy the application fast and easy:
+
+            version: '3'
+            services:
+                app:
+                    image: lexal95/tourguide
+                    ports:
+                        - "3000:3000" 
+                    depends_on:
+                        - mongo
+                mongo:
+                    image: mongo
+                    ports:
+                        - "27017:27017"
+                    volumes:
+                        - ./data:/data/db
+                mongo-express:
+                    image: mongo-express
+                    restart: always
+                    ports:
+                        - "8081:8081"
+            
