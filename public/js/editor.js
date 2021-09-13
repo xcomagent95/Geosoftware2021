@@ -88,8 +88,8 @@ map.on('draw:created', function(e) {
     }
 });
 
-let locations; //Array to store Locations
-let tours; //Array to store Tours
+var locations; //Array to store Locations
+var tours; //Array to store Tours
 var locationsInTour = []; //Array to store the location in a specific tour
 
 /** // MISSING CCOMENT
@@ -135,6 +135,8 @@ function getAllfromDB() {
         .done(function(res) { //if the request is done -> successful
             locations = res[0]; //store locations in locations array
             tours = res[1]; //store tours in tours array
+            console.log(locations);
+            console.log(tours);
 
             for(var i = 0; i < locations.length; i++) { //iterate over the locations
                 var layer = L.geoJSON(locations[i].GeoJson); //create a layer
