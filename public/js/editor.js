@@ -214,9 +214,6 @@ function getAllfromDB() {
     }
 }  
 getAllfromDB();
-console.log("post: ", locations);
-console.log("post: ", tours);
-
 
 /**
  * @function buildCheckboxDynamically - function which builds the chekcboxes for the updateLocationForm from the given data
