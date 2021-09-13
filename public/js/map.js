@@ -226,12 +226,12 @@ function zoomToTour(name) {
         }
         var mapObject = L.marker([position[1], position[0]], {icon: locationIcon});  //create marker from current position
         mapObject.addTo(toursLayer); //add the amrker to the tours layer
-        mapObject.addTo(map).bindPopup( //bind a popup to the marker
-            '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locationsInTour[i].locationID + 
-            '<br>' + '<b>' + "URL: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.URL + 
-            '<br>' + '<b>' + "Beschreibung: " + '</b>' + locationsInTour[i].GeoJson.features[0].properties.Description +
-            '<br>' + '<b>' + "Koordinaten: " + '</b></p>' + position + 
-            '<br><button type="button" class="btn btn-dark" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
+        mapObject.addTo(map).bindPopup( //bind a popup
+            '<p style="font-size: 18px;"><b>' + "Name der Sehenswürdigkeit: " + '</b>' + locations[i].locationID + "</p>" +
+            '<br>' + '<b>' + "URL: " + '</b>' + locations[i].GeoJson.features[0].properties.URL + 
+            '<br>' + '<b>' + "Beschreibung: " + '</b>' + locations[i].GeoJson.features[0].properties.Description +
+            '<br>' + '<b>' + "Koordinaten: " + '</b>' + position[1] + ", " + position[0] + "<br><br>" + 
+            '<br><button type="button" class="btn btn-secondary" onclick="getNearestBusstopp([' + position + '])">Nächste Bushaltestelle</button>'
         );
     }
     map.fitBounds(toursLayer.getBounds()); //zoom to bounds of the selected tour
