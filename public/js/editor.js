@@ -135,6 +135,7 @@ function getAllfromDB() {
         .done(function(res) { //if the request is done -> successful
             locations = res[0]; //store locations in locations array
             tours = res[1]; //store tours in tours array
+
             for(var i = 0; i < locations.length; i++) { //iterate over the locations
                 var layer = L.geoJSON(locations[i].GeoJson); //create a layer
                 locationLayer.addLayer(layer); //add the layer to the locationLayer group
@@ -144,7 +145,12 @@ function getAllfromDB() {
                 + '<input type="hidden" id="selectedLocationID" name="selectedLocationID" value= "' + locations[i].locationID + '">' 
                 + '<br></br><button class="btn btn-secondary" onclick="passLocationToDeleteForm()">Location löschen</button>');
             }
-            map.fitBounds(locationLayer.getBounds()); //fit bounds to locations layer
+            if(locations = []) { //if no locations are returned
+                map.setView([51.975, 7.61], 13); ///set view to münster
+            }
+            else {
+                map.fitBounds(locationLayer.getBounds()); //fit bounds to locations layer
+            }
 
             buildCheckboxDynamically(locations); //build checkboxes for the addLocationToTour form
 

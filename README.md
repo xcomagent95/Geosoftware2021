@@ -161,21 +161,21 @@ A docker-compose file can be used the deploy the application fast and easy:
 
     version: '3'
     services:
-        app:
+    app:
             image: lexal95/tourguide
             ports:
-                - "3000:3000" 
+                    - "3000:3000" 
             depends_on:
-                - mongo
-        mongo:
-            image: mongo
-            ports:
-                - "27017:27017"
-            volumes:
-                - ./data:/data/db
-        mongo-express:
-            image: mongo-express
-            restart: always
-            ports:
-                - "8081:8081"
+                    - mongo
+            mongo:
+                    image: mongo
+                    ports:
+                        - "27017:27017"
+                    volumes:
+                        - ./data:/data/db
+            mongo-express:
+                    image: mongo-express
+                    restart: always
+                    ports:
+                        - "8081:8081"
             

@@ -34,9 +34,16 @@ function getAllfromDB() {
         .done(function(res) { //if the request is done -> successful
             locations = res[0]; //retrieve locations from response
             tours = res[1]; //retrieve tours from response
+
             positions = []; //initialize positions
             fillTables(); //fill alles tables
             populateMap(); //populate the map with the locations
+
+            if(locations = []) { //if no locations are returned
+                map.setView([51.975, 7.61], 13); ///set view to münster
+                return;
+            }
+            
             return;
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
