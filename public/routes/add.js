@@ -51,6 +51,7 @@ router.post('/newLocation', function(req, res, next)
     {
         //check if name already exists
         if(docs.length >= 1) { //if a location with the same locationID already exists
+          console.log(">add location error: locationID is redundant");
           res.sendFile(__dirname + "/error_redundant_number.html"); //send a redundant key error
           return;
         } 
@@ -58,6 +59,7 @@ router.post('/newLocation', function(req, res, next)
           //Insert the document in the database
           collection.insertOne({GeoJson, locationID}, function(err, result) //insert new location into collection
           {
+            console.log(">add location successful: new location stored in database");
             res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
             return;
            })
@@ -90,6 +92,7 @@ router.post('/newTour', function(req, res, next)
     {
         //check if name already exists
         if(docs.length >= 1){ //if a tour with the same tourID already exists
+          console.log(">add tour error: tourID is redundant");
           res.sendFile(__dirname + "/error_redundant_number.html"); //send a redundant key error
           return;
         } 
@@ -97,6 +100,7 @@ router.post('/newTour', function(req, res, next)
           //Insert the document in the database
           collection.insertOne({tourID, locations}, function(err, result) //insert new tour into collection
           {
+            console.log(">add tour successful: new tour stored in database");
             res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
             return;
            })
