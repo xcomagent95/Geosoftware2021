@@ -51,7 +51,7 @@ function getAllfromDB() {
             return;
         })
         .always(function(xhr, status) { //if the request is "closed", either successful or not 
-            console.log("Request completed"); //a short message is logged
+            console.log("Request completed - Data retrieved from DB..."); //a short message is logged
             return; 
         })
     }
@@ -343,7 +343,7 @@ function getAllBusstopps(){
             return;
         })
         .always(function(xhr, status) {
-            console.log("Request completed"); //a short message is logged
+            console.log("Busstops retrieved..."); //a short message is logged
             return; 
         })
     }
@@ -388,7 +388,7 @@ function getWeather(lon, lat, name){
                 return;
             })
             .always(function(xhr, status) {
-                console.log("Request completed"); //a short message is logged
+                console.log("Weather retrieved...."); //a short message is logged
                 return; 
             })
         }
