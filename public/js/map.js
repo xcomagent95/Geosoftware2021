@@ -39,7 +39,7 @@ function getAllfromDB() {
             fillTables(); //fill alles tables
             populateMap(); //populate the map with the locations
 
-            if(locations = []) { //if no locations are returned
+            if(locations == []) { //if no locations are returned
                 map.setView([51.975, 7.61], 13); ///set view to münster
                 return;
             }
@@ -79,7 +79,7 @@ function fillTables() {
         var row =  `<tr scope="row">
                         <td>${locationsTableData[i][0]}</td>
                         <td><a href="${locationsTableData[i][1]}">Link</a></td>
-                        <td><button type="button" class="btn btn-secondary" onclick="zoomToFeature('${locationsTableData[i][0]}')">Zoom to Feature</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="zoomToFeature('${locationsTableData[i][0]}')">zur Sehenswürdigkeit</button></td>
                     </tr>`
         locationsTable.innerHTML += row; //pass row into given table
     }
@@ -96,7 +96,7 @@ function fillTables() {
         //initialize table row as variable
         var row =  `<tr>
                         <td>${toursTableData[i]}</td>
-                        <td><button type="button" class="btn btn-secondary" onclick="zoomToTour('${toursTableData[i]}')">Zoom to Tour</button></td>
+                        <td><button type="button" class="btn btn-secondary" onclick="zoomToTour('${toursTableData[i]}')">zur Tour</button></td>
                         <td>${locationsInTour}</td>
                     </tr>`
         toursTable.innerHTML += row; //pass row to given table

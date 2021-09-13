@@ -51,7 +51,7 @@ map.on('draw:created', function(e) {
             + '<input type="text" id="pname" name="pname"><br>' 
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl"><br><br>'
-            + '<button type="button" class="btn btn-secondary" onclick="passLocationToAddForm()">Location hinzufügen</button><br><br>' 
+            + '<button type="button" class="btn btn-secondary" onclick="passLocationToAddForm()">Sehenswürdigkeit hinzufügen</button><br><br>' 
             + '<button type="button" class="btn btn-secondary" onclick="useGeometryForUpdate(newGeoJSON)">Geometrie für Update nutzen</button> '
         ).openPopup([e.layer._latlngs[0][0].lat, e.layer._latlngs[0][0].lng]); //open the popup
 
@@ -135,8 +135,6 @@ function getAllfromDB() {
         .done(function(res) { //if the request is done -> successful
             locations = res[0]; //store locations in locations array
             tours = res[1]; //store tours in tours array
-            console.log(locations);
-            console.log(tours);
 
             for(var i = 0; i < locations.length; i++) { //iterate over the locations
                 var layer = L.geoJSON(locations[i].GeoJson); //create a layer
@@ -147,7 +145,7 @@ function getAllfromDB() {
                 + '<input type="hidden" id="selectedLocationID" name="selectedLocationID" value= "' + locations[i].locationID + '">' 
                 + '<br></br><button class="btn btn-secondary" onclick="passLocationToDeleteForm()">Location löschen</button>');
             }
-            if(locations = []) { //if no locations are returned
+            if(locations == []) { //if no locations are returned
                 map.setView([51.975, 7.61], 13); ///set view to münster
             }
             else {
@@ -216,6 +214,8 @@ function getAllfromDB() {
     }
 }  
 getAllfromDB();
+console.log("post: ", locations);
+console.log("post: ", tours);
 
 
 /**
