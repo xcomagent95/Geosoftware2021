@@ -2,6 +2,14 @@
 Abschlussprojekt für den Kurs Geosoftware I 2021
 Authors: Alexander Pilz & Josefina Balzer
 
+# Interface and Functions
+
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/landingpage.jpg?raw=true)
+
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/map.jpg?raw=true)
+
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/editor.jpg?raw=true)
+
 # Server
 The Tourguide employs the Express Node.js web application framework. This frameword provides a robust set of features for web and mobile applications. The application runs on port 3000.
 The server provides diffent endpoints called routers for different operations. The routers can be used to add, chnage, delete and retrieve data from the database.
