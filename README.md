@@ -4,11 +4,11 @@ Authors: Alexander Pilz & Josefina Balzer
 
 # Interface and Functions
 
-![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/landingpage.jpg?raw=true)
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/landingpage.png?raw=true)
 
-![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/map.jpg?raw=true)
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/map.png?raw=true)
 
-![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/editor.jpg?raw=true)
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/editor.png?raw=true)
 
 # Server
 The Tourguide employs the Express Node.js web application framework. This frameword provides a robust set of features for web and mobile applications. The application runs on port 3000.
