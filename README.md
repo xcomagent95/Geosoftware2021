@@ -4,11 +4,11 @@ Authors: Alexander Pilz & Josefina Balzer
 
 # Interface and Functions
 
-![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/landingpage.jpg?raw=true)
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/landingpage.jpg?raw=true)
 
-![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/map.jpg?raw=true)
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/map.jpg?raw=true)
 
-![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/editor.jpg?raw=true)
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/editor.jpg?raw=true)
 
 # Server
 The Tourguide employs the Express Node.js web application framework. This frameword provides a robust set of features for web and mobile applications. The application runs on port 3000.
@@ -16,7 +16,7 @@ The server provides diffent endpoints called routers for different operations. T
 
 # Routers:
 
-![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/API_Setup/documentation/router_overview.jpg?raw=true)
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/router_overview.jpg?raw=true)
 
 ## Search-Router:
 The Search-Router can be used to retrieve data from the mongoDB in various formats. These Functions can accessed via "http://localhost:3000/search/".
