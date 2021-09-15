@@ -10,18 +10,18 @@ The landingpage is the startoff point for users to interact with the application
 ![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/landingpage.PNG)
 
 ## Map
-The map provides the user with all the functionality of a tourguide. The Locations can be interactively viewed on the map. The user is also able to search locations via an input field or select them in a tbale with a zoom to feature option. The tours are provided in a simmilar way. If the user zooms to a tour just the locations in the selected tour are displayed on the map.
+The map provides the user with all the functionality of a tourguide. The Locations can be interactively viewed on the map. The user is also able to search locations via an input field or select them in a table with a zoom to feature option. The tours are provided in a similar way. If the user zooms to a tour just the locations in the selected tour are displayed on the map.
 
 ![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/map.PNG)
 
 ## Editor
-The editor empowers the user to add, update and delte locations and tours. Locations can be created and deleted interactively on the map itself.  Alternatively location can be created by passing a GeoJson to the text field. To update a location it must be selected in the dropdown and its attributes can be changed. To update a locations geometry the user just drwas a new geometry on the but selects the "use for update" function to use the geometry to update an existing location. The tours are created by selecting a variety of location and naming the tour. To delete a tour the user just selects a tour via dropdown and hit delete tour. The update tour function works in simmilar manner. After a tour is selected via a dropdown, locations can be added and deleted and the name of the tour can be changed. 
+The editor empowers the user to add, update and delete locations and tours. Locations can be created and deleted interactively on the map itself. Alternatively location can be created by passing a GeoJson to the text field. To update a location it must be selected in the dropdown and its attributes can be changed. To update a locations geometry the user just draws a new geometry on the map, but selects the "use for update" function to use the geometry to update an existing location. The tours are created by selecting a variety of location and naming the tour. To delete a tour the user just selects a tour via dropdown and hit delete tour. The update tour function works in similar manner. After a tour is selected via a dropdown, locations can be added and deleted and the name of the tour can be changed. 
 
 ![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/editor.PNG)
 
 # Server
 The Tourguide employs the Express Node.js web application framework. This frameword provides a robust set of features for web and mobile applications. The application runs on port 3000.
-The server provides diffent endpoints called routers for different operations. The routers can be used to add, chnage, delete and retrieve data from the database.
+The server provides diffent endpoints called routers for different operations. The routers can be used to add, change, delete and retrieve data from the database.
 
 # Routers:
 
