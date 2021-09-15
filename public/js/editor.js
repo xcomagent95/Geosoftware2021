@@ -76,7 +76,7 @@ map.on('draw:created', function(e) {
             + '<input type="text" id="pname" name="pname"><br>'
             + '<label for="purl">URL</label><br>'
             + '<input type="text" id="purl" name="purl"><br><br>'
-            + '<button type="button" class="btn btn-secondary" onclick="passLocationToAddForm()">Location hinzufügen</button><br><br>'
+            + '<button type="button" class="btn btn-secondary" onclick="passLocationToAddForm()">Sehenswürdigkeit hinzufügen</button><br><br>'
             + '<button type="button" class="btn btn-secondary" onclick="useGeometryForUpdate(newGeoJSON)">Geometrie für Update nutzen</button> '
         ).openPopup([e.layer._latlng.lat, e.layer._latlng.lng]); //open the popup
         var geometry; //initinalize Point
