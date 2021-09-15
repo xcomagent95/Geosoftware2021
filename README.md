@@ -7,7 +7,7 @@ Authors: Alexander Pilz & Josefina Balzer
 ## Landingapge
 The landingpage is the startoff point for users to interact with the application. Here the user can navigate to the different pages of the tourguide. The editor, the guide and the impressum can be reached from here.
 
-![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/landingpage.PNG)
+![alt text](https://github.com/xcomagent95/Geosoftware_2021_Abschlussprojekt/blob/main/documentation/landingpage.png)
 
 ## Map
 The map provides the user with all the functionality of a tourguide. The Locations can be interactively viewed on the map. The user is also able to search locations via an input field or select them in a table with a zoom to feature option. The tours are provided in a similar way. If the user zooms to a tour just the locations in the selected tour are displayed on the map.
