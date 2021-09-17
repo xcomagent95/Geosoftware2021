@@ -9,8 +9,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // Loggers
-var JL = require('jsnlog').JL
-var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs
+var JL = require('jsnlog').JL;
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
 
 //MongoClient and DB
 const url = 'mongodb://localhost:27017' // connection URL
@@ -25,7 +25,7 @@ const client = new MongoClient(url) // mongodb client
 //Delete Location - this post operation can be used to remove existing locations from the locations collection 
 router.post('/removeLocation', function(req, res, next)
 {
-    console.log(">remove location payload: ", req.body); //log the request body on the server console
+    JL("ServerLogs").info("> Remove location payload: " + JSON.stringify(req.body)); //log the request body on the server console
 
     client.connect(function(err)
     {
@@ -50,17 +50,14 @@ router.post('/removeLocation', function(req, res, next)
             if(docs.length >= 1 && inUse == false){ //if the locations exists and is not in use
                 collection.deleteOne({locationID: locationID}, function(err, results){ //delte the location from the locations collection
                 })
-                console.log(">remove location successful: location deleted from database"); 
                 res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
                 return;
             }
             if(inUse == true) { //if the location is still in use
-                console.log(">remove location error: location is still part of a tour"); 
                 res.sendFile(__dirname + "/error_location_in_use.html");  //send a location in use error   
                 return; 
             }
             else { //if the location does not exist
-                console.log(">remove location error: nonexistent locationID"); 
                 res.sendFile(__dirname + "/error_nonexistent_number.html"); //send nonexistent location error
                 return;
             }
@@ -77,17 +74,14 @@ router.post('/removeTour', function(req, res, next)
         const collection = db.collection(toursCollection)
         var tourID = req.body.tourIDToDelete;
         
-        
         collection.find({tourID: tourID}).toArray(function(err, docs)
         {      
             if(docs.length >= 1){ //check if tour exists
                 collection.deleteOne({tourID: tourID}, function(err, results){ //delte the tour from the tours collection
                 })
-                console.log(">remove tour successful: tour deleted from database"); 
                 res.sendFile(__dirname + "/done.html") //send positive response -> the post operation war successful
             }
             else { //if the tour does not exist
-                console.log(">remove tour error: nonexistenttourID"); 
                 res.sendFile(__dirname + "/error_nonexistent_number.html") //send nonexistent tour error
             }
             

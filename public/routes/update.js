@@ -9,8 +9,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // Loggers
-var JL = require('jsnlog').JL
-var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs
+var JL = require('jsnlog').JL;
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
 
 //MongoClient and DB
 const url = 'mongodb://localhost:27017' // connection URL
@@ -25,7 +25,8 @@ const client = new MongoClient(url) // mongodb client
 //Post Router
 router.post('/updateLocation', function(req, res, next) 
 {
-  console.log(">update location payload: ", req.body); //log the request body on the server console
+  JL("ServerLogs").info("> Update location payload: " + JSON.stringify(req.body)); //log the request body on the server console
+
   //Check Request
   if(req.body.newLocationID == '' || req.body.newURL == '' || req.body.newDescription == '' || req.body.newGeometry == '') {
     res.sendFile(__dirname + "/error_empty_input.html")
@@ -67,7 +68,6 @@ router.post('/updateLocation', function(req, res, next)
           {
             if(docs.length >= 1 && existingLocationID != newLocationID) {
                 //Update the document in the database
-                console.log(">update location error: redundant locationID");
                 res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
                 return;
             }
@@ -89,14 +89,12 @@ router.post('/updateLocation', function(req, res, next)
                   }
                 });
               })
-              console.log(">update location successful: updated location in database");
               res.sendFile(__dirname + "/done.html") //redirect after Post
               return;
             }
           })
       }
       else {
-        console.log(">update location error: nonexistent locationID");
         res.sendFile(__dirname + "/error_nonexistent_number.html") //redirect after Post
         return;
       }
@@ -106,7 +104,7 @@ router.post('/updateLocation', function(req, res, next)
 
 router.post('/updateTour', function(req, res, next) 
 {
-  console.log(">update tours payload: ", req.body); //log the request body on the server console
+  JL("ServerLogs").info("> Update location payload: " + JSON.stringify(req.body)); //log the request body on the server console
   if(req.body.existingTourID == "" || req.body.newLocations == "" || req.body.newTourID == "") {
     res.sendFile(__dirname + "/error_empty_input.html")
     return;
@@ -137,7 +135,6 @@ router.post('/updateTour', function(req, res, next)
           {
             if(docs.length >= 1 && existingTourID != newTourID) {
                 //Update the document in the database
-                console.log(">update tour error: redundant tourID");
                 res.sendFile(__dirname + "/error_redundant_number.html") //redirect after Post
                 return;
             }
@@ -145,14 +142,12 @@ router.post('/updateTour', function(req, res, next)
               collection.updateOne({tourID: existingTourID}, {$set:{tourID: newTourID, locations: newLocations}}, function(err, result) 
               {
               })
-              console.log(">update tour successful: updated tour in database");
               res.sendFile(__dirname + "/done.html") //redirect after Post
               return;
             }
           })
       }
       else {
-        console.log(">update tour error: nonexistent tourID");
         res.sendFile(__dirname + "/error_nonexistent_number.html") //redirect after Post
         return;
       }

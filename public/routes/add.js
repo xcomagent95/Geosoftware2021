@@ -9,8 +9,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // Loggers
-var JL = require('jsnlog').JL
-var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs
+var JL = require('jsnlog').JL;
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
 
 //MongoClient and DB
 const url = 'mongodb://localhost:27017' // connection URL
@@ -25,7 +25,7 @@ const client = new MongoClient(url) // mongodb client
 //Post Location - this post operation can be used to store new locations in the locations collection
 router.post('/newLocation', function(req, res, next) 
 {
-  console.log(">add location payload: ", req.body); //log the request body on the server console
+  JL("ServerLogs").info("> Add location payload: " + JSON.stringify(req.body));
 
   //Check Request
   if(req.body.locationID == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') { //if some information is missing
@@ -57,7 +57,6 @@ router.post('/newLocation', function(req, res, next)
     {
         //check if name already exists
         if(docs.length >= 1) { //if a location with the same locationID already exists
-          console.log(">add location error: locationID is redundant");
           res.sendFile(__dirname + "/error_redundant_number.html"); //send a redundant key error
           return;
         } 
@@ -65,7 +64,6 @@ router.post('/newLocation', function(req, res, next)
           //Insert the document in the database
           collection.insertOne({GeoJson, locationID}, function(err, result) //insert new location into collection
           {
-            console.log(">add location successful: new location stored in database");
             res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
             return;
            })
@@ -77,7 +75,7 @@ router.post('/newLocation', function(req, res, next)
 //Post Tour - this post operation can be used to store new tours in the tours collection
 router.post('/newTour', function(req, res, next) 
 {
-  console.log(">add tour payload: ", req.body);
+  JL("ServerLogs").info("> Add location payload: " + JSON.stringify(req.body));
   //Check Request
   if(req.body.tourID == '' || req.body.locations == '') { //if some information is missing
     res.sendFile(__dirname + "/error_empty_input.html") //send a missing information error
@@ -98,7 +96,6 @@ router.post('/newTour', function(req, res, next)
     {
         //check if name already exists
         if(docs.length >= 1){ //if a tour with the same tourID already exists
-          console.log(">add tour error: tourID is redundant");
           res.sendFile(__dirname + "/error_redundant_number.html"); //send a redundant key error
           return;
         } 
@@ -106,7 +103,6 @@ router.post('/newTour', function(req, res, next)
           //Insert the document in the database
           collection.insertOne({tourID, locations}, function(err, result) //insert new tour into collection
           {
-            console.log(">add tour successful: new tour stored in database");
             res.sendFile(__dirname + "/done.html"); //send positive response -> the post operation war successful
             return;
            })

@@ -44,16 +44,7 @@ app.listen(port, () => {
     JL("ServerLogs").info("> Tourguide: http://localhost:${port}/map");
     JL("ServerLogs").info("> Location- and Toureditor: http://localhost:${port}/editor");
     JL("ServerLogs").info("> Impressum: http://localhost:${port}/impressum");
-        /*console.log(`> Server started`);
-        console.log(`> Tourguide app listening at http://localhost:${port}`);
-        console.log(`> Landingpage: http://localhost:${port}/`);
-        console.log(`> Tourguide: http://localhost:${port}/map`);
-        console.log(`> Location- and Toureditor: http://localhost:${port}/editor`);
-        console.log(`> Impressum: http://localhost:${port}/impressum`)
-        JL("ServerLogs").info("JSNLOG: This is an info message from the server")*/
-
-    }
-);
+});
 
 // parse application/json.
 // Log messages from the client use POST and have a JSON object in the body.
@@ -63,7 +54,7 @@ app.use(bodyParser.json())
 // jsnlog.js on the client by default sends log messages to jsnlog.logger, using POST.
 app.post('*.logger', function (req, res) 
 { 
-    console.log(req.url)
+    // console.log(req.url)
     // Process incoming log messages, by handing to the server side jsnlog.
     // JL is the object that you got at
     jsnlog_nodejs(JL, req.body)
