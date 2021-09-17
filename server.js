@@ -36,13 +36,19 @@ app.get("/impressum", (req, res) => { res.sendFile(__dirname + "/public/impressu
 
 //Listener
 app.listen(port, () => {
-        console.log(`> Server started`);
+    JL("ServerLogs").info("> Server started");
+    JL("ServerLogs").info("> Tourguide app listening at http://localhost:${port}");
+    JL("ServerLogs").info("> Landingpage: http://localhost:${port}/");
+    JL("ServerLogs").info("> Tourguide: http://localhost:${port}/map");
+    JL("ServerLogs").info("> Location- and Toureditor: http://localhost:${port}/editor");
+    JL("ServerLogs").info("> Impressum: http://localhost:${port}/impressum");
+        /*console.log(`> Server started`);
         console.log(`> Tourguide app listening at http://localhost:${port}`);
         console.log(`> Landingpage: http://localhost:${port}/`);
         console.log(`> Tourguide: http://localhost:${port}/map`);
         console.log(`> Location- and Toureditor: http://localhost:${port}/editor`);
         console.log(`> Impressum: http://localhost:${port}/impressum`)
-        JL("ServerLogs").info("JSNLOG: This is an info message from the server")
+        JL("ServerLogs").info("JSNLOG: This is an info message from the server")*/
 
     }
 );
@@ -55,16 +61,10 @@ app.use(bodyParser.json())
 // jsnlog.js on the client by default sends log messages to jsnlog.logger, using POST.
 app.post('*.logger', function (req, res) 
 { 
-
     console.log(req.url)
     // Process incoming log messages, by handing to the server side jsnlog.
     // JL is the object that you got at
-    // var JL = require('jsnlog').JL;
     jsnlog_nodejs(JL, req.body)
-
-    //console.log(req.body)
- // JL("ServerLogs").info(req.body)
-
     // Send empty response. This is ok, because client side jsnlog does not use response from server.
     res.send('')
 })
