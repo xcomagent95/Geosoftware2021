@@ -31,6 +31,7 @@
     "turf": "^3.0.14"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
     "jsnlog": "^2.30.0",
     "jsnlog-nodejs": "^2.30.0",
     "mocha": "^9.1.1"
