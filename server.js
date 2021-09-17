@@ -1,10 +1,15 @@
 const express = require('express'); //require for express
 const app = express(); //create express app
 const port = 3000; //define port via which the application will be accessable
+const bodyParser = require('body-parser'); 
 
 //Parser for Requests
 app.use(express.json()); 
 app.use(express.urlencoded());
+
+// Loggers
+var JL = require('jsnlog').JL
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs
 
 //Routers
 var searchRouter = require('./public/routes/search.js'); //require search router
@@ -37,5 +42,29 @@ app.listen(port, () => {
         console.log(`> Tourguide: http://localhost:${port}/map`);
         console.log(`> Location- and Toureditor: http://localhost:${port}/editor`);
         console.log(`> Impressum: http://localhost:${port}/impressum`)
+        JL("ServerLogs").info("JSNLOG: This is an info message from the server")
+
     }
 );
+
+// parse application/json.
+// Log messages from the client use POST and have a JSON object in the body.
+// Ensure that those objects get parsed correctly.
+app.use(bodyParser.json())
+
+// jsnlog.js on the client by default sends log messages to jsnlog.logger, using POST.
+app.post('*.logger', function (req, res) 
+{ 
+
+    console.log(req.url)
+    // Process incoming log messages, by handing to the server side jsnlog.
+    // JL is the object that you got at
+    // var JL = require('jsnlog').JL;
+    jsnlog_nodejs(JL, req.body)
+
+    //console.log(req.body)
+ // JL("ServerLogs").info(req.body)
+
+    // Send empty response. This is ok, because client side jsnlog does not use response from server.
+    res.send('')
+})
