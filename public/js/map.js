@@ -1,5 +1,11 @@
 "use strict"
 
+// Loggers
+var consoleAppender = JL.createConsoleAppender('consoleAppender_map');
+var ajaxAppender = JL.createAjaxAppender('ajaxAppender_map');
+
+JL().setOptions({"appenders": [ajaxAppender, consoleAppender]});
+
 //global variables 
 var locations;
 var tours;
@@ -47,11 +53,11 @@ function getAllfromDB() {
             return;
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
-            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //log a message on the console
+            JL("ClientLog").fatal("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //log an error message on the client console
             return;
         })
         .always(function(xhr, status) { //if the request is "closed", either successful or not 
-            console.log("Request completed - Data retrieved from DB..."); //a short message is logged
+            JL("ClientLog").info("Request completed - Data retrieved from DB"); //a short message is logged
             return; 
         })
     }
@@ -339,11 +345,11 @@ function getAllBusstopps(){
             stopps = res;
         })
         .fail(function(xhr, status, errorThrown) {
-            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
+            JL("ClientLog").fatal("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //log an error message on the client console
             return;
         })
         .always(function(xhr, status) {
-            console.log("Busstops retrieved..."); //a short message is logged
+            JL("ClientLog").info("Busstops retrieved..."); //a short message is logged
             return; 
         })
     }
@@ -360,7 +366,7 @@ var output; // This variable gets filled with the answer of the weather request
 function getWeather(lon, lat, name){
     getAPIKey(); // The api key is needed for the api request and has to be entered on the website by a user
     if(clientAPIKey == ''){ // In case there is no entered api key...
-        console.log('You have to enter an api key!');
+        JL("ClientLog").fatal("You have to enter an api key"); //log an error message on the client console
         alert('You have to enter an api key!');
         return;
     } else {
@@ -384,11 +390,11 @@ function getWeather(lon, lat, name){
                     ).openPopup(); // a popup gets configurated
             })
             .fail(function(xhr, status, errorThrown){
-                console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //we log a message on the console
+                JL("ClientLog").fatal("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //log an error message on the client console
                 return;
             })
             .always(function(xhr, status) {
-                console.log("Weather retrieved...."); //a short message is logged
+                JL("ClientLog").fatal("Weather retrieved"); //log an small message on the client console
                 return; 
             })
         }

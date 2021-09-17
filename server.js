@@ -10,8 +10,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // Loggers
-var JL = require('jsnlog').JL
-var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs
+var JL = require('jsnlog').JL;
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
 
 //Routers
 var searchRouter = require('./public/routes/search.js'); //require search router
