@@ -35,7 +35,7 @@ function getAllfromDB() {
     {$.ajax({ //handle request via ajax
         url: "/search/getCollections", //request url is the prebuilt request
         method: "GET", //method is GET since we want to get data not post or update it
-        async: false //function does not return immediately 
+        async: false //function does not return immediately, but has effect on a warning alert in the console
         })
         .done(function(res) { //if the request is done -> successful
             locations = res[0]; //retrieve locations from response
@@ -349,7 +349,7 @@ function getAllBusstopps(){
             return;
         })
         .always(function(xhr, status) {
-            JL("ClientLog").info("Busstops retrieved..."); //a short message is logged
+            JL("ClientLog").info("Busstops retrieved"); //a short message is logged
             return; 
         })
     }
@@ -394,7 +394,7 @@ function getWeather(lon, lat, name){
                 return;
             })
             .always(function(xhr, status) {
-                JL("ClientLog").fatal("Weather retrieved"); //log an small message on the client console
+                JL("ClientLog").info("Weather retrieved"); //log an small message on the client console
                 return; 
             })
         }

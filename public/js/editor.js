@@ -1,6 +1,12 @@
 //run javaScript in strict mode
 "use strict"
 
+// Loggers
+var consoleAppender = JL.createConsoleAppender('consoleAppender_editor');
+var ajaxAppender = JL.createAjaxAppender('ajaxAppender_editor');
+
+JL().setOptions({"appenders": [ajaxAppender, consoleAppender]});
+
 //set ajax to run in asychronous mode only
 $.ajaxSetup({
     async: false
@@ -204,11 +210,11 @@ function getAllfromDB() {
             selectTourForUpdate();   
         })
         .fail(function(xhr, status, errorThrown) { //if the request fails (for some reason)
-            console.log("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //a message si logged on the console
+            JL("ClientLog").fatal("Request has failed :(", '/n', "Status: " + status, '/n', "Error: " + errorThrown); //log an error message on the client console
             return;
         })
         .always(function(xhr, status) { //if the request is "closed", either successful or not 
-            console.log("Request completed - Data retrieved from DB..."); //a short message is logged
+            JL("ClientLog").info("Request completed - Data retrieved from DB"); //a short message is logged
             return; 
         })
     }

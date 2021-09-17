@@ -38,12 +38,14 @@ app.get("/impressum", (req, res) => { res.sendFile(__dirname + "/public/impressu
 
 //Listener
 app.listen(port, () => {
+    JL("").info("---------------------------------------------------------------------------------------------------------------");
     JL("ServerLogs").info("> Server started");
     JL("ServerLogs").info("> Tourguide app listening at http://localhost:${port}");
     JL("ServerLogs").info("> Landingpage: http://localhost:${port}/");
     JL("ServerLogs").info("> Tourguide: http://localhost:${port}/map");
     JL("ServerLogs").info("> Location- and Toureditor: http://localhost:${port}/editor");
     JL("ServerLogs").info("> Impressum: http://localhost:${port}/impressum");
+    JL("").info("---------------------------------------------------------------------------------------------------------------");
 });
 
 // parse application/json.
