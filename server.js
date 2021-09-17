@@ -1,3 +1,5 @@
+"use strict"
+
 const express = require('express'); //require for express
 const app = express(); //create express app
 const port = 3000; //define port via which the application will be accessable

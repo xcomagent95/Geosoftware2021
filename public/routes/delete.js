@@ -1,3 +1,5 @@
+"use strict"
+
 var express = require('express'); //require express
 const app = express(); //initialize express app
 var router = express.Router(); //initialize express-router
@@ -5,6 +7,10 @@ var router = express.Router(); //initialize express-router
 //Here we are configuring express to use body-parser as middle-ware
 app.use(express.json());
 app.use(express.urlencoded());
+
+// Loggers
+var JL = require('jsnlog').JL
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs
 
 //MongoClient and DB
 const url = 'mongodb://localhost:27017' // connection URL
