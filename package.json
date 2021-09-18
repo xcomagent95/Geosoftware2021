@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "comment": "Ggf. mocha einbinden (s.1:20:22)"
+    "test": "jest __tests__"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "dependencies": {
     "ajax": "^0.0.4",
     "assert": "^2.0.0",
+    "body-parser": "^1.19.0",
     "bootstrap": "^5.1.0",
     "express": "^4.17.1",
     "got": "^11.8.2",
