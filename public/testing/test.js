@@ -46,8 +46,9 @@ describe ("Routing test", () =>
 
     test("/add route: return status 200", async () =>
        {
-            const {answer} = await got(urlMap);
-            expect(answer.res.statusCode).toBe(200);
+            const answer = await got(urlMap);
+            console.log(answer.statusCode);
+            expect(answer.statusCode).toBe(200);
            /*request(urlMap, function (error, response, body) {
                expect(response.statusCode).to.equal(200);
            });

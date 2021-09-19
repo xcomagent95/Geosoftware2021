@@ -5,27 +5,26 @@ const app = express(); //create express app
 const port = 3000; //define port via which the application will be accessable
 const bodyParser = require('body-parser'); 
 
-let got = require("got");
+/*let got = require("got");
 const { expect } = require("chai");
 async function test () {
-    let port = 3000;
     let urlMap = `http://localhost:${port}/map`;
     const {req} = await got(urlMap);
     console.log(req.res.statusCode);
 }
 let urlMap = `http://localhost:${port}/map`;
-
-test("/add route: return status 200", async () =>
+*/
+/*test("/add route: return status 200", async () =>
    {
         const {answer} = await got(urlMap);
-        expect(answer.res.statusCode).toBe(200);
+        expect(answer.res.statusCode).toBe(200);*/
            /*request(urlMap, function (error, response, body) {
                expect(response.statusCode).to.equal(200);
            });
            const response = await got(urlAdd);
            console.log(response.statusCode);
            expect(response.statusCode).toBe(200);*/
-    })
+    //})
 
 
 //Parser for Requests
@@ -63,11 +62,11 @@ app.get("/impressum", (req, res) => { res.sendFile(__dirname + "/public/impressu
 app.listen(port, () => {
     JL("").info("---------------------------------------------------------------------------------------------------------------");
     JL("ServerLogs").info("> Server started");
-    JL("ServerLogs").info("> Tourguide app listening at http://localhost:${port}");
-    JL("ServerLogs").info("> Landingpage: http://localhost:${port}/");
-    JL("ServerLogs").info("> Tourguide: http://localhost:${port}/map");
-    JL("ServerLogs").info("> Location- and Toureditor: http://localhost:${port}/editor");
-    JL("ServerLogs").info("> Impressum: http://localhost:${port}/impressum");
+    JL("ServerLogs").info(`> Tourguide app listening at http://localhost:${port}`);
+    JL("ServerLogs").info(`> Landingpage: http://localhost:${port}/`);
+    JL("ServerLogs").info(`> Tourguide: http://localhost:${port}/map`);
+    JL("ServerLogs").info(`> Location- and Toureditor: http://localhost:${port}/editor`);
+    JL("ServerLogs").info(`> Impressum: http://localhost:${port}/impressum`);
     JL("").info("---------------------------------------------------------------------------------------------------------------");
 });
 
