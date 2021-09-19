@@ -1,5 +1,5 @@
 "use strict"
-
+// These are to possible appenders to log statements
 var consoleAppender_error_location_in_use = JL.createConsoleAppender('consoleAppender_error_location_in_use');
 var ajaxAppender_error_location_in_use = JL.createAjaxAppender('ajaxAppender_error_location_in_use');
 

@@ -28,7 +28,7 @@ router.post('/newLocation', function(req, res, next)
   JL("ServerLogs").info("> Add location payload: " + JSON.stringify(req.body));
 
   //Check Request
-  if(req.body.locationID == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '') { //if some information is missing
+  if(req.body.locationID == '' || req.body.url == '' || req.body.description == '' || req.body.geometry == '' || req.body == '') { //if some information is missing
     res.sendFile(__dirname + "/error_empty_input.html"); //send a missing information error   
     return;
   }

@@ -5,28 +5,6 @@ const app = express(); //create express app
 const port = 3000; //define port via which the application will be accessable
 const bodyParser = require('body-parser'); 
 
-/*let got = require("got");
-const { expect } = require("chai");
-async function test () {
-    let urlMap = `http://localhost:${port}/map`;
-    const {req} = await got(urlMap);
-    console.log(req.res.statusCode);
-}
-let urlMap = `http://localhost:${port}/map`;
-*/
-/*test("/add route: return status 200", async () =>
-   {
-        const {answer} = await got(urlMap);
-        expect(answer.res.statusCode).toBe(200);*/
-           /*request(urlMap, function (error, response, body) {
-               expect(response.statusCode).to.equal(200);
-           });
-           const response = await got(urlAdd);
-           console.log(response.statusCode);
-           expect(response.statusCode).toBe(200);*/
-    //})
-
-
 //Parser for Requests
 app.use(express.json()); 
 app.use(express.urlencoded());

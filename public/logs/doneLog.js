@@ -1,5 +1,5 @@
 "use strict"
-
+// These are to possible appenders to log statements
 var consoleAppender = JL.createConsoleAppender('consoleAppender_doneLogs');
 var ajaxAppender = JL.createAjaxAppender('ajaxAppender_doneLogs');
 

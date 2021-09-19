@@ -1,6 +1,5 @@
 "use strict"
-
-// "ClientConsole" logs to just the console
+// These are to possible appenders to log statements
 var consoleAppender_error_nonexistent_number = JL.createConsoleAppender('consoleAppender_error_nonexistent_number');
 var ajaxAppender_error_nonexistent_number = JL.createAjaxAppender('ajaxAppender_error_nonexistent_number');
 
