@@ -13,8 +13,8 @@ var JL = require('jsnlog').JL;
 var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs;
 
 //MongoClient and DB
-const url = 'mongodb://localhost:27017' // connection URL
-//const url = 'mongodb://mongo:27017' // connection URL
+//const url = 'mongodb://localhost:27017' // connection URL for local use
+const url = 'mongodb://mongo:27017' // connection URL for docker use
 const dbName = 'tourguidedb' // database name
 const locationsCollection = 'locations' // collection containing the locations
 const toursCollection = 'tours' // collection containing the tours
