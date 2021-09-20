@@ -6,8 +6,8 @@ Authors: Alexander Pilz & Josefina Balzer
 1. To run this project the user first has to download the uploaded files. 
 2. The user has to navigate via the console/terminal to the folder directory of the project.
 3. Now the user has now two options: To run the porject locally or as a docker project.
-  --> To run the project locally, the user has to add the commmand **npm install**, which will download all required packages and modules to run the project correctly. Than enter **npm start** and open the given path in an arbitrary browser.
-  --> To run the project as a docker project start docker in the background and enter the command **docker-compose up**. Now the user is able to also open the given path in arbitrary browser.
+  - To run the project locally, the user has to add the commmand **npm install**, which will download all required packages and modules to run the project correctly. Than enter **npm start** and open the given path in an arbitrary browser.
+  - To run the project as a docker project start docker in the background and enter the command **docker-compose up**. Now the user is able to also open the given path in arbitrary browser.
 
 # Interface and Functions
 
