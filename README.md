@@ -203,4 +203,4 @@ A docker-compose file can be used the deploy the application fast and easy:
                     ports:
                         - "8081:8081"
             
-The docker-compose file is already part of the repository. To deploy the app, the docker-compose up command can be used. All needed images will be downloaded, bundlet into a container and started. 
+The docker-compose file is already part of the repository. To deploy the app, the docker-compose up command can be used. All needed images will be downloaded, bundled into a container and started. 
